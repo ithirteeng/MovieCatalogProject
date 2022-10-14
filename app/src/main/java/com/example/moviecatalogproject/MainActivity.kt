@@ -1,11 +1,17 @@
 package com.example.moviecatalogproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.moviecatalogproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val binding by lazy {
+        ActivityMainBinding.inflate(this.layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
     }
 }
