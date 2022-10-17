@@ -3,6 +3,9 @@
 <!-- common dimens -->
     <dimen  name="edit_texts_margin">15dp</dimen>
     <dimen name="edit_texts_padding">10dp</dimen>
+    <dimen name="buttons_margin">15dp</dimen>
+    <dimen name="edit_texts_text_size">16sp</dimen>
+    <dimen name="button_text_size">19sp</dimen>
 <!--launch screen dimens-->
     <dimen name="launch_logo_margin">70dp</dimen>
 <!--sign in screen dimens-->

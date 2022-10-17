@@ -31,33 +31,29 @@
         android:id="@+id/editTextTextPersonName"
         style="@style/edit_text_style"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/sign_in_login_edit_text"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_chainStyle="packed"
-        android:importantForAutofill="no" />
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/editTextTextPersonName2"
         style="@style/edit_text_style"
         android:ems="10"
         android:fontFamily="@font/ibm_plex_sans"
-        android:inputType="textPersonName"
         android:hint="@string/sign_in_password_edit_text"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/bottomEditTextsGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-        android:importantForAutofill="no" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomEditTextsGuideline"
@@ -65,4 +61,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.51" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topButtonsGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82" />
+
+    <Button
+        android:id="@+id/signInButton"
+        style="@style/empty_button_style"
+        android:text="@string/sign_in_entry_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/registrationButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/topButtonsGuideline" />
+
+    <Button
+        style="@style/registration_button_style"
+        android:id="@+id/registrationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_registration_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
