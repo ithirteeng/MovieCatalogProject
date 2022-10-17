@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieCatalogProject</string>
+<!--  launch screen strings  -->
+    <string name="launch_content_description">this is a logo</string>
 </resources>
