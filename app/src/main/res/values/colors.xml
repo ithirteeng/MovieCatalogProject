@@ -7,7 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--  common colors  -->
+    <color name="background_color">#150D0B</color>
+    <color name="edit_hint_text_color">#D1D1D1</color>
+    <color name="edit_text_color">#EF3A01</color>
+    <color name="edit_texts_stroke_color">#B7B7B7</color>
 <!--  launch screen colors  -->
     <color name="launch_background">#150D0B</color>
+
+
 
 </resources>

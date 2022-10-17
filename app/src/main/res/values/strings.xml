@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">MovieCatalogProject</string>
-<!--  launch screen strings  -->
+    <!--  launch screen strings  -->
     <string name="launch_content_description">this is a logo</string>
+    <!--  sing in screen strings  -->
+    <string name="sign_in_content_description">this is a logo</string>
+    <string name="sign_in_login_edit_text">Login</string>
+    <string name="sign_in_password_edit_text">Password</string>
+    <string name="sign_in_entry_button_text">Sign In</string>
+    <string name="sign_in_registration_button_text">Registration</string>
 </resources>

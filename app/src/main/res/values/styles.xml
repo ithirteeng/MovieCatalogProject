@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="edit_text_style">
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColorHint">@color/edit_hint_text_color</item>
+        <item name="android:padding">@dimen/edit_texts_padding</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/edit_texts_margin</item>
+        <item name="android:layout_marginStart">@dimen/edit_texts_margin</item>
+        <item name="android:layout_marginTop">@dimen/edit_texts_margin</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textColor">@color/edit_text_color</item>
+    </style>
+</resources>
