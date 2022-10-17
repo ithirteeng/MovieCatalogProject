@@ -1,8 +1,7 @@
 package com.example.moviecatalogproject.presentation.sign_up
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.moviecatalogproject.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
@@ -13,6 +12,6 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.binding.root)
+        setContentView(binding.root)
     }
 }

@@ -72,6 +72,7 @@
     <Button
         android:id="@+id/signInButton"
         style="@style/empty_button_style"
+        android:background="@drawable/empty_button_background"
         android:text="@string/sign_up_entry_button_text"
         app:layout_constraintBottom_toTopOf="@+id/registrationButton"
         app:layout_constraintEnd_toEndOf="parent"
