@@ -84,4 +84,8 @@
         <item name="android:textSize">@dimen/male_picker_text_size</item>
     </style>
 
+    <style name="no_animation_style" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 </resources>
