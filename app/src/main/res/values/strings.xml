@@ -8,4 +8,5 @@
     <string name="sign_up_password_edit_text">Password</string>
     <string name="sign_up_entry_button_text">Sign Un</string>
     <string name="sign_up_registration_button_text">Registration</string>
+    <string name="layout_description">logo decreasing layout</string>
 </resources>
