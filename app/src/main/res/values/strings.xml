@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">MovieCatalogProject</string>
     <!--  launch screen strings  -->
-    <string name="launch_content_description">this is a logo</string>
+    <string name="logo_content_description">this is a logo</string>
     <!--  sing up screen strings  -->
-    <string name="sign_up_content_description">this is a logo</string>
     <string name="sign_up_login_edit_text">Login</string>
     <string name="sign_up_password_edit_text">Password</string>
     <string name="sign_up_entry_button_text">Sign Up</string>
@@ -11,6 +10,7 @@
     <string name="layout_description">logo decreasing layout</string>
 
     <!--  sign in screen strings  -->
+    <string name="date_picker_content_description">date picker</string>
     <string name="sign_in_registration_text">Registration</string>
     <string name="sign_in_registration_button_text">Registration</string>
     <string name="sign_in_sign_up_button_text">I already have account</string>

@@ -1,8 +1,7 @@
 package com.example.moviecatalogproject.presentation.sign_in
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.moviecatalogproject.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
@@ -11,8 +10,14 @@ class SignInActivity : AppCompatActivity() {
         ActivitySignInBinding.inflate(this.layoutInflater)
     }
 
+    private val malePicker by lazy {
+        binding.malePicker
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        malePicker.onPickerButtonsClick()
     }
 }
