@@ -34,6 +34,7 @@ class SignInActivity : AppCompatActivity() {
     private fun setupButtonsOnClickFunctions() {
         binding.malePicker.onPickerButtonsClick()
         onRegistrationButtonClick()
+        dateButtonTouchListener()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -158,6 +159,12 @@ class SignInActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun dateButtonTouchListener() {
+        binding.dateButton.setOnClickListener {
+            pickDate()
+        }
     }
 
     @SuppressLint("SetTextI18n")
