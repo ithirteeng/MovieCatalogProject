@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:id="@+id/logoImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/sign_in_logo_top_margin"
+        android:layout_marginTop="@dimen/sign_up_logo_top_margin"
         android:contentDescription="@string/sign_up_content_description"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/logoBottomGuideline"
@@ -28,4 +28,130 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.33" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/header_first_style"
+        android:text="@string/sign_in_registration_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoBottomGuideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topButtonsGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82" />
+
+    <Button
+        android:id="@+id/registrationButton"
+        style="@style/empty_button_style"
+        android:text="@string/sign_in_registration_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/topButtonsGuideline"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        style="@style/text_button_style"
+        android:text="@string/sign_in_sign_up_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/topButtonsGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:paddingBottom="@dimen/edit_texts_margin"
+        android:paddingTop="@dimen/edit_texts_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/loginEditText"
+                style="@style/edit_text_style"
+                android:ems="10"
+                android:hint="@string/sign_in_login_text"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                style="@style/edit_text_style"
+                android:ems="10"
+                android:hint="@string/sign_in_email_text"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/nameEditText"
+                style="@style/edit_text_style"
+                android:ems="10"
+                android:hint="@string/sign_in_name_text"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp">
+                <EditText
+                    android:id="@+id/datEditText"
+                    style="@style/edit_text_style"
+                    android:ems="10"
+                    android:hint="@string/sign_in_birth_date_text"
+                    android:importantForAutofill="no"
+                    android:inputType="date"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+
+            </FrameLayout>
+            <EditText
+                android:id="@+id/passwordEditText"
+                style="@style/edit_text_style"
+                android:ems="10"
+                android:hint="@string/sign_in_password_text"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                tools:ignore="TouchTargetSizeCheck" />
+            <EditText
+                android:id="@+id/repeatPasswordEditText"
+                style="@style/edit_text_style"
+                android:ems="10"
+                android:hint="@string/sign_in_repeat_password_text"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                tools:ignore="TouchTargetSizeCheck" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/dateEditText"
+                    style="@style/edit_text_style"
+                    android:ems="10"
+                    android:hint="@string/sign_in_birth_date_text"
+                    android:importantForAutofill="no"
+                    android:inputType="date"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

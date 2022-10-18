@@ -4,10 +4,15 @@
     <dimen  name="edit_texts_margin">15dp</dimen>
     <dimen name="edit_texts_padding">10dp</dimen>
     <dimen name="buttons_margin">15dp</dimen>
-    <dimen name="edit_texts_text_size">16sp</dimen>
-    <dimen name="button_text_size">19sp</dimen>
+    <dimen name="common_end_start_margins">15dp</dimen>
+    <dimen name="edit_texts_text_size">18sp</dimen>
+    <dimen name="button_text_size">20sp</dimen>
+    <dimen name="header_first_text_size">26sp</dimen>
+    <dimen name="header_first_text_margin">5dp</dimen>
 <!--launch screen dimens-->
     <dimen name="launch_logo_margin">70dp</dimen>
+<!--sign up screen dimens-->
+    <dimen name="sign_up_logo_top_margin">40dp</dimen>
 <!--sign in screen dimens-->
-    <dimen name="sign_in_logo_top_margin">40dp</dimen>
+
 </resources>
