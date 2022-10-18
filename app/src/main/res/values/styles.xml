@@ -10,7 +10,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
         <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
-        <item name="android:layout_marginTop">@dimen/edit_texts_margin</item>
+        <item name="android:layout_marginBottom">@dimen/edit_texts_margin</item>
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/edit_texts_text_size</item>
@@ -71,6 +71,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="sign_error_style">
+        <item name="android:textColor">@color/gray_faded</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginTop">@dimen/error_text_top_bottom_margins</item>
+        <item name="android:layout_marginBottom">@dimen/error_text_top_bottom_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:text">@string/empty_string</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">@dimen/sign_errors_text_size</item>
+    </style>
+
     <style name="male_picker_style">
         <item name="textAllCaps">false</item>
         <item name="android:layout_gravity">center</item>
@@ -79,13 +92,13 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/edit_texts_margin</item>
-        <item name="android:layout_marginTop">@dimen/edit_texts_margin</item>
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textSize">@dimen/male_picker_text_size</item>
     </style>
-
-    <style name="no_animation_style" parent="android:Theme">
-        <item name="android:windowAnimationStyle">@null</item>
+    <style name="date_picker_style" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/background_color</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

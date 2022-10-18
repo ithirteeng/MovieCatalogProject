@@ -20,9 +20,13 @@ class MalePickerCustomView @JvmOverloads constructor(
 
     private val buttonsChecker = PickerState()
 
-    fun isMaleButtonChosen(): Boolean = buttonsChecker.getMaleState()
+    fun checkIsPickerInvolved(): Boolean {
+        return isMaleButtonChosen() || isFemaleButtonChosen()
+    }
 
-    fun isFemaleButtonChosen(): Boolean = buttonsChecker.getFemaleState()
+    private fun isMaleButtonChosen(): Boolean = buttonsChecker.getMaleState()
+
+    private fun isFemaleButtonChosen(): Boolean = buttonsChecker.getFemaleState()
 
     fun onPickerButtonsClick() {
         onMaleButtonClick()
