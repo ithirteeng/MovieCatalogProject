@@ -13,6 +13,11 @@ import com.example.moviecatalogproject.presentation.sign_in.SignInActivity
 
 class SignUpActivity : AppCompatActivity() {
 
+    companion object {
+        const val FROM_SIGN_IN = "intent from sign in screen"
+        const val FROM_LAUNCH = "intent from launch screen"
+    }
+
     private val binding by lazy {
         ActivitySignUpBinding.inflate(this.layoutInflater)
     }

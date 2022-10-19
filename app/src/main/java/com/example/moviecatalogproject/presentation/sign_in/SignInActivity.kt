@@ -2,6 +2,7 @@ package com.example.moviecatalogproject.presentation.sign_in
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -15,6 +16,7 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivitySignInBinding
 import com.example.moviecatalogproject.domain.sign_in.model.ErrorType
 import com.example.moviecatalogproject.domain.sign_in.validator.*
+import com.example.moviecatalogproject.presentation.sign_up.SignUpActivity
 import java.util.*
 
 
@@ -39,6 +41,7 @@ class SignInActivity : AppCompatActivity() {
     private fun setupButtonsOnClickFunctions() {
         onRegistrationButtonClick()
         dateButtonTouchListener()
+        onSignUpButtonClick()
     }
 
 
@@ -264,5 +267,16 @@ class SignInActivity : AppCompatActivity() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+
+    private fun onSignUpButtonClick() {
+        binding.signUpButton.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra(SignUpActivity.FROM_SIGN_IN, SignUpActivity.FROM_SIGN_IN)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+            finish()
+        }
     }
 }
