@@ -75,19 +75,12 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun changeRegistrationButtonColor() {
         if (checkFullnessOfFields()) {
-            binding.registrationButton.background = resources.getDrawable(
-                R.drawable.filled_button_background,
-                theme
-            )
+            binding.registrationButton.isActivated = true
             binding.registrationButton.setTextColor(resources.getColor(R.color.bright_white, theme))
         } else {
-            binding.registrationButton.background = resources.getDrawable(
-                R.drawable.empty_button_background,
-                theme
-            )
+            binding.registrationButton.isActivated = false
             binding.registrationButton.setTextColor(resources.getColor(R.color.accent, theme))
         }
     }

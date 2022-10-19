@@ -18,7 +18,7 @@
     </style>
 
     <style name="empty_button_style">
-        <item name="android:background">@drawable/empty_button_background</item>
+        <item name="android:background">@drawable/sign_button_selector</item>
         <item name="textAllCaps">false</item>
         <item name="android:padding">@dimen/edit_texts_padding</item>
         <item name="android:layout_width">0dp</item>
@@ -29,6 +29,7 @@
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:state_active">false</item>
     </style>
 
     <style name="text_button_style">
@@ -42,20 +43,6 @@
         <item name="android:layout_marginBottom">@dimen/buttons_margin</item>
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textColor">@color/accent</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
-    </style>
-
-    <style name="filled_button_style">
-        <item name="android:background">@drawable/filled_button_background</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:padding">@dimen/edit_texts_padding</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">@dimen/buttons_margin</item>
-        <item name="android:layout_marginStart">@dimen/buttons_margin</item>
-        <item name="android:layout_marginBottom">@dimen/buttons_margin</item>
-        <item name="android:fontFamily">@font/ibm_plex_sans</item>
-        <item name="android:textColor">@color/bright_white</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
@@ -96,6 +83,7 @@
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textSize">@dimen/male_picker_text_size</item>
     </style>
+
     <style name="date_picker_style" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/background_color</item>
         <item name="android:layout_width">wrap_content</item>
