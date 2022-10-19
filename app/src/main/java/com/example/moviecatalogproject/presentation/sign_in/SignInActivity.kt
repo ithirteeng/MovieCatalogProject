@@ -53,7 +53,7 @@ class SignInActivity : AppCompatActivity() {
     private fun checkDataValidity(): Boolean {
         val elementsAmount = binding.linearLayout.childCount
         for (i in 0 until elementsAmount) {
-            if (i % 2 != 0 && i != 9) {
+            if (i % 2 != 0) {
                 val textView = binding.linearLayout.getChildAt(i) as TextView
                 if (textView.visibility != View.GONE) {
                     return false
@@ -69,7 +69,7 @@ class SignInActivity : AppCompatActivity() {
         validateEditText(binding.emailEditText, SignInViewActivityModel.EMAIL)
         validateEditText(binding.passwordEditText, SignInViewActivityModel.PASSWORD_SIZE)
         validateEditText(binding.repeatPasswordEditText, SignInViewActivityModel.PASSWORD_EQUALITY)
-        validateEditText(binding.datEditText, SignInViewActivityModel.DATE)
+        validateEditText(binding.dateEditText, SignInViewActivityModel.DATE)
         validateMalePicker()
     }
 
@@ -82,7 +82,10 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun validateEditText(editText: EditText, editTextType: String) {
-        val string = editText.text.toString()
+        var string = editText.text.toString()
+        if (editTextType == SignInViewActivityModel.PASSWORD_EQUALITY) {
+            string += "\n${binding.passwordEditText.text}"
+        }
         val it = viewModel.getErrorId(editTextType, string)
         showError(it, editTextType)
     }
@@ -94,25 +97,18 @@ class SignInActivity : AppCompatActivity() {
                 binding.nameErrorTextView,
                 errorId
             )
-            SignInViewActivityModel.PASSWORD_SIZE -> {
-                prepareTextFields(
-                    binding.passwordEditText,
-                    binding.firstPasswordErrorTextView,
-                    errorId
-                )
-                prepareTextFields(
-                    binding.repeatPasswordEditText,
-                    binding.secondPasswordErrorTextView,
-                    errorId
-                )
-            }
+            SignInViewActivityModel.PASSWORD_SIZE -> prepareTextFields(
+                binding.passwordEditText,
+                binding.firstPasswordErrorTextView,
+                errorId
+            )
             SignInViewActivityModel.PASSWORD_EQUALITY -> prepareTextFields(
                 binding.repeatPasswordEditText,
                 binding.secondPasswordErrorTextView,
                 errorId
             )
             SignInViewActivityModel.DATE -> prepareTextFields(
-                binding.datEditText,
+                binding.dateEditText,
                 binding.dateErrorTextView,
                 errorId
             )
@@ -141,11 +137,30 @@ class SignInActivity : AppCompatActivity() {
 
     private fun prepareEditText(editText: EditText, errorId: Int) {
         if (errorId != ErrorType.OK) {
-            editText.text.clear()
-            val params = editText.layoutParams as MarginLayoutParams
+            if (editText == binding.dateEditText) {
+                changeDateViewMargin(false)
+            } else {
+                editText.text.clear()
+                val params = editText.layoutParams as MarginLayoutParams
+                params.bottomMargin = 0
+            }
+        } else {
+            if (binding.dateEditText == editText) {
+                changeDateViewMargin(true)
+            } else {
+                val params = editText.layoutParams as MarginLayoutParams
+                params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
+            }
+
+        }
+    }
+
+    private fun changeDateViewMargin(state: Boolean) {
+        if (!state) {
+            val params = binding.dateView.layoutParams as MarginLayoutParams
             params.bottomMargin = 0
         } else {
-            val params = editText.layoutParams as MarginLayoutParams
+            val params = binding.dateView.layoutParams as MarginLayoutParams
             params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
         }
     }
@@ -182,7 +197,7 @@ class SignInActivity : AppCompatActivity() {
                 if (month < 10) {
                     monthString = "0$month"
                 }
-                binding.datEditText.setText("$dayString.$monthString.$year")
+                binding.dateEditText.setText("$dayString.$monthString.$year")
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
-    android:padding="0dp">
+    android:padding="0dp"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <Button
         android:id="@+id/maleButton"
         style="@style/male_picker_style"
+        android:layout_marginBottom="0dp"
         android:background="@drawable/male_picker_empty_left_part"
         android:text="@string/sign_in_male_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/femaleButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/femaleButton"
         style="@style/male_picker_style"
+        android:layout_marginBottom="0dp"
         android:background="@drawable/male_picker_empty_right_part"
         android:text="@string/sign_in_female_text"
         app:layout_constraintBottom_toBottomOf="parent"
