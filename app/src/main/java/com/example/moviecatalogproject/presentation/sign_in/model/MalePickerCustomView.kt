@@ -28,12 +28,12 @@ class MalePickerCustomView @JvmOverloads constructor(
 
     private fun isFemaleButtonChosen(): Boolean = buttonsChecker.getFemaleState()
 
-    fun onPickerButtonsClick() {
-        onMaleButtonClick()
-        onFemaleButtonClick()
+    fun onPickerButtonsClick(changeListener: () -> Unit) {
+        onMaleButtonClick(changeListener)
+        onFemaleButtonClick(changeListener)
     }
 
-    private fun onMaleButtonClick() {
+    private fun onMaleButtonClick(changeListener: () -> Unit) {
         binding.maleButton.setOnClickListener {
             if (buttonsChecker.getFemaleState()) {
                 buttonsChecker.changeFemaleState()
@@ -41,18 +41,20 @@ class MalePickerCustomView @JvmOverloads constructor(
             }
             buttonsChecker.changeMaleState()
             changeMaleButtonBackground(buttonsChecker.getMaleState())
+            changeListener()
         }
     }
 
-    private fun onFemaleButtonClick() {
+    private fun onFemaleButtonClick(changeListener: () -> Unit) {
         binding.femaleButton.setOnClickListener {
             if (buttonsChecker.getMaleState()) {
                 buttonsChecker.changeMaleState()
                 changeMaleButtonBackground(buttonsChecker.getMaleState())
-
             }
             buttonsChecker.changeFemaleState()
             changeFemaleButtonBackground(buttonsChecker.getFemaleState())
+            changeListener()
+
         }
     }
 

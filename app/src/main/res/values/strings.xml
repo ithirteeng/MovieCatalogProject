@@ -27,7 +27,7 @@
     <string name="emptiness_error">Field mustn\'t be empty</string>
     <string name="email_error">Email should contain @ symbol</string>
     <string name="passwords_equality_error">Passwords must be equal</string>
-    <string name="password_size_error">Password must contain at least 8 characters</string>
+    <string name="password_size_error">Password must contain at least 4 characters</string>
     <string name="date_error">Date must be in the format of DD.MM.YYYY</string>
     <string name="picker_error">Male must be chosen</string>
     <string name="all_is_ok">OK</string>

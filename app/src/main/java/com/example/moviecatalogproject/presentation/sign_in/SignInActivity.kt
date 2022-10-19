@@ -5,14 +5,18 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivitySignInBinding
 import com.example.moviecatalogproject.domain.sign_in.model.ErrorType
 import com.example.moviecatalogproject.domain.sign_in.validator.*
 import java.util.*
+
 
 class SignInActivity : AppCompatActivity() {
 
@@ -27,33 +31,103 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         setupButtonsOnClickFunctions()
+        onFieldsFocusChange()
     }
 
     private fun setupButtonsOnClickFunctions() {
-        binding.malePicker.onPickerButtonsClick()
         onRegistrationButtonClick()
         dateButtonTouchListener()
     }
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun onRegistrationButtonClick() {
         binding.registrationButton.setOnClickListener {
             showAllErrors()
             if (checkDataValidity()) {
-                binding.registrationButton.background = resources.getDrawable(
-                    R.drawable.filled_button_background,
-                    theme
-                )
+                // TODO: send request and intent to main activity
+            } else {
+                changeRegistrationButtonColor()
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun onFieldsFocusChange() {
+        val elementsAmount = binding.linearLayout.childCount
+        for (i in 0 until elementsAmount) {
+            val view = binding.linearLayout.getChildAt(i)
+            if (view is EditText) {
+                onEditTextEditorAction(view)
+                view.setOnFocusChangeListener { _, _ ->
+                    changeRegistrationButtonColor()
+                }
+            }
+        }
+        onEditTextEditorAction(binding.dateEditText)
+        binding.dateEditText.setOnFocusChangeListener { _, _ ->
+            changeRegistrationButtonColor()
+
+        }
+        binding.malePicker.onPickerButtonsClick {
+            changeRegistrationButtonColor()
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun changeRegistrationButtonColor() {
+        if (checkFullnessOfFields()) {
+            binding.registrationButton.background = resources.getDrawable(
+                R.drawable.filled_button_background,
+                theme
+            )
+            binding.registrationButton.setTextColor(resources.getColor(R.color.bright_white, theme))
+        } else {
+            binding.registrationButton.background = resources.getDrawable(
+                R.drawable.empty_button_background,
+                theme
+            )
+            binding.registrationButton.setTextColor(resources.getColor(R.color.accent, theme))
+        }
+    }
+
+    private fun checkFullnessOfFields(): Boolean {
+        val elementsAmount = binding.linearLayout.childCount
+        for (i in 0 until elementsAmount) {
+            val view = binding.linearLayout.getChildAt(i)
+            if (view is EditText) {
+                if (view.text.isEmpty()) {
+                    return false
+                }
+            }
+        }
+        if (binding.dateEditText.text.isEmpty()) {
+            return false
+        }
+        if (!binding.malePicker.checkIsPickerInvolved()) {
+            return false
+        }
+
+        return true
+    }
+
+    private fun onEditTextEditorAction(editText: EditText) {
+        editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                editText.clearFocus()
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(editText.windowToken, 0)
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     private fun checkDataValidity(): Boolean {
         val elementsAmount = binding.linearLayout.childCount
         for (i in 0 until elementsAmount) {
-            if (i % 2 != 0) {
+            if (binding.linearLayout.getChildAt(i) is TextView) {
                 val textView = binding.linearLayout.getChildAt(i) as TextView
                 if (textView.visibility != View.GONE) {
                     return false
@@ -141,17 +215,25 @@ class SignInActivity : AppCompatActivity() {
                 changeDateViewMargin(false)
             } else {
                 editText.text.clear()
-                val params = editText.layoutParams as MarginLayoutParams
-                params.bottomMargin = 0
+                changeEditTextMargin(editText, false)
             }
         } else {
             if (binding.dateEditText == editText) {
                 changeDateViewMargin(true)
             } else {
-                val params = editText.layoutParams as MarginLayoutParams
-                params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
+                changeEditTextMargin(editText, true)
             }
 
+        }
+    }
+
+    private fun changeEditTextMargin(editText: EditText, state: Boolean) {
+        if (!state) {
+            val params = editText.layoutParams as MarginLayoutParams
+            params.bottomMargin = 0
+        } else {
+            val params = editText.layoutParams as MarginLayoutParams
+            params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
         }
     }
 
@@ -172,8 +254,6 @@ class SignInActivity : AppCompatActivity() {
         } else {
             textView.visibility = View.GONE
         }
-
-
     }
 
     private fun dateButtonTouchListener() {
