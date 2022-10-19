@@ -1,33 +1,39 @@
-package com.example.moviecatalogproject.presentation.sign_up
+package com.example.moviecatalogproject.presentation.entrance.sign_up
 
-import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.databinding.ActivitySignUpBinding
-import com.example.moviecatalogproject.presentation.sign_in.SignInActivity
+import com.example.moviecatalogproject.databinding.FragmentSignUpBinding
 
-class SignUpActivity : AppCompatActivity() {
 
-    companion object {
-        const val FROM_SIGN_IN = "intent from sign in screen"
-        const val FROM_LAUNCH = "intent from launch screen"
-    }
+class SignUpFragment : Fragment() {
 
-    private val binding by lazy {
-        ActivitySignUpBinding.inflate(this.layoutInflater)
-    }
+    private lateinit var binding: FragmentSignUpBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    private lateinit var theme: Resources.Theme
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val mainView = inflater.inflate(R.layout.fragment_sign_up, container, false)
+        binding = FragmentSignUpBinding.bind(mainView)
+        theme = activity?.theme!!
+
 
         setupButtonOnClickFunctions()
         onFieldsFocusChange()
+
+        return binding.root
     }
 
     private fun setupButtonOnClickFunctions() {
@@ -36,9 +42,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun onRegistrationButtonClick() {
         binding.registrationButton.setOnClickListener {
-            startActivity(Intent(this, SignInActivity::class.java))
-            overridePendingTransition(0, 0)
-            finish()
+            //TODO: intent tip
         }
     }
 
@@ -81,11 +85,13 @@ class SignUpActivity : AppCompatActivity() {
         editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 editText.clearFocus()
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(editText.windowToken, 0)
                 return@OnEditorActionListener true
             }
             false
         })
     }
+
 }

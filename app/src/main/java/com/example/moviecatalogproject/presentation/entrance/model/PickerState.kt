@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.sign_in.model
+package com.example.moviecatalogproject.presentation.entrance.model
 
 class PickerState {
     private var male = false

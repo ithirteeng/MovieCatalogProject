@@ -1,41 +1,46 @@
-package com.example.moviecatalogproject.presentation.sign_in
+package com.example.moviecatalogproject.presentation.entrance.sign_in
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Intent
+import android.content.res.Resources.Theme
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.databinding.ActivitySignInBinding
+import com.example.moviecatalogproject.databinding.FragmentSignInBinding
 import com.example.moviecatalogproject.domain.sign_in.model.ErrorType
-import com.example.moviecatalogproject.domain.sign_in.validator.*
-import com.example.moviecatalogproject.presentation.sign_up.SignUpActivity
 import java.util.*
 
+class SignInFragment : Fragment() {
 
-class SignInActivity : AppCompatActivity() {
+    private lateinit var binding: FragmentSignInBinding
 
-    private val binding by lazy {
-        ActivitySignInBinding.inflate(this.layoutInflater)
-    }
+    private lateinit var theme: Theme
 
     private val viewModel by lazy {
-        SignInViewActivityModel()
+        SignInFragmentViewModel()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val mainView = inflater.inflate(R.layout.fragment_sign_in, container, false)
+        binding = FragmentSignInBinding.bind(mainView)
+
+        theme = activity?.theme!!
 
         setupButtonsOnClickFunctions()
         onFieldsFocusChange()
+
+        return binding.root
     }
 
     private fun setupButtonsOnClickFunctions() {
@@ -89,35 +94,35 @@ class SignInActivity : AppCompatActivity() {
 
     private fun validateLoginEditText() {
         val string = binding.loginEditText.text.toString()
-        viewModel.getLoginErrorLiveData(string).observe(this) {
+        viewModel.getLoginErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(binding.loginEditText, binding.loginErrorTextView, it)
         }
     }
 
     private fun validateNameEditText() {
         val string = binding.nameEditText.text.toString()
-        viewModel.getNameErrorLiveData(string).observe(this) {
+        viewModel.getNameErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(binding.nameEditText, binding.nameErrorTextView, it)
         }
     }
 
     private fun validateDateEditText() {
         val string = binding.dateEditText.text.toString()
-        viewModel.getDateErrorLiveData(string).observe(this) {
+        viewModel.getDateErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(binding.dateEditText, binding.dateErrorTextView, it)
         }
     }
 
     private fun validateEmailEditText() {
         val string = binding.emailEditText.text.toString()
-        viewModel.getEmailErrorLiveData(string).observe(this) {
+        viewModel.getEmailErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(binding.emailEditText, binding.emailErrorTextView, it)
         }
     }
 
     private fun validatePasswordEditText() {
         val string = binding.passwordEditText.text.toString()
-        viewModel.getPasswordErrorLiveData(string).observe(this) {
+        viewModel.getPasswordErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(binding.passwordEditText, binding.firstPasswordErrorTextView, it)
         }
     }
@@ -125,7 +130,7 @@ class SignInActivity : AppCompatActivity() {
     private fun validateRepeatPasswordEditText() {
         val string =
             binding.passwordEditText.text.toString() + "\n" + binding.repeatPasswordEditText.text.toString()
-        viewModel.getPasswordErrorLiveData(string).observe(this) {
+        viewModel.getPasswordErrorLiveData(string).observe(this.viewLifecycleOwner) {
             prepareTextFields(
                 binding.repeatPasswordEditText,
                 binding.secondPasswordErrorTextView,
@@ -165,10 +170,10 @@ class SignInActivity : AppCompatActivity() {
 
     private fun changeViewBottomMargin(view: View, state: Boolean) {
         if (!state) {
-            val params = view.layoutParams as MarginLayoutParams
+            val params = view.layoutParams as ViewGroup.MarginLayoutParams
             params.bottomMargin = 0
         } else {
-            val params = view.layoutParams as MarginLayoutParams
+            val params = view.layoutParams as ViewGroup.MarginLayoutParams
             params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
         }
     }
@@ -228,10 +233,11 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun onEditTextEditorAction(editText: EditText) {
-        editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 editText.clearFocus()
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(editText.windowToken, 0)
                 return@OnEditorActionListener true
             }
@@ -250,7 +256,7 @@ class SignInActivity : AppCompatActivity() {
     private fun pickDate() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(
-            this,
+            requireContext(),
             R.style.date_picker_style,
             { _, year, month, day ->
                 var dayString = day.toString()
@@ -272,11 +278,7 @@ class SignInActivity : AppCompatActivity() {
 
     private fun onSignUpButtonClick() {
         binding.signUpButton.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra(SignUpActivity.FROM_SIGN_IN, SignUpActivity.FROM_SIGN_IN)
-            startActivity(intent)
-            overridePendingTransition(0, 0)
-            finish()
+            //TODO: intent tip
         }
     }
 }

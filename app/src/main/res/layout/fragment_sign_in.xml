@@ -1,77 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    app:layoutDescription="@xml/activity_sign_in_scene"
-    tools:context=".presentation.sign_in.SignInActivity">
-
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/sign_up_logo_top_margin"
-        android:contentDescription="@string/logo_content_description"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/logoBottomGuideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/logoBottomGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+    android:padding="0dp"
+    tools:context=".presentation.entrance.sign_in.SignInFragment">
 
     <TextView
         android:id="@+id/registrationHeaderTextView"
         style="@style/header_first_style"
         android:text="@string/sign_in_registration_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoBottomGuideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/topButtonsGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.82" />
-
-    <Button
-        android:id="@+id/registrationButton"
-        style="@style/sign_button_style"
-        android:text="@string/sign_in_registration_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topButtonsGuideline"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <Button
-        android:id="@+id/signUpButton"
-        style="@style/text_button_style"
-        android:text="@string/sign_in_sign_up_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/buttons_margin"
         android:overScrollMode="never"
         android:paddingTop="@dimen/edit_texts_padding"
-        app:layout_constraintBottom_toTopOf="@+id/topButtonsGuideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="@dimen/buttons_margin"
+        app:layout_constraintBottom_toTopOf="@id/registrationButton"
         app:layout_constraintTop_toBottomOf="@+id/registrationHeaderTextView"
         tools:ignore="SpeakableTextPresentCheck">
 
@@ -81,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                 android:id="@+id/loginEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -96,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                 android:id="@+id/emailEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -111,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                 android:id="@+id/nameEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -126,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                 android:id="@+id/passwordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -141,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                 android:id="@+id/repeatPasswordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -163,7 +113,7 @@
                 android:layout_marginBottom="@dimen/edit_texts_margin"
                 android:padding="0dp">
 
-                <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
+                <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
                     android:id="@+id/dateEditText"
                     style="@style/edit_text_style"
                     android:layout_marginBottom="0dp"
@@ -189,7 +139,8 @@
                     android:src="@drawable/ic_baseline_date_range_24"
                     app:layout_constraintBottom_toBottomOf="@+id/dateEditText"
                     app:layout_constraintEnd_toEndOf="@+id/dateEditText"
-                    app:layout_constraintTop_toTopOf="@+id/dateEditText" />
+                    app:layout_constraintTop_toTopOf="@+id/dateEditText"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,9 +148,9 @@
                 android:id="@+id/dateErrorTextView"
                 style="@style/sign_error_style"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="0dp" />
 
-            <com.example.moviecatalogproject.presentation.sign_in.model.MalePickerCustomView
+            <com.example.moviecatalogproject.presentation.entrance.model.MalePickerCustomView
                 android:id="@+id/malePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -216,4 +167,25 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+    <Button
+        android:id="@+id/registrationButton"
+        style="@style/sign_button_style"
+        android:layout_marginTop="12dp"
+        android:text="@string/sign_in_registration_button_text"
+        app:layout_constraintBottom_toTopOf="@id/signUpButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        style="@style/text_button_style"
+        android:layout_marginBottom="@dimen/edit_texts_margin"
+        android:padding="@dimen/edit_texts_margin"
+        android:text="@string/sign_in_sign_up_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

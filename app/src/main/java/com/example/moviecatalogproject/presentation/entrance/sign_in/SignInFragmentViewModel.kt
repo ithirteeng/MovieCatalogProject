@@ -1,11 +1,11 @@
-package com.example.moviecatalogproject.presentation.sign_in
+package com.example.moviecatalogproject.presentation.entrance.sign_in
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.moviecatalogproject.domain.sign_in.usecase.*
 import com.example.moviecatalogproject.domain.sign_in.validator.*
 
-class SignInViewActivityModel : ViewModel() {
+class SignInFragmentViewModel: ViewModel() {
     private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())
     private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
     private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())
@@ -32,5 +32,4 @@ class SignInViewActivityModel : ViewModel() {
     fun getDateErrorLiveData(string: String): MutableLiveData<Int> {
         return MutableLiveData(validateDateUseCase.execute(string))
     }
-
 }
