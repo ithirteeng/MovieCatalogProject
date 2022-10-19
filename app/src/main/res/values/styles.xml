@@ -4,6 +4,7 @@
     <style name="edit_text_style">
         <item name="android:background">@drawable/edit_text_background</item>
         <item name="textAllCaps">false</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textColorHint">@color/gray_faded</item>
         <item name="android:padding">@dimen/edit_texts_padding</item>
         <item name="android:layout_width">match_parent</item>
