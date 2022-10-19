@@ -31,6 +31,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         setupButtonsOnClickFunctions()
         onFieldsFocusChange()
     }
@@ -41,14 +42,13 @@ class SignInActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun onRegistrationButtonClick() {
         binding.registrationButton.setOnClickListener {
-            showAllErrors()
+            validateFields()
             if (checkFieldsValidity()) {
                 // TODO: send request and intent to main activity
             } else {
-                changeRegistrationButtonColor()
+                changeRegistrationButtonState()
             }
         }
     }
@@ -66,106 +66,74 @@ class SignInActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showAllErrors() {
-        validateEditText(binding.loginEditText, SignInViewActivityModel.LOGIN)
-        validateEditText(binding.nameEditText, SignInViewActivityModel.NAME)
-        validateEditText(binding.emailEditText, SignInViewActivityModel.EMAIL)
-        validateEditText(binding.passwordEditText, SignInViewActivityModel.PASSWORD_SIZE)
-        validateEditText(binding.repeatPasswordEditText, SignInViewActivityModel.PASSWORD_EQUALITY)
-        validateEditText(binding.dateEditText, SignInViewActivityModel.DATE)
+    private fun validateFields() {
+        validateLoginEditText()
+        validateEmailEditText()
+        validateNameEditText()
+        validatePasswordEditText()
+        validateRepeatPasswordEditText()
+        validateDateEditText()
         validateMalePicker()
     }
 
     private fun validateMalePicker() {
         if (binding.malePicker.checkIsPickerInvolved()) {
-            showError(ErrorType.OK, SignInViewActivityModel.MALE)
+            prepareTextView(binding.malePickerErrorTextView, ErrorType.OK)
         } else {
-            showError(ErrorType.PICKER_ERROR, SignInViewActivityModel.MALE)
+            prepareTextView(binding.malePickerErrorTextView, ErrorType.PICKER_ERROR)
         }
     }
 
-    private fun validateEditText(editText: EditText, editTextType: String) {
-        var string = editText.text.toString()
-        if (editTextType == SignInViewActivityModel.PASSWORD_EQUALITY) {
-            string += "\n${binding.passwordEditText.text}"
+    private fun validateLoginEditText() {
+        val string = binding.loginEditText.text.toString()
+        viewModel.getLoginErrorLiveData(string).observe(this) {
+            prepareTextFields(binding.loginEditText, binding.loginErrorTextView, it)
         }
-        val it = viewModel.getErrorId(editTextType, string)
-        showError(it, editTextType)
     }
 
-    private fun showError(errorId: Int, fieldType: String) {
-        when (fieldType) {
-            SignInViewActivityModel.NAME -> prepareTextFields(
-                binding.nameEditText,
-                binding.nameErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.PASSWORD_SIZE -> prepareTextFields(
-                binding.passwordEditText,
-                binding.firstPasswordErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.PASSWORD_EQUALITY -> prepareTextFields(
+    private fun validateNameEditText() {
+        val string = binding.nameEditText.text.toString()
+        viewModel.getNameErrorLiveData(string).observe(this) {
+            prepareTextFields(binding.nameEditText, binding.nameErrorTextView, it)
+        }
+    }
+
+    private fun validateDateEditText() {
+        val string = binding.dateEditText.text.toString()
+        viewModel.getDateErrorLiveData(string).observe(this) {
+            prepareTextFields(binding.dateEditText, binding.dateErrorTextView, it)
+        }
+    }
+
+    private fun validateEmailEditText() {
+        val string = binding.emailEditText.text.toString()
+        viewModel.getEmailErrorLiveData(string).observe(this) {
+            prepareTextFields(binding.emailEditText, binding.emailErrorTextView, it)
+        }
+    }
+
+    private fun validatePasswordEditText() {
+        val string = binding.passwordEditText.text.toString()
+        viewModel.getPasswordErrorLiveData(string).observe(this) {
+            prepareTextFields(binding.passwordEditText, binding.firstPasswordErrorTextView, it)
+        }
+    }
+
+    private fun validateRepeatPasswordEditText() {
+        val string =
+            binding.passwordEditText.text.toString() + "\n" + binding.repeatPasswordEditText.text.toString()
+        viewModel.getPasswordErrorLiveData(string).observe(this) {
+            prepareTextFields(
                 binding.repeatPasswordEditText,
                 binding.secondPasswordErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.DATE -> prepareTextFields(
-                binding.dateEditText,
-                binding.dateErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.LOGIN -> prepareTextFields(
-                binding.loginEditText,
-                binding.loginErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.EMAIL -> prepareTextFields(
-                binding.emailEditText,
-                binding.emailErrorTextView,
-                errorId
-            )
-            SignInViewActivityModel.MALE -> prepareTextView(
-                binding.malePickerErrorTextView,
-                errorId
+                it
             )
         }
-
     }
 
     private fun prepareTextFields(editText: EditText, textView: TextView, errorId: Int) {
-        prepareEditText(editText, errorId)
         prepareTextView(textView, errorId)
-    }
-
-    private fun prepareEditText(editText: EditText, errorId: Int) {
-        val state = errorId != ErrorType.OK
-        if (editText == binding.dateEditText) {
-            changeDateViewMargin(state)
-        } else {
-            editText.text.clear()
-            changeEditTextMargin(editText, state)
-        }
-    }
-
-    private fun changeEditTextMargin(editText: EditText, state: Boolean) {
-        if (!state) {
-            val params = editText.layoutParams as MarginLayoutParams
-            params.bottomMargin = 0
-        } else {
-            val params = editText.layoutParams as MarginLayoutParams
-            params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
-        }
-    }
-
-    private fun changeDateViewMargin(state: Boolean) {
-        if (!state) {
-            val params = binding.dateView.layoutParams as MarginLayoutParams
-            params.bottomMargin = 0
-        } else {
-            val params = binding.dateView.layoutParams as MarginLayoutParams
-            params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
-        }
+        prepareEditText(editText, errorId)
     }
 
     private fun prepareTextView(textView: TextView, errorId: Int) {
@@ -177,6 +145,31 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    private fun prepareEditText(editText: EditText, errorId: Int) {
+        val state = errorId == ErrorType.OK
+        if (editText == binding.dateEditText) {
+            if (!state) {
+                binding.dateEditText.text!!.clear()
+            }
+            changeViewBottomMargin(binding.dateView, state)
+        } else {
+            if (!state) {
+                editText.text.clear()
+            }
+            changeViewBottomMargin(editText, state)
+        }
+    }
+
+    private fun changeViewBottomMargin(view: View, state: Boolean) {
+        if (!state) {
+            val params = view.layoutParams as MarginLayoutParams
+            params.bottomMargin = 0
+        } else {
+            val params = view.layoutParams as MarginLayoutParams
+            params.bottomMargin = resources.getDimension(R.dimen.edit_texts_margin).toInt()
+        }
+    }
+
 
     private fun onFieldsFocusChange() {
         val elementsAmount = binding.linearLayout.childCount
@@ -185,26 +178,28 @@ class SignInActivity : AppCompatActivity() {
             if (view is EditText) {
                 onEditTextEditorAction(view)
                 view.setOnFocusChangeListener { _, _ ->
-                    changeRegistrationButtonColor()
+                    changeRegistrationButtonState()
                 }
             }
         }
         onEditTextEditorAction(binding.dateEditText)
         binding.dateEditText.setOnFocusChangeListener { _, _ ->
-            changeRegistrationButtonColor()
+            changeRegistrationButtonState()
 
         }
         binding.malePicker.onPickerButtonsClick {
-            changeRegistrationButtonColor()
+            changeRegistrationButtonState()
         }
     }
 
-    private fun changeRegistrationButtonColor() {
+    private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
             binding.registrationButton.isActivated = true
+            binding.registrationButton.isClickable = true
             binding.registrationButton.setTextColor(resources.getColor(R.color.bright_white, theme))
         } else {
             binding.registrationButton.isActivated = false
+            binding.registrationButton.isClickable = false
             binding.registrationButton.setTextColor(resources.getColor(R.color.accent, theme))
         }
     }
@@ -219,7 +214,7 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
         }
-        if (binding.dateEditText.text.isEmpty()) {
+        if (binding.dateEditText.text!!.isEmpty()) {
             return false
         }
         if (!binding.malePicker.checkIsPickerInvolved()) {

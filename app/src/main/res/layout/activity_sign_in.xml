@@ -44,7 +44,7 @@
 
     <Button
         android:id="@+id/registrationButton"
-        style="@style/empty_button_style"
+        style="@style/sign_button_style"
         android:text="@string/sign_in_registration_button_text"
         app:layout_constraintBottom_toTopOf="@+id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
+            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                 android:id="@+id/loginEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <EditText
+            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                 android:id="@+id/emailEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <EditText
+            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                 android:id="@+id/nameEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <EditText
+            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                 android:id="@+id/passwordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <EditText
+            <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                 android:id="@+id/repeatPasswordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
@@ -163,7 +163,7 @@
                 android:padding="0dp"
                 android:layout_marginBottom="@dimen/edit_texts_margin">
 
-                <EditText
+                <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
                     android:id="@+id/dateEditText"
                     style="@style/edit_text_style"
                     android:ems="10"

@@ -1,40 +1,36 @@
 package com.example.moviecatalogproject.presentation.sign_in
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moviecatalogproject.domain.sign_in.usecase.ValidateTextFieldsUseCase
+import com.example.moviecatalogproject.domain.sign_in.usecase.*
 import com.example.moviecatalogproject.domain.sign_in.validator.*
 
 class SignInViewActivityModel : ViewModel() {
+    private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())
+    private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
+    private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())
+    private val validateNameUseCase = ValidateNameUseCase(NameValidator())
+    private val validateDateUseCase = ValidateDateUseCase(DateValidator())
 
-    companion object {
-        const val LOGIN = "login"
-        const val EMAIL = "email"
-        const val NAME = "name"
-        const val PASSWORD_EQUALITY = "password equality"
-        const val PASSWORD_SIZE = "password size"
-        const val DATE = "date"
-        const val MALE = "male"
+
+    fun getPasswordErrorLiveData(string: String): MutableLiveData<Int> {
+        return MutableLiveData(validatePasswordUseCase.execute(string))
     }
 
-    private val validateTextFieldsUseCase by lazy {
-        ValidateTextFieldsUseCase()
+    fun getEmailErrorLiveData(string: String): MutableLiveData<Int> {
+        return MutableLiveData(validateEmailUseCase.execute(string))
     }
 
-    fun getErrorId(type: String, string: String): Int {
-        val validator = setCorrectValidator(type)
-        return validateTextFieldsUseCase.execute(validator, string)
-
+    fun getNameErrorLiveData(string: String): MutableLiveData<Int> {
+        return MutableLiveData(validateNameUseCase.execute(string))
     }
 
-    private fun setCorrectValidator(type: String): Validator {
-        return when (type) {
-            NAME -> NameValidator()
-            PASSWORD_SIZE -> PasswordValidator()
-            PASSWORD_EQUALITY -> PasswordValidator()
-            DATE -> DateValidator()
-            LOGIN -> LoginValidator()
-            else -> EmailValidator()
-        }
+    fun getLoginErrorLiveData(string: String): MutableLiveData<Int> {
+        return MutableLiveData(validateLoginUseCase.execute(string))
+    }
+
+    fun getDateErrorLiveData(string: String): MutableLiveData<Int> {
+        return MutableLiveData(validateDateUseCase.execute(string))
     }
 
 }
