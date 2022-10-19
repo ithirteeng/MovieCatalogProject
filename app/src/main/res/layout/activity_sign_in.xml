@@ -205,9 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_end_start_margins"
                 android:layout_marginEnd="@dimen/common_end_start_margins"
-                android:layout_marginBottom="@dimen/edit_texts_margin"
-                android:layout_marginTop="0dp"
-                android:clickable="true"/>
+                android:layout_marginTop="0dp"/>
 
             <TextView
                 android:id="@+id/malePickerErrorTextView"
