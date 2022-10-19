@@ -273,7 +273,7 @@ class SignInActivity : AppCompatActivity() {
     private fun onSignUpButtonClick() {
         binding.signUpButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra(SignUpActivity.FROM_SIGN_IN, SignUpActivity.FROM_SIGN_IN)
+            intent.putExtra(SignUpActivity.TO_SIGN_UP, SignUpActivity.FROM_SIGN_IN)
             startActivity(intent)
             overridePendingTransition(0, 0)
             finish()

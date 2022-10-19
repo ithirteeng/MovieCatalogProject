@@ -25,7 +25,7 @@ class LaunchActivity : AppCompatActivity() {
 
     private fun makeIntent() {
         val intent = Intent(this, SignUpActivity::class.java)
-        intent.putExtra(SignUpActivity.FROM_LAUNCH, SignUpActivity.FROM_LAUNCH)
+        intent.putExtra(SignUpActivity.TO_SIGN_UP, SignUpActivity.FROM_LAUNCH)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

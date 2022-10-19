@@ -25,15 +25,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.20" />
 
     <com.example.moviecatalogproject.presentation.sign_in.model.MyEditText
         android:id="@+id/loginEditText"
         style="@style/edit_text_style"
+        android:layout_marginTop="@dimen/buttons_margin"
         android:hint="@string/sign_up_login_edit_text"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        android:layout_marginTop="@dimen/buttons_margin"
         app:layout_constraintBottom_toTopOf="@+id/passwordEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
+        app:layout_constraintGuide_percent="0.38" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/topButtonsGuideline"

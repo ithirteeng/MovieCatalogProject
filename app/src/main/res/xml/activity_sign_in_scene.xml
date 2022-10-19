@@ -4,17 +4,17 @@
 
     <Transition
         motion:autoTransition="animateToEnd"
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@+id/expandedImage"
+        motion:constraintSetStart="@id/collapsedImage"
         motion:duration="1000" />
 
-    <ConstraintSet android:id="@+id/start" >
+    <ConstraintSet android:id="@+id/collapsedImage" >
         <Constraint
             motion:layout_constraintGuide_begin="715dp"
             android:id="@+id/guideline3" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/expandedImage">
         <Constraint
             android:id="@+id/logoBottomGuideline"
             android:layout_width="wrap_content"

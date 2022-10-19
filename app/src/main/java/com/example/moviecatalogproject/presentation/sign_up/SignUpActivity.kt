@@ -7,6 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivitySignUpBinding
 import com.example.moviecatalogproject.presentation.sign_in.SignInActivity
@@ -16,6 +18,7 @@ class SignUpActivity : AppCompatActivity() {
     companion object {
         const val FROM_SIGN_IN = "intent from sign in screen"
         const val FROM_LAUNCH = "intent from launch screen"
+        const val TO_SIGN_UP = "to sign up activity"
     }
 
     private val binding by lazy {
@@ -24,10 +27,31 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+        val intent = intent
+        val string: String? = intent.getStringExtra(TO_SIGN_UP)
+
+        checkEntryIntents(string!!)
 
         setupButtonOnClickFunctions()
         onFieldsFocusChange()
+        setContentView(binding.root)
+    }
+
+    private fun checkEntryIntents(string: String) {
+        if (string == FROM_SIGN_IN) {
+           
+//            binding.root.setTransitionDuration(800)
+//            binding.root.setTransition(R.id.myTransition)
+//            binding.root.transitionToEnd()
+        } else {
+
+        }
+    }
+
+    private fun setPercentageToGuideline(guideline: Guideline, percentage: Float) {
+        val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+        params.guidePercent = percentage
     }
 
     private fun setupButtonOnClickFunctions() {
