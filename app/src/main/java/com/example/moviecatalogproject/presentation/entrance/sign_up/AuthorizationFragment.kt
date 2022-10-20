@@ -12,38 +12,37 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.databinding.FragmentSignUpBinding
+import com.example.moviecatalogproject.databinding.FragmentAuthorizationBinding
 
 
-class SignUpFragment : Fragment() {
+class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fragment() {
 
-    private lateinit var binding: FragmentSignUpBinding
+    private lateinit var binding: FragmentAuthorizationBinding
 
     private lateinit var theme: Resources.Theme
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mainView = inflater.inflate(R.layout.fragment_sign_up, container, false)
-        binding = FragmentSignUpBinding.bind(mainView)
+        val mainView = inflater.inflate(R.layout.fragment_authorization, container, false)
+        binding = FragmentAuthorizationBinding.bind(mainView)
         theme = activity?.theme!!
 
 
-        setupButtonOnClickFunctions()
         onFieldsFocusChange()
 
-        return binding.root
-    }
-
-    private fun setupButtonOnClickFunctions() {
-        onRegistrationButtonClick()
-    }
-
-    private fun onRegistrationButtonClick() {
         binding.registrationButton.setOnClickListener {
-            //TODO: intent tip
+            bottomButtonCallback.invoke()
         }
+
+        return mainView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        changeRegistrationButtonState()
     }
 
     private fun onFieldsFocusChange() {
@@ -60,12 +59,10 @@ class SignUpFragment : Fragment() {
 
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
-            binding.signUpButton.isActivated = true
-            binding.signUpButton.isClickable = true
+            binding.signUpButton.isEnabled = true
             binding.signUpButton.setTextColor(resources.getColor(R.color.bright_white, theme))
         } else {
-            binding.signUpButton.isActivated = false
-            binding.signUpButton.isClickable = false
+            binding.signUpButton.isEnabled = false
             binding.signUpButton.setTextColor(resources.getColor(R.color.accent, theme))
         }
     }

@@ -14,13 +14,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.databinding.FragmentSignInBinding
-import com.example.moviecatalogproject.domain.sign_in.model.ErrorType
+import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
+import com.example.moviecatalogproject.domain.entrance.model.ErrorType
 import java.util.*
 
-class SignInFragment : Fragment() {
+class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = null) : Fragment() {
 
-    private lateinit var binding: FragmentSignInBinding
+    private lateinit var binding: FragmentRegistrationBinding
 
     private lateinit var theme: Theme
 
@@ -32,15 +32,19 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mainView = inflater.inflate(R.layout.fragment_sign_in, container, false)
-        binding = FragmentSignInBinding.bind(mainView)
-
+        val mainView = inflater.inflate(R.layout.fragment_registration, container, false)
         theme = activity?.theme!!
+        binding = FragmentRegistrationBinding.bind(mainView)
 
-        setupButtonsOnClickFunctions()
         onFieldsFocusChange()
+        setupButtonsOnClickFunctions()
 
-        return binding.root
+        return mainView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        changeRegistrationButtonState()
     }
 
     private fun setupButtonsOnClickFunctions() {
@@ -202,12 +206,10 @@ class SignInFragment : Fragment() {
 
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
-            binding.registrationButton.isActivated = true
-            binding.registrationButton.isClickable = true
+            binding.registrationButton.isEnabled = true
             binding.registrationButton.setTextColor(resources.getColor(R.color.bright_white, theme))
         } else {
-            binding.registrationButton.isActivated = false
-            binding.registrationButton.isClickable = false
+            binding.registrationButton.isEnabled = false
             binding.registrationButton.setTextColor(resources.getColor(R.color.accent, theme))
         }
     }
@@ -278,7 +280,7 @@ class SignInFragment : Fragment() {
 
     private fun onSignUpButtonClick() {
         binding.signUpButton.setOnClickListener {
-            //TODO: intent tip
+            bottomButtonCallback?.invoke()
         }
     }
 }

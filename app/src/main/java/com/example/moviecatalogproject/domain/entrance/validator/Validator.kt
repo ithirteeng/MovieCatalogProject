@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.sign_in.validator
+package com.example.moviecatalogproject.domain.entrance.validator
 
 interface Validator {
     fun validateTextField(string: String): Int

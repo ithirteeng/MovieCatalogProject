@@ -1,6 +1,6 @@
-package com.example.moviecatalogproject.domain.sign_in.validator
+package com.example.moviecatalogproject.domain.entrance.validator
 
-import com.example.moviecatalogproject.domain.sign_in.model.ErrorType
+import com.example.moviecatalogproject.domain.entrance.model.ErrorType
 
 class LoginValidator : Validator {
     override fun validateTextField(string: String): Int {

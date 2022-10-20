@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.sign_in.model
+package com.example.moviecatalogproject.domain.entrance.model
 
 import com.example.moviecatalogproject.R
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.entrance.sign_up.SignUpFragment">
+    tools:context=".presentation.entrance.sign_up.AuthorizationFragment">
 
     <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
         android:id="@+id/loginEditText"
@@ -45,7 +45,6 @@
     <Button
         android:id="@+id/registrationButton"
         style="@style/text_button_style"
-        android:layout_marginBottom="@dimen/edit_texts_margin"
         android:padding="@dimen/edit_texts_margin"
         android:text="@string/sign_up_registration_button_text"
         app:layout_constraintBottom_toBottomOf="parent"

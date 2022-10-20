@@ -1,6 +1,6 @@
-package com.example.moviecatalogproject.domain.sign_in.usecase
+package com.example.moviecatalogproject.domain.entrance.usecase
 
-import com.example.moviecatalogproject.domain.sign_in.validator.Validator
+import com.example.moviecatalogproject.domain.entrance.validator.Validator
 
 class ValidateTextFieldsUseCase() {
     fun execute(correctValidator: Validator, data: String): Int {
