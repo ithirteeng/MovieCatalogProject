@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.moviecatalogproject.domain.entrance.usecase.*
 import com.example.moviecatalogproject.domain.entrance.validator.*
 
-class SignInFragmentViewModel: ViewModel() {
+class RegistrationFragmentViewModel: ViewModel() {
     private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())
     private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
     private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())

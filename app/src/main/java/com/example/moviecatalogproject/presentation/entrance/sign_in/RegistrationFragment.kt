@@ -25,7 +25,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     private lateinit var theme: Theme
 
     private val viewModel by lazy {
-        SignInFragmentViewModel()
+        RegistrationFragmentViewModel()
     }
 
     override fun onCreateView(
@@ -270,6 +270,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
                     monthString = "0$month"
                 }
                 binding.dateEditText.setText("$dayString.$monthString.$year")
+                changeRegistrationButtonState()
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
