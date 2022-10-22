@@ -30,7 +30,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     private lateinit var theme: Theme
 
     private val viewModel by lazy {
-        RegistrationFragmentViewModel()
+        RegistrationFragmentViewModel(activity?.application!!)
     }
 
     override fun onCreateView(
@@ -72,6 +72,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
                 viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
                     if (it != null) {
+                        viewModel.saveTokenToLocalStorage(it)
                         startActivity(Intent(activity, MainActivity::class.java))
                         activity?.finish()
                     }

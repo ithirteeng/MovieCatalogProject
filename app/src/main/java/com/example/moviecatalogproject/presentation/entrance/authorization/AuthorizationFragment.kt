@@ -25,7 +25,9 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private lateinit var theme: Resources.Theme
 
-    private val viewModel = AuthorizationFragmentViewModel()
+    private val viewModel by lazy {
+        AuthorizationFragmentViewModel(activity?.application!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private fun onSignUpButtonClick() {
         binding.signUpButton.setOnClickListener {
+
             viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
                 makeToast(it)
                 binding.loginEditText.text?.clear()
@@ -58,6 +61,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
             viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
                 if (it != null) {
+                    viewModel.saveTokenToLocalStorage(it)
                     startActivity(Intent(activity, MainActivity::class.java))
                     activity?.finish()
                 }
