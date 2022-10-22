@@ -1,7 +1,7 @@
 package com.example.moviecatalogproject.domain.entrance.authorization.usecase
 
 import android.util.Log
-import com.example.moviecatalogproject.domain.ResponseHelper
+import com.example.moviecatalogproject.domain.ResponseOnFailureHelper
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.model.Token
 import com.example.moviecatalogproject.domain.repository.AuthenticationRepository
@@ -18,7 +18,7 @@ class PostAuthorizationDataUseCase(private val authenticationRepository: Authent
             response.body()
         } else {
             Log.d("AUTH", "authorization error: " + response.code().toString())
-            complete(ResponseHelper.errorCodeToStringId(response.code()))
+            complete(ResponseOnFailureHelper.authorizationOnFailure(response.code()))
             null
         }
 

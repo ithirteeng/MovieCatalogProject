@@ -1,5 +1,6 @@
 package com.example.moviecatalogproject.presentation.entrance.authorization
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +10,13 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentAuthorizationBinding
+import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
+import com.example.moviecatalogproject.presentation.main.MainActivity
 
 
 class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fragment() {
@@ -21,6 +25,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private lateinit var theme: Resources.Theme
 
+    private val viewModel = AuthorizationFragmentViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +37,45 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
 
         onFieldsFocusChange()
+        setupButtonOnClickFunctions()
 
+        return mainView
+    }
+
+    private fun setupButtonOnClickFunctions() {
+        onSignUpButtonClick()
+        onRegistrationButtonClick()
+    }
+
+    private fun onSignUpButtonClick() {
+        binding.signUpButton.setOnClickListener {
+            viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
+                makeToast(it)
+                binding.loginEditText.text?.clear()
+                binding.passwordEditText.text?.clear()
+                changeRegistrationButtonState()
+            })
+
+            viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
+                if (it != null) {
+                    startActivity(Intent(activity, MainActivity::class.java))
+                    activity?.finish()
+                }
+            }
+        }
+    }
+
+    private fun createAuthorizationData(): AuthorizationData {
+        return AuthorizationData(
+            username = binding.loginEditText.text.toString(),
+            password = binding.passwordEditText.text.toString()
+        )
+    }
+
+    private fun onRegistrationButtonClick() {
         binding.registrationButton.setOnClickListener {
             bottomButtonCallback.invoke()
         }
-
-        return mainView
     }
 
     override fun onStart() {
@@ -89,6 +127,10 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
             }
             false
         })
+    }
+
+    private fun makeToast(stringId: Int) {
+        Toast.makeText(requireContext(), resources.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 
 }

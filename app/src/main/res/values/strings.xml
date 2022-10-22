@@ -32,7 +32,8 @@
     <string name="picker_error">Male must be chosen</string>
     <string name="all_is_ok">OK</string>
     <!--  http errors  -->
-    <string name="error_400">Username exists!</string>
+    <string name="error_registration_400">Username exists!</string>
+    <string name="error_authorization_400">Username or password is incorrect!</string>
     <string name="error_401">Access token expired!</string>
 
 
