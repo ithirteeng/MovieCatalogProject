@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
@@ -62,13 +63,20 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         binding.registrationButton.setOnClickListener {
             validateFields()
             if (checkFieldsValidity()) {
-                viewModel.postRegistrationData(createRegistrationData())
+
+                viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
+                    makeToast(it)
+                    binding.loginEditText.text?.clear()
+                    changeRegistrationButtonState()
+                })
+
                 viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
                     if (it != null) {
                         startActivity(Intent(activity, MainActivity::class.java))
                         activity?.finish()
                     }
                 }
+
             } else {
                 changeRegistrationButtonState()
             }
@@ -310,5 +318,9 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         binding.signUpButton.setOnClickListener {
             bottomButtonCallback?.invoke()
         }
+    }
+
+    private fun makeToast(stringId: Int) {
+        Toast.makeText(requireContext(), resources.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 }

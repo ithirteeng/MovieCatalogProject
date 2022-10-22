@@ -31,5 +31,9 @@
     <string name="date_error">Date must be in the format of DD.MM.YYYY</string>
     <string name="picker_error">Male must be chosen</string>
     <string name="all_is_ok">OK</string>
+    <!--  http errors  -->
+    <string name="error_400">Username exists!</string>
+    <string name="error_401">Access token expired!</string>
+
 
 </resources>
