@@ -1,6 +1,6 @@
-package com.example.moviecatalogproject.domain.entrance.usecase
+package com.example.moviecatalogproject.domain.entrance.registration.usecase
 
-import com.example.moviecatalogproject.domain.entrance.validator.DateValidator
+import com.example.moviecatalogproject.domain.entrance.registration.validator.DateValidator
 
 class ValidateDateUseCase(private val dateValidator: DateValidator) {
     fun execute(string: String): Int {

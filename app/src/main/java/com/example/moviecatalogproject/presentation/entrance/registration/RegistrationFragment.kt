@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.entrance.sign_in
+package com.example.moviecatalogproject.presentation.entrance.registration
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
-import com.example.moviecatalogproject.domain.entrance.model.ErrorType
+import com.example.moviecatalogproject.domain.entrance.registration.model.ErrorType
 import java.util.*
 
 class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = null) : Fragment() {
@@ -89,10 +89,10 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     }
 
     private fun validateMalePicker() {
-        if (binding.malePicker.checkIsPickerInvolved()) {
-            prepareTextView(binding.malePickerErrorTextView, ErrorType.OK)
+        if (binding.genderPicker.checkIsPickerInvolved()) {
+            prepareTextView(binding.genderPickerErrorTextView, ErrorType.OK)
         } else {
-            prepareTextView(binding.malePickerErrorTextView, ErrorType.PICKER_ERROR)
+            prepareTextView(binding.genderPickerErrorTextView, ErrorType.PICKER_ERROR)
         }
     }
 
@@ -199,7 +199,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
             changeRegistrationButtonState()
 
         }
-        binding.malePicker.onPickerButtonsClick {
+        binding.genderPicker.onPickerButtonsClick {
             changeRegistrationButtonState()
         }
     }
@@ -227,7 +227,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         if (binding.dateEditText.text!!.isEmpty()) {
             return false
         }
-        if (!binding.malePicker.checkIsPickerInvolved()) {
+        if (!binding.genderPicker.checkIsPickerInvolved()) {
             return false
         }
 

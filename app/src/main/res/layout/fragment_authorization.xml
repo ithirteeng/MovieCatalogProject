@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.entrance.sign_up.AuthorizationFragment">
+    tools:context=".presentation.entrance.authorization.AuthorizationFragment">
 
     <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
         android:id="@+id/loginEditText"

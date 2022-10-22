@@ -1,6 +1,6 @@
-package com.example.moviecatalogproject.domain.entrance.usecase
+package com.example.moviecatalogproject.domain.entrance.registration.usecase
 
-import com.example.moviecatalogproject.domain.entrance.validator.LoginValidator
+import com.example.moviecatalogproject.domain.entrance.registration.validator.LoginValidator
 
 class ValidateLoginUseCase(private val loginValidator: LoginValidator) {
     fun execute(string: String): Int {

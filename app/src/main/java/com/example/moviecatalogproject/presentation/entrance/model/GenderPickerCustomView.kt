@@ -7,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.databinding.MalePickerLayoutBinding
+import com.example.moviecatalogproject.databinding.GenderPickerLayoutBinding
 
-class MalePickerCustomView @JvmOverloads constructor(
+class GenderPickerCustomView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
     private val pickerView: View =
-        LayoutInflater.from(context).inflate(R.layout.male_picker_layout, this)
-    private val binding = MalePickerLayoutBinding.bind(pickerView)
+        LayoutInflater.from(context).inflate(R.layout.gender_picker_layout, this)
+    private val binding = GenderPickerLayoutBinding.bind(pickerView)
 
     private val buttonsChecker = PickerState()
 

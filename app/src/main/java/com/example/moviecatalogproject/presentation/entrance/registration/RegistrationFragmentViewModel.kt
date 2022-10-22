@@ -1,9 +1,9 @@
-package com.example.moviecatalogproject.presentation.entrance.sign_in
+package com.example.moviecatalogproject.presentation.entrance.registration
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moviecatalogproject.domain.entrance.usecase.*
-import com.example.moviecatalogproject.domain.entrance.validator.*
+import com.example.moviecatalogproject.domain.entrance.registration.usecase.*
+import com.example.moviecatalogproject.domain.entrance.registration.validator.*
 
 class RegistrationFragmentViewModel: ViewModel() {
     private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())

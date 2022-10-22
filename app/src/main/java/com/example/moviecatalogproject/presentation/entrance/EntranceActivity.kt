@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivityEntranceBinding
-import com.example.moviecatalogproject.presentation.entrance.sign_in.RegistrationFragment
-import com.example.moviecatalogproject.presentation.entrance.sign_up.AuthorizationFragment
+import com.example.moviecatalogproject.presentation.entrance.registration.RegistrationFragment
+import com.example.moviecatalogproject.presentation.entrance.authorization.AuthorizationFragment
 
 class EntranceActivity : AppCompatActivity() {
 

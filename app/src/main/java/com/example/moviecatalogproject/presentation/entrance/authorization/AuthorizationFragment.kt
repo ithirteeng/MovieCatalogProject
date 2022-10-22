@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.entrance.sign_up
+package com.example.moviecatalogproject.presentation.entrance.authorization
 
 import android.content.res.Resources
 import android.os.Bundle
