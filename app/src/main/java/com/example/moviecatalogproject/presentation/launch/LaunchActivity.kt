@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.R
-import com.example.moviecatalogproject.presentation.sign_up.SignUpActivity
+import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,8 +24,7 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private fun makeIntent() {
-        val intent = Intent(this, SignUpActivity::class.java)
-        intent.putExtra(SignUpActivity.TO_SIGN_UP, SignUpActivity.FROM_LAUNCH)
+        val intent = Intent(this, EntranceActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

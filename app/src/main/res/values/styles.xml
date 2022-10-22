@@ -31,8 +31,7 @@
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:state_active">false</item>
-        <item name="android:clickable">false</item>
+        <item name="android:enabled">false</item>
     </style>
 
     <style name="text_button_style">
@@ -87,8 +86,12 @@
         <item name="android:textSize">@dimen/male_picker_text_size</item>
     </style>
 
-    <style name="date_picker_style" parent="Theme.AppCompat.Light.Dialog">
+    <style name="date_picker_style" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="android:textColorPrimary">@color/gray_faded</item>
+        <item name="android:textColorSecondary">@color/gray_faded</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
