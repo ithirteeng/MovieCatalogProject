@@ -6,7 +6,7 @@ class PasswordValidator : Validator {
     override fun validateTextField(string: String): Int {
         return if (string.isEmpty()) {
             ErrorType.EMPTINESS_ERROR
-        } else if (string.length < 4) {
+        } else if (string.length < 6) {
             ErrorType.PASSWORD_SIZE_ERROR
         } else {
             if (string.contains("\n")) {

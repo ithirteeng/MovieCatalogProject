@@ -33,6 +33,14 @@ class GenderPickerCustomView @JvmOverloads constructor(
         onFemaleButtonClick(changeListener)
     }
 
+    fun getCorrectMeaningOfGender(): Int {
+        return if (isMaleButtonChosen()) {
+            1
+        } else {
+            0
+        }
+    }
+
     private fun onMaleButtonClick(changeListener: () -> Unit) {
         binding.maleButton.setOnClickListener {
             if (buttonsChecker.getFemaleState()) {

@@ -2,6 +2,7 @@ package com.example.moviecatalogproject.presentation.entrance.registration
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.content.res.Resources.Theme
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,9 @@ import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
 import com.example.moviecatalogproject.domain.entrance.registration.model.ErrorType
+import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
+import com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+import com.example.moviecatalogproject.presentation.main.MainActivity
 import java.util.*
 
 class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = null) : Fragment() {
@@ -58,19 +62,42 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         binding.registrationButton.setOnClickListener {
             validateFields()
             if (checkFieldsValidity()) {
-                // TODO: send request and intent to main activity
+                viewModel.postRegistrationData(createRegistrationData())
+                viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
+                    if (it != null) {
+                        startActivity(Intent(activity, MainActivity::class.java))
+                        activity?.finish()
+                    }
+                }
             } else {
                 changeRegistrationButtonState()
             }
         }
     }
 
+    private fun createRegistrationData(): RegistrationData {
+        return RegistrationData(
+            username = binding.loginEditText.text.toString(),
+            name = binding.nameEditText.text.toString(),
+            password = binding.passwordEditText.text.toString(),
+            email = binding.emailEditText.text.toString(),
+            date = dateConverter(binding.dateEditText.text.toString()),
+            gender = binding.genderPicker.getCorrectMeaningOfGender()
+        )
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun dateConverter(date: String): String {
+        val dateArray = date.split('.')
+        return (dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0])
+    }
+
     private fun checkFieldsValidity(): Boolean {
         val elementsAmount = binding.linearLayout.childCount
         for (i in 0 until elementsAmount) {
-            if (binding.linearLayout.getChildAt(i) is TextView) {
-                val textView = binding.linearLayout.getChildAt(i) as TextView
-                if (textView.visibility != View.GONE) {
+            val view = binding.linearLayout.getChildAt(i)
+            if (view !is MyEditText && view is TextView) {
+                if (view.visibility != View.GONE) {
                     return false
                 }
             }

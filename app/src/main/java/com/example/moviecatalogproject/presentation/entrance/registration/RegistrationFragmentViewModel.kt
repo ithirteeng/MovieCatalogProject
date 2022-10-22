@@ -2,10 +2,36 @@ package com.example.moviecatalogproject.presentation.entrance.registration
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.moviecatalogproject.data.repository.AuthenticationRepositoryImpl
+import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.*
 import com.example.moviecatalogproject.domain.entrance.registration.validator.*
+import com.example.moviecatalogproject.domain.model.Token
+import kotlinx.coroutines.launch
 
-class RegistrationFragmentViewModel: ViewModel() {
+class RegistrationFragmentViewModel : ViewModel() {
+
+    private val authenticationRepositoryImpl by lazy {
+        AuthenticationRepositoryImpl()
+    }
+
+    private val postRegistrationDataUseCase by lazy {
+        PostRegistrationDataUseCase(authenticationRepositoryImpl)
+    }
+
+    private var tokenLiveData = MutableLiveData<Token?>()
+
+    fun postRegistrationData(registrationData: RegistrationData) {
+        viewModelScope.launch {
+            tokenLiveData.value = postRegistrationDataUseCase.execute(registrationData)
+        }
+    }
+
+    fun getTokenLiveData(): MutableLiveData<Token?> {
+        return tokenLiveData
+    }
+
     private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())
     private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
     private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())
