@@ -3,6 +3,7 @@ package com.example.moviecatalogproject.presentation.entrance.authorization
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,11 +38,16 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
         binding = FragmentAuthorizationBinding.bind(mainView)
         theme = activity?.theme!!
 
-
         onFieldsFocusChange()
         setupButtonOnClickFunctions()
+        setEditTextsInputSpaceFilter()
 
         return mainView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        changeRegistrationButtonState()
     }
 
     private fun setupButtonOnClickFunctions() {
@@ -85,10 +91,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        changeRegistrationButtonState()
-    }
+
 
     private fun onFieldsFocusChange() {
         onEditTextEditorAction(binding.loginEditText)
@@ -134,6 +137,18 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
             }
             false
         })
+    }
+
+    private fun setEditTextsInputSpaceFilter() {
+        val filter = InputFilter { source, _, _, _, _, _ ->
+            if (source == " " || source.toString().contentEquals("\n")) {
+                ""
+            } else {
+                null
+            }
+        }
+        binding.loginEditText.filters = arrayOf(filter)
+        binding.passwordEditText.filters = arrayOf(filter)
     }
 
     private fun makeToast(stringId: Int) {
