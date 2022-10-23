@@ -8,4 +8,6 @@ interface TokenRepository {
     fun getTokenFromLocalStorage(): Token
 
     fun deleteTokenFromLocalStorage()
+
+    fun checkTokenExisting(): Boolean
 }
