@@ -1,6 +1,7 @@
 package com.example.moviecatalogproject.presentation.entrance.model
 
 import android.content.Context
+import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.appcompat.widget.AppCompatEditText
@@ -15,5 +16,16 @@ class MyEditText @JvmOverloads constructor(
             this.clearFocus()
         }
         return super.onKeyPreIme(keyCode, event)
+    }
+
+    fun setEditTextsInputSpaceFilter() {
+        val filter = InputFilter { source, _, _, _, _, _ ->
+            if (source == " " || source.toString().contentEquals("\n")) {
+                ""
+            } else {
+                null
+            }
+        }
+        this.filters = arrayOf(filter)
     }
 }

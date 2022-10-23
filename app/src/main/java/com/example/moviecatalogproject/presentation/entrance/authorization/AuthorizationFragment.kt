@@ -3,7 +3,6 @@ package com.example.moviecatalogproject.presentation.entrance.authorization
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,6 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     }
 
 
-
     private fun onFieldsFocusChange() {
         onEditTextEditorAction(binding.loginEditText)
         binding.loginEditText.setOnFocusChangeListener { _, _ ->
@@ -140,15 +138,8 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     }
 
     private fun setEditTextsInputSpaceFilter() {
-        val filter = InputFilter { source, _, _, _, _, _ ->
-            if (source == " " || source.toString().contentEquals("\n")) {
-                ""
-            } else {
-                null
-            }
-        }
-        binding.loginEditText.filters = arrayOf(filter)
-        binding.passwordEditText.filters = arrayOf(filter)
+        binding.loginEditText.setEditTextsInputSpaceFilter()
+        binding.passwordEditText.setEditTextsInputSpaceFilter()
     }
 
     private fun makeToast(stringId: Int) {

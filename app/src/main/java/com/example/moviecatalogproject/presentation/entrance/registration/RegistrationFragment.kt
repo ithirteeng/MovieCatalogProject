@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.res.Resources.Theme
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -331,17 +330,10 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     }
 
     private fun setEditTextsInputSpaceFilter() {
-        val filter = InputFilter { source, _, _, _, _, _ ->
-            if (source == " " || source.toString().contentEquals("\n")) {
-                ""
-            } else {
-                null
-            }
-        }
-        binding.loginEditText.filters = arrayOf(filter)
-        binding.passwordEditText.filters = arrayOf(filter)
-        binding.repeatPasswordEditText.filters = arrayOf(filter)
-        binding.dateEditText.filters = arrayOf(filter)
-        binding.emailEditText.filters = arrayOf(filter)
+        binding.loginEditText.setEditTextsInputSpaceFilter()
+        binding.passwordEditText.setEditTextsInputSpaceFilter()
+        binding.repeatPasswordEditText.setEditTextsInputSpaceFilter()
+        binding.dateEditText.setEditTextsInputSpaceFilter()
+        binding.emailEditText.setEditTextsInputSpaceFilter()
     }
 }
