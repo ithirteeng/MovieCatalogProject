@@ -56,8 +56,11 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
                 makeToast(it)
                 binding.loginEditText.text?.clear()
                 binding.passwordEditText.text?.clear()
+                binding.progressBar.visibility = View.GONE
                 changeRegistrationButtonState()
             })
+
+            binding.progressBar.visibility = View.VISIBLE
 
             viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
                 if (it != null) {

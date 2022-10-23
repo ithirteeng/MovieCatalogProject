@@ -67,8 +67,11 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
                 viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
                     makeToast(it)
                     binding.loginEditText.text?.clear()
+                    binding.progressBar.visibility = View.GONE
                     changeRegistrationButtonState()
                 })
+
+                binding.progressBar.visibility = View.VISIBLE
 
                 viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
                     if (it != null) {
