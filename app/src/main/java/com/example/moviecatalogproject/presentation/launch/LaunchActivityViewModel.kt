@@ -3,8 +3,11 @@ package com.example.moviecatalogproject.presentation.launch
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.data.repository.TokenRepositoryImpl
-import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExistingUseCase
+import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExpirationUseCase
+import com.example.moviecatalogproject.domain.launch.usecase.GetTokenFromLocalStorageUseCase
+import kotlinx.coroutines.launch
 
 class LaunchActivityViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -12,20 +15,28 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
         TokenRepositoryImpl(application.applicationContext)
     }
 
-    private val checkTokenExistingUseCase by lazy {
-        CheckTokenExistingUseCase(tokenRepositoryImpl)
+    private val checkTokenExpirationUseCase by lazy {
+        CheckTokenExpirationUseCase(tokenRepositoryImpl)
     }
 
-    private val tokenLiveData = MutableLiveData<Boolean>()
-
-    fun getTokenLiveData(): MutableLiveData<Boolean> {
-        return tokenLiveData
+    private val getTokenFromLocalStorageUseCase by lazy {
+        GetTokenFromLocalStorageUseCase(tokenRepositoryImpl)
     }
 
-    fun checkTokenExisting(): Boolean {
-        val result = checkTokenExistingUseCase.execute()
-        tokenLiveData.value = result
-        return result
+    private val tokenExistingLiveData = MutableLiveData<Boolean>()
+
+
+    fun getTokenExistingLiveData(): MutableLiveData<Boolean> {
+        return tokenExistingLiveData
+    }
+
+    fun checkTokenExisting() {
+        viewModelScope.launch {
+            val token = getTokenFromLocalStorageUseCase.execute()
+            token.token = "Bearer ${token.token}"
+            val result = checkTokenExpirationUseCase.execute(token)
+            tokenExistingLiveData.value = result
+        }
     }
 
 }

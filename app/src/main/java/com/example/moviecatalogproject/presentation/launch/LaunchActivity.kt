@@ -30,7 +30,7 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private fun makeIntent() {
-        viewModel.getTokenLiveData().observe(this) {
+        viewModel.getTokenExistingLiveData().observe(this) {
             val intent = if (it) {
                 Intent(this, MainActivity::class.java)
             } else {

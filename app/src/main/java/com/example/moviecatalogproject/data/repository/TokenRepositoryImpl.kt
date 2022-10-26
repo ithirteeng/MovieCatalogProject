@@ -1,8 +1,8 @@
 package com.example.moviecatalogproject.data.repository
 
 import android.content.Context
+import com.example.moviecatalogproject.data.service.NetworkService
 import com.example.moviecatalogproject.data.storage.SharedPreferencesStorage
-import com.example.moviecatalogproject.data.storage.TokenStorage
 import com.example.moviecatalogproject.domain.model.Token
 import com.example.moviecatalogproject.domain.repository.TokenRepository
 
@@ -24,9 +24,10 @@ class TokenRepositoryImpl(context: Context) : TokenRepository {
         sharedPreferencesStorage.deleteToken()
     }
 
-    override fun checkTokenExisting(): Boolean {
-        val token = sharedPreferencesStorage.getToken()
-        return token.token != TokenStorage.EMPTINESS_KEY
+    override suspend fun checkTokenExpiration(token: Token): Boolean {
+        val response =
+            NetworkService.authenticationApiService.checkTokenByGettingProfileData(token.token)
+        return response.code() != 401
     }
 
 }

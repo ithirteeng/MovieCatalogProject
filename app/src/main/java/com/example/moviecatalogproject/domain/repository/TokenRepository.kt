@@ -9,5 +9,5 @@ interface TokenRepository {
 
     fun deleteTokenFromLocalStorage()
 
-    fun checkTokenExisting(): Boolean
+    suspend fun checkTokenExpiration(token: Token): Boolean
 }
