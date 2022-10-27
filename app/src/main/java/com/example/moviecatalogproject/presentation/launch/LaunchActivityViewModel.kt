@@ -4,23 +4,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.data.repository.TokenRepositoryImpl
 import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExpirationUseCase
 import com.example.moviecatalogproject.domain.launch.usecase.GetTokenFromLocalStorageUseCase
 import kotlinx.coroutines.launch
 
 class LaunchActivityViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val tokenRepositoryImpl by lazy {
-        TokenRepositoryImpl(application.applicationContext)
-    }
-
     private val checkTokenExpirationUseCase by lazy {
-        CheckTokenExpirationUseCase(tokenRepositoryImpl)
+        CheckTokenExpirationUseCase(application.applicationContext)
     }
 
     private val getTokenFromLocalStorageUseCase by lazy {
-        GetTokenFromLocalStorageUseCase(tokenRepositoryImpl)
+        GetTokenFromLocalStorageUseCase(application.applicationContext)
     }
 
     private val tokenExistingLiveData = MutableLiveData<Boolean>()

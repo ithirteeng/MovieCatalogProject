@@ -306,8 +306,11 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
                 if (day < 10) {
                     dayString = "0$day"
                 }
-                if (month < 10) {
-                    monthString = "0$month"
+                if (month < 9) {
+                    monthString = "0${month + 1}"
+                }
+                if (month == 9) {
+                    monthString = "10"
                 }
                 binding.dateEditText.setText("$dayString.$monthString.$year")
                 changeRegistrationButtonState()

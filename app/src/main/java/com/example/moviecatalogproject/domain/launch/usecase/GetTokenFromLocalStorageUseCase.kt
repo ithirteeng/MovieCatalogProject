@@ -1,10 +1,16 @@
 package com.example.moviecatalogproject.domain.launch.usecase
 
+import android.content.Context
+import com.example.moviecatalogproject.data.repository.TokenRepository
 import com.example.moviecatalogproject.domain.model.Token
-import com.example.moviecatalogproject.domain.repository.TokenRepository
 
-class GetTokenFromLocalStorageUseCase(private val tokenRepository: TokenRepository) {
+class GetTokenFromLocalStorageUseCase(private val context: Context) {
+
+    private val tokenRepositoryImpl by lazy {
+        TokenRepository(context)
+    }
+
     fun execute(): Token {
-        return tokenRepository.getTokenFromLocalStorage()
+        return tokenRepositoryImpl.getTokenFromLocalStorage()
     }
 }

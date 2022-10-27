@@ -1,12 +1,16 @@
 package com.example.moviecatalogproject.domain.entrance.authorization.usecase
 
 import android.util.Log
+import com.example.moviecatalogproject.data.repository.AuthenticationRepository
 import com.example.moviecatalogproject.domain.ResponseOnFailureHelper
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.model.Token
-import com.example.moviecatalogproject.domain.repository.AuthenticationRepository
 
-class PostAuthorizationDataUseCase(private val authenticationRepository: AuthenticationRepository) {
+class PostAuthorizationDataUseCase {
+
+    private val authenticationRepository by lazy {
+        AuthenticationRepository()
+    }
 
     suspend fun execute(
         authorizationData: AuthorizationData,

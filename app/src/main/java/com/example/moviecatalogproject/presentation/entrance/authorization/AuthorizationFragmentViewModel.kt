@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.data.repository.AuthenticationRepositoryImpl
-import com.example.moviecatalogproject.data.repository.TokenRepositoryImpl
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.entrance.authorization.usecase.PostAuthorizationDataUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.SaveTokenUseCase
@@ -14,20 +12,12 @@ import kotlinx.coroutines.launch
 
 class AuthorizationFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val authenticationRepositoryImpl by lazy {
-        AuthenticationRepositoryImpl()
-    }
-
     private val postAuthorizationDataUseCase by lazy {
-        PostAuthorizationDataUseCase(authenticationRepositoryImpl)
-    }
-
-    private val tokenRepositoryImpl by lazy {
-        TokenRepositoryImpl(application.applicationContext)
+        PostAuthorizationDataUseCase()
     }
 
     private val saveTokenUseCase by lazy {
-        SaveTokenUseCase(tokenRepositoryImpl)
+        SaveTokenUseCase(application.applicationContext)
     }
 
     private val tokenLiveData = MutableLiveData<Token?>()
