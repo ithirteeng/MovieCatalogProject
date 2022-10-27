@@ -5,6 +5,8 @@ import com.example.moviecatalogproject.domain.entrance.registration.model.Regist
 import com.example.moviecatalogproject.domain.model.Token
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface AuthenticationApiService {
@@ -14,5 +16,9 @@ interface AuthenticationApiService {
     @POST("api/account/login")
     suspend fun postAuthorizationData(@Body authorizationData: AuthorizationData): Response<Token>
 
+    @GET("api/account/profile")
+    suspend fun checkTokenByGettingProfileData(@Header("Authorization") token: String): Response<Any>
 
+    @POST("api/account/logout")
+    suspend fun postLogoutData(@Header("Authorization") token: String): Response<Any>
 }
