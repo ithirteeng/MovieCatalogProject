@@ -11,13 +11,22 @@
     <dimen name="header_first_text_size">26sp</dimen>
     <dimen name="header_first_text_margin">5dp</dimen>
     <dimen name="sign_errors_text_size">14sp</dimen>
-<!--launch screen dimens-->
+    <dimen name="first_layer_translation">0dp</dimen>
+    <dimen name="second_layer_translation">10dp</dimen>
+    
+    <dimen name="main_module_button_text_size">16sp</dimen>
+    <dimen name="main_module_button_margin">25dp</dimen>
+    <dimen name="main_module_button_padding_top_bottom">35dp</dimen>
+    <dimen name="main_module_button_padding_end_start">8dp</dimen>
+
     <dimen name="launch_logo_margin">70dp</dimen>
-<!--sign up screen dimens-->
+
     <dimen name="sign_up_logo_top_margin">40dp</dimen>
-<!--sign in screen dimens-->
+
     <dimen name="male_picker_text_size">18sp</dimen>
     <dimen name="male_picker_padding">8dp</dimen>
+
+    <dimen name="recycler_view_padding">5dp</dimen>
 
 
 </resources>

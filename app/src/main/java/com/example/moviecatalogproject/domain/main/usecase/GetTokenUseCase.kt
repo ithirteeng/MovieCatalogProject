@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.main.model
+package com.example.moviecatalogproject.domain.main.usecase
 
 import android.content.Context
 import com.example.moviecatalogproject.data.repository.TokenRepository

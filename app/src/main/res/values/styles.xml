@@ -96,4 +96,19 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="main_module_button_style">
+        <item name="android:background">@drawable/sign_button_selector</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:paddingBottom">@dimen/main_module_button_padding_end_start</item>
+        <item name="android:paddingTop">@dimen/main_module_button_padding_end_start</item>
+        <item name="android:paddingStart">@dimen/main_module_button_padding_top_bottom</item>
+        <item name="android:paddingEnd">@dimen/main_module_button_padding_top_bottom</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginBottom">@dimen/main_module_button_margin</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textColor">@color/bright_white</item>
+        <item name="android:textSize">@dimen/main_module_button_text_size</item>
+    </style>
+
 </resources>
