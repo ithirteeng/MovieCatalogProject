@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
 import com.example.moviecatalogproject.domain.main.model.FavouriteMovie
@@ -36,7 +35,81 @@ class MovieFragment : Fragment() {
             "4",
             { Log.d("FAVOURITE", "removed 4") },
             { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ), FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ), FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
+        ),
+        FavouriteMovie(
+            "4",
+            { Log.d("FAVOURITE", "removed 4") },
+            { Log.d("FAVOURITE", "added 4") }
         )
+
     )
 
     override fun onCreateView(
@@ -47,8 +120,11 @@ class MovieFragment : Fragment() {
         binding = FragmentMovieBinding.bind(mainView)
 
         val favouritesRecyclerView = binding.favouritesRecyclerView
-        val layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        favouritesRecyclerView.layoutManager = layoutManager
+        favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
+            requireContext(),
+            1.3f,
+            0.3f
+        )
 
         val favouritesAdapter = FavouritesAdapter()
 

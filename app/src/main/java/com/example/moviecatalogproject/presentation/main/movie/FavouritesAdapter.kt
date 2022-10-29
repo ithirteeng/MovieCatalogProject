@@ -24,6 +24,16 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
                 )
             )
         }
+
+        fun scaleViewUp() {
+            binding.root.scaleX = 1.5f
+            binding.root.scaleY = 1.5f
+        }
+
+        fun scaleViewDown() {
+            binding.root.scaleX = 1f
+            binding.root.scaleY = 1f
+        }
     }
 
     private var favouritesList = arrayListOf<FavouriteMovie>()

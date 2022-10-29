@@ -27,6 +27,7 @@
     <dimen name="male_picker_padding">8dp</dimen>
 
     <dimen name="recycler_view_padding">5dp</dimen>
+    <dimen name="favourite_movie_margin">5dp</dimen>
 
 
 </resources>
