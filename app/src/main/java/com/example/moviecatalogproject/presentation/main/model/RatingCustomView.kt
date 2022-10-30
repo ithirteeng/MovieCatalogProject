@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.RatingCustomViewBinding
-import java.text.DecimalFormat
 
 class RatingCustomView @JvmOverloads constructor(
     context: Context,
@@ -26,7 +25,7 @@ class RatingCustomView @JvmOverloads constructor(
     }
 
     private fun setRating(rating: Double) {
-        binding.ratingTextView.text = DecimalFormat("#.##").format(rating)
+        binding.ratingTextView.text = rating.toString()
     }
 
     private fun changeBackgroundColor(rating: Double) {

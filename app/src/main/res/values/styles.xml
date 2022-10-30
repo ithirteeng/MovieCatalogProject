@@ -72,7 +72,20 @@
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
+    <style name="profile_text_style">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/body_text_margin</item>
+        <item name="android:layout_marginTop">@dimen/body_text_margin</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="movie_details_style">
         <item name="android:textColor">@color/base_white</item>
         <item name="android:layout_width">wrap_content</item>
