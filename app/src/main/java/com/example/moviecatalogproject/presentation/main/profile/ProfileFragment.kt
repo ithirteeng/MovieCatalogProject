@@ -19,7 +19,10 @@ class ProfileFragment : Fragment() {
         val mainView = inflater.inflate(R.layout.fragment_profile, container, false)
         binding = FragmentProfileBinding.bind(mainView)
 
-        return mainView
 
+
+        return mainView
     }
+
+
 }

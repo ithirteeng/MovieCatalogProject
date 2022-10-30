@@ -1,97 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:overScrollMode="never"
-    tools:context=".presentation.main.movie.MovieFragment">
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color">
 
-        <ImageView
-            android:id="@+id/bannerImageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/banner_content_description"
-            android:foreground="@drawable/banner_image_tint"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/bannerBottomGuideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="ImageContrastCheck"
-            tools:src="@drawable/test_image" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/bannerBottomGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.2" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button"
-            style="@style/main_module_button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/watch_button_text"
-            android:translationZ="@dimen/second_layer_translation"
-            app:layout_constraintBottom_toTopOf="@+id/bannerBottomGuideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextContrastCheck" />
+                <ImageView
+                    android:id="@+id/bannerImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/banner_content_description"
+                    android:foreground="@drawable/banner_image_tint"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@+id/bannerBottomGuideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:ignore="ImageContrastCheck"
+                    tools:src="@drawable/test_image" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favouritesRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_end_start_margins"
-            android:layout_marginEnd="@dimen/common_end_start_margins"
-            android:orientation="horizontal"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/favouritesTextView"
-            tools:listitem="@layout/favourites_item" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/bannerBottomGuideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.44" />
 
-        <TextView
-            android:id="@+id/favouritesTextView"
-            style="@style/header_first_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/favourites_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bannerBottomGuideline" />
+                <Button
+                    android:id="@+id/button"
+                    style="@style/main_module_button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/watch_button_text"
+                    android:translationZ="@dimen/second_layer_translation"
+                    app:layout_constraintBottom_toTopOf="@+id/bannerBottomGuideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/header_first_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gallery_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/favouritesRecyclerView" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favouritesRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_end_start_margins"
+                    android:layout_marginEnd="@dimen/common_end_start_margins"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/favouritesTextView"
+                    tools:listitem="@layout/favourites_item" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/galleryRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_end_start_margins"
-            android:layout_marginEnd="@dimen/common_end_start_margins"
-            android:overScrollMode="never"
+                <TextView
+                    android:id="@+id/favouritesTextView"
+                    style="@style/header_first_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favourites_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/bannerBottomGuideline" />
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:listitem="@layout/gallery_item" />
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/header_first_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gallery_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/favouritesRecyclerView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/galleryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@layout/gallery_item" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,13 +18,11 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
-    private val movieFragment by lazy {
-        MovieFragment()
-    }
+    private val movieFragment = MovieFragment()
 
-    private val profileFragment by lazy {
-        ProfileFragment()
-    }
+
+    private val profileFragment = ProfileFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
