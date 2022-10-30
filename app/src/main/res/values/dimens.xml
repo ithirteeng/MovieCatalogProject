@@ -8,8 +8,16 @@
     <dimen name="common_end_start_margins">15dp</dimen>
     <dimen name="edit_texts_text_size">18sp</dimen>
     <dimen name="button_text_size">20sp</dimen>
+
     <dimen name="header_first_text_size">26sp</dimen>
     <dimen name="header_first_text_margin">5dp</dimen>
+
+    <dimen name="header_second_text_size">22sp</dimen>
+    <dimen name="header_second_text_margin">3dp</dimen>
+
+    <dimen name="small_body_text_size">16sp</dimen>
+    <dimen name="small_body_text_margin">2dp</dimen>
+
     <dimen name="sign_errors_text_size">14sp</dimen>
     <dimen name="first_layer_translation">0dp</dimen>
     <dimen name="second_layer_translation">10dp</dimen>

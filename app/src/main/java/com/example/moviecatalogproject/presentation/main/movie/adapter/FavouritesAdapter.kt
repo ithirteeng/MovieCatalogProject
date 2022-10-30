@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.main.movie
+package com.example.moviecatalogproject.presentation.main.movie.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FavouritesItemBinding
-import com.example.moviecatalogproject.domain.main.model.FavouriteMovie
+import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
 
 class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
     class FavouritesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = FavouritesItemBinding.bind(view)
-        val closeButton = binding.closeButton
 
         @SuppressLint("UseCompatLoadingForDrawables")
         fun setImage() {
@@ -25,15 +24,20 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
             )
         }
 
-        fun scaleViewUp() {
-            binding.root.scaleX = 1.5f
-            binding.root.scaleY = 1.5f
+        fun onCloseButtonClick(onCloseButtonClick: () -> Unit) {
+            binding.closeButton.setOnClickListener {
+                onCloseButtonClick()
+            }
         }
 
-        fun scaleViewDown() {
-            binding.root.scaleX = 1f
-            binding.root.scaleY = 1f
+        fun onMovieClick(onMovieClick: () -> Unit) {
+            binding.root.setOnClickListener {
+                onMovieClick()
+            }
         }
+
+
+
     }
 
     private var favouritesList = arrayListOf<FavouriteMovie>()
@@ -48,9 +52,12 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         val item = favouritesList[position]
         holder.setImage()
-        holder.closeButton.setOnClickListener {
+        holder.onCloseButtonClick {
             item.removeFromFavourites()
             removeItemAt(position)
+        }
+        holder.onMovieClick {
+            item.onMovieClick()
         }
     }
 

@@ -18,6 +18,14 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
+    private val movieFragment by lazy {
+        MovieFragment()
+    }
+
+    private val profileFragment by lazy {
+        ProfileFragment()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -57,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceToMovieFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragmentContainerView, MovieFragment())
+            replace(R.id.fragmentContainerView, movieFragment)
 
         }
     }
@@ -65,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceToProfileFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragmentContainerView, ProfileFragment())
+            replace(R.id.fragmentContainerView, profileFragment)
 
         }
     }

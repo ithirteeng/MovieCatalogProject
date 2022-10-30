@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.main.movie.MovieFragment">
+    tools:context=".presentation.main.movie.MovieFragment"
+    android:background="@color/background_color">
 
     <ImageView
         android:id="@+id/bannerImageView"
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <Button
         android:id="@+id/button"
@@ -44,23 +45,44 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favouritesRecyclerView"
         android:layout_width="0dp"
-        android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_end_start_margins"
         android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:listitem="@layout/favourites_item"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layout_constraintTop_toBottomOf="@+id/favouritesTextView"
+        tools:listitem="@layout/favourites_item" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/favouritesTextView"
         style="@style/header_first_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/favourites_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bannerBottomGuideline" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/header_first_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gallery_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesRecyclerView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/galleryRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@layout/gallery_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

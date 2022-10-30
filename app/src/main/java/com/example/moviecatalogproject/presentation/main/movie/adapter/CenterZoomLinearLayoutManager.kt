@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.main.movie
+package com.example.moviecatalogproject.presentation.main.movie.adapter
 
 import android.content.Context
 import android.view.View

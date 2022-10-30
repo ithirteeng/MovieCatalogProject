@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/favourite_movie_margin"
     android:layout_marginEnd="@dimen/favourite_movie_margin"
-    android:layout_marginBottom="@dimen/favourite_movie_margin">
+    android:layout_marginBottom="@dimen/favourite_movie_margin"
+    android:clickable="true">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"

@@ -40,9 +40,14 @@
     <string name="profile_tab_name">Profile</string>
     <string name="banner_content_description">this is a banner</string>
     <string name="watch_button_text">Watch</string>
+
     <string name="favourites_text">Favourites</string>
     <string name="favourites_content_description">this is a film from favourites</string>
     <string name="close_button_content_description">remove from favourites</string>
 
+    <string name="gallery_text">Gallery</string>
+    <string name="gallery_content_description">this is a film from gallery</string>
+    <string name="gallery_start_text">some text</string>
+    <string name="gallery_rating_default_text">0.0</string>
 
 </resources>

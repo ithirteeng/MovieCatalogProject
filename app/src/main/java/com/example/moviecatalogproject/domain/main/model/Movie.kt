@@ -6,6 +6,6 @@ data class Movie(
     var poster: String?,
     var year: Int,
     var country: String?,
-    var genres: ArrayList<Genre>,
-    var reviews: ArrayList<Review>
+    var genres: ArrayList<Genre>?,
+    var reviews: ArrayList<Review>?
 )

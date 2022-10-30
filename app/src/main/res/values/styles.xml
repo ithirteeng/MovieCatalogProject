@@ -61,6 +61,28 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="header_second_style">
+        <item name="android:textColor">@color/bright_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/header_second_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/header_second_text_margin</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="movie_details_style">
+        <item name="android:textColor">@color/base_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/small_body_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/small_body_text_margin</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+    </style>
+
     <style name="sign_error_style">
         <item name="android:textColor">@color/error_color</item>
         <item name="android:layout_width">wrap_content</item>
