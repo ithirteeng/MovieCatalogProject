@@ -71,7 +71,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 } else {
                     setDefaultImage()
                 }
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
 
         }
@@ -99,7 +99,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             if (checkFieldsValidity()) {
                 putData()
             } else {
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
         }
     }
@@ -148,24 +148,29 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
         binding.progressBar.visibility = View.VISIBLE
-        Glide.
-        with(requireContext())
+        changeRegistrationButtonState(false)
+        Glide.with(requireContext())
             .load(link)
             .listener(
                 MyRequestListener(onReadyFunction = {
+                    changeRegistrationButtonState(true)
                     binding.progressBar.visibility = View.GONE
                 }, onErrorFunction = {
+                    changeRegistrationButtonState(true)
                     binding.avatarLinkEditText.text?.clear()
                     setDefaultImage()
-                }))
+                })
+            )
             .placeholder(
                 resources.getDrawable(
                     R.drawable.default_avatar_image, requireContext().theme
-                ))
+                )
+            )
             .error(
                 resources.getDrawable(
                     R.drawable.default_avatar_image, requireContext().theme
-                ))
+                )
+            )
             .into(binding.avatarImageView)
     }
 
@@ -235,11 +240,11 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             val editText = binding.root.findViewById<MyEditText>(id)
             editText.onEditTextEditorAction()
             editText.setOnFocusChangeListener { _, _ ->
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
         }
         binding.genderPicker.onPickerButtonsClick {
-            changeRegistrationButtonState()
+            changeRegistrationButtonState(checkFullnessOfFields())
         }
         binding.avatarLinkEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -248,8 +253,8 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         }
     }
 
-    private fun changeRegistrationButtonState() {
-        if (checkFullnessOfFields()) {
+    private fun changeRegistrationButtonState(state: Boolean) {
+        if (state) {
             binding.saveProfileChangesButton.isEnabled = true
             setProfileChangesButtonTextColor(R.color.bright_white)
         } else {
@@ -302,7 +307,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                     monthString = "10"
                 }
                 binding.dateEditText.setText("$dayString.$monthString.$year")
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
