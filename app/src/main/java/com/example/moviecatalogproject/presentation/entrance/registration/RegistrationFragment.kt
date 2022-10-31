@@ -3,17 +3,13 @@ package com.example.moviecatalogproject.presentation.entrance.registration
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.res.Resources.Theme
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
@@ -21,13 +17,12 @@ import com.example.moviecatalogproject.domain.entrance.registration.model.Regist
 import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.presentation.helper.DateConverter
 import com.example.moviecatalogproject.presentation.main.MainActivity
+import com.example.moviecatalogproject.presentation.model.MyEditText
 import java.util.*
 
 class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = null) : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
-
-    private lateinit var theme: Theme
 
     private val viewModel by lazy {
         RegistrationFragmentViewModel(activity?.application!!)
@@ -38,7 +33,6 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         savedInstanceState: Bundle?
     ): View {
         val mainView = inflater.inflate(R.layout.fragment_registration, container, false)
-        theme = activity?.theme!!
         binding = FragmentRegistrationBinding.bind(mainView)
 
         onFieldsFocusChange()
@@ -64,26 +58,30 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         binding.registrationButton.setOnClickListener {
             validateFields()
             if (checkFieldsValidity()) {
-
-                viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
-                    makeToast(it)
-                    binding.loginEditText.text?.clear()
-                    binding.progressBar.visibility = View.GONE
-                    changeRegistrationButtonState()
-                })
-
+                postRegistrationData()
                 binding.progressBar.visibility = View.VISIBLE
-
-                viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
-                    if (it != null) {
-                        viewModel.saveTokenToLocalStorage(it)
-                        startActivity(Intent(activity, MainActivity::class.java))
-                        activity?.finish()
-                    }
-                }
-
+                observeTokenLiveData()
             } else {
                 changeRegistrationButtonState()
+            }
+        }
+    }
+
+    private fun postRegistrationData() {
+        viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
+            makeToast(it)
+            binding.loginEditText.text?.clear()
+            binding.progressBar.visibility = View.GONE
+            changeRegistrationButtonState()
+        })
+    }
+
+    private fun observeTokenLiveData() {
+        viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
+            if (it != null) {
+                viewModel.saveTokenToLocalStorage(it)
+                startActivity(Intent(activity, MainActivity::class.java))
+                activity?.finish()
             }
         }
     }
@@ -217,8 +215,8 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
     private fun onFieldsFocusChange() {
         for (id in binding.editTextsGroup.referencedIds) {
-            val editText = binding.root.findViewById<EditText>(id)
-            onEditTextEditorAction(editText)
+            val editText = binding.root.findViewById<MyEditText>(id)
+            editText.onEditTextEditorAction()
             editText.setOnFocusChangeListener { _, _ ->
                 changeRegistrationButtonState()
             }
@@ -231,11 +229,15 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
             binding.registrationButton.isEnabled = true
-            binding.registrationButton.setTextColor(resources.getColor(R.color.bright_white, theme))
+            setRegistrationButtonTextColor(R.color.bright_white)
         } else {
             binding.registrationButton.isEnabled = false
-            binding.registrationButton.setTextColor(resources.getColor(R.color.accent, theme))
+            setRegistrationButtonTextColor(R.color.accent)
         }
+    }
+
+    private fun setRegistrationButtonTextColor(colorId: Int) {
+        binding.registrationButton.setTextColor(resources.getColor(colorId, requireContext().theme))
     }
 
     private fun checkFullnessOfFields(): Boolean {
@@ -251,20 +253,6 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
         return true
     }
-
-    private fun onEditTextEditorAction(editText: EditText) {
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                editText.clearFocus()
-                val imm =
-                    activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(editText.windowToken, 0)
-                return@OnEditorActionListener true
-            }
-            false
-        })
-    }
-
 
     private fun dateButtonTouchListener() {
         binding.dateButton.setOnClickListener {

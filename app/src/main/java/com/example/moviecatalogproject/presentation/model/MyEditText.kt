@@ -6,6 +6,10 @@ import android.content.Context
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView.OnEditorActionListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 
 
@@ -51,5 +55,18 @@ class MyEditText @JvmOverloads constructor(
 
     private fun onTextPaste() {
         this.clearFocus()
+    }
+
+    fun onEditTextEditorAction() {
+        this.setOnEditorActionListener(OnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || event.keyCode == KeyEvent.KEYCODE_PASTE) {
+                this.clearFocus()
+                val imm =
+                    context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(this.windowToken, 0)
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 }
