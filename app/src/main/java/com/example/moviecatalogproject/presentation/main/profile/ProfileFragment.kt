@@ -4,16 +4,12 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
@@ -23,6 +19,7 @@ import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.helper.DateConverter
 import com.example.moviecatalogproject.presentation.main.profile.model.MyRequestListener
+import com.example.moviecatalogproject.presentation.model.MyEditText
 import java.util.*
 
 class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
@@ -44,7 +41,6 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         setEditTextsInputSpaceFilter()
         setupButtonOnClickFunctions()
         onFieldsFocusChange()
-        onAvatarEditTextFocusChange()
 
         return mainView
     }
@@ -61,9 +57,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private fun getProfileData() {
         viewModel.getProfileData(completeOnError = {
-            startActivity(Intent(activity, EntranceActivity::class.java))
-            activity?.overridePendingTransition(0, 0)
-            activity?.finish()
+            makeIntentToEntranceActivity()
         })
     }
 
@@ -90,7 +84,6 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.dateEditText.setText(DateConverter.convertToNormalForm(profile.birthDate))
         binding.usernameTextView.text = profile.nickName
         binding.genderPicker.setCorrectGender(profile.gender)
-
     }
 
     private fun setupButtonOnClickFunctions() {
@@ -104,7 +97,6 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             validateFields()
             if (checkFieldsValidity()) {
-                //loadAvatar(binding.avatarLinkEditText.text.toString())
                 putData()
             } else {
                 changeRegistrationButtonState()
@@ -115,9 +107,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     private fun onLogoutButtonClick() {
         binding.logoutButton.setOnClickListener {
             viewModel.logout(onLogout = {
-                startActivity(Intent(activity, EntranceActivity::class.java))
-                activity?.overridePendingTransition(0, 0)
-                activity?.finish()
+                makeIntentToEntranceActivity()
             })
         }
     }
@@ -132,13 +122,13 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             birthDate = DateConverter.convertToBackendFormat(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
         )
+
         viewModel.putProfileData(changedProfile, completeOnError = {
             if (it == 401) {
-                startActivity(Intent(activity, EntranceActivity::class.java))
-                activity?.overridePendingTransition(0, 0)
-                activity?.finish()
+                makeIntentToEntranceActivity()
             }
         })
+
         binding.progressBar.visibility = View.GONE
         Toast.makeText(
             requireContext(),
@@ -158,20 +148,25 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
         binding.progressBar.visibility = View.VISIBLE
-        Glide.with(requireContext()).load(link).listener(
-            MyRequestListener(onReadyFunction = {
-                binding.progressBar.visibility = View.GONE
-            }, onErrorFunction = {
-                binding.avatarLinkEditText.text?.clear()
-                setDefaultImage()
-            })
-        ).placeholder(
-            resources.getDrawable(R.drawable.default_avatar_image, requireContext().theme)
-        ).error(
-            resources.getDrawable(R.drawable.default_avatar_image, requireContext().theme)
-        ).into(binding.avatarImageView)
-
-
+        Glide.
+        with(requireContext())
+            .load(link)
+            .listener(
+                MyRequestListener(onReadyFunction = {
+                    binding.progressBar.visibility = View.GONE
+                }, onErrorFunction = {
+                    binding.avatarLinkEditText.text?.clear()
+                    setDefaultImage()
+                }))
+            .placeholder(
+                resources.getDrawable(
+                    R.drawable.default_avatar_image, requireContext().theme
+                ))
+            .error(
+                resources.getDrawable(
+                    R.drawable.default_avatar_image, requireContext().theme
+                ))
+            .into(binding.avatarImageView)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -229,22 +224,16 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private fun prepareEditText(editText: EditText, errorId: Int) {
         val state = errorId == ErrorType.OK
-        if (editText == binding.dateEditText) {
-            if (!state) {
-                binding.dateEditText.text!!.clear()
-            }
-        } else {
-            if (!state) {
-                editText.text.clear()
-            }
+        if (!state) {
+            editText.text.clear()
         }
     }
 
 
     private fun onFieldsFocusChange() {
         for (id in binding.editTextsGroup.referencedIds) {
-            val editText = binding.root.findViewById<EditText>(id)
-            onEditTextEditorAction(editText)
+            val editText = binding.root.findViewById<MyEditText>(id)
+            editText.onEditTextEditorAction()
             editText.setOnFocusChangeListener { _, _ ->
                 changeRegistrationButtonState()
             }
@@ -252,24 +241,27 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.genderPicker.onPickerButtonsClick {
             changeRegistrationButtonState()
         }
+        binding.avatarLinkEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                loadAvatar(binding.avatarLinkEditText.text.toString())
+            }
+        }
     }
 
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
             binding.saveProfileChangesButton.isEnabled = true
-            binding.saveProfileChangesButton.setTextColor(
-                resources.getColor(
-                    R.color.bright_white, requireContext().theme
-                )
-            )
+            setProfileChangesButtonTextColor(R.color.bright_white)
         } else {
             binding.saveProfileChangesButton.isEnabled = false
-            binding.saveProfileChangesButton.setTextColor(
-                resources.getColor(
-                    R.color.accent, requireContext().theme
-                )
-            )
+            setProfileChangesButtonTextColor(R.color.accent)
         }
+    }
+
+    private fun setProfileChangesButtonTextColor(colorId: Int) {
+        binding.saveProfileChangesButton.setTextColor(
+            resources.getColor(colorId, requireContext().theme)
+        )
     }
 
     private fun checkFullnessOfFields(): Boolean {
@@ -282,21 +274,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         if (!binding.genderPicker.checkIsPickerInvolved()) {
             return false
         }
-
         return true
-    }
-
-    private fun onEditTextEditorAction(editText: EditText) {
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || event.keyCode == KeyEvent.KEYCODE_PASTE) {
-                editText.clearFocus()
-                val imm =
-                    activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(editText.windowToken, 0)
-                return@OnEditorActionListener true
-            }
-            false
-        })
     }
 
     private fun dateButtonTouchListener() {
@@ -339,11 +317,10 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.nameEditText.setEditTextsInputSpaceFilter()
     }
 
-    private fun onAvatarEditTextFocusChange() {
-        binding.avatarLinkEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                loadAvatar(binding.avatarLinkEditText.text.toString())
-            }
-        }
+    private fun makeIntentToEntranceActivity() {
+        startActivity(Intent(activity, EntranceActivity::class.java))
+        activity?.overridePendingTransition(0, 0)
+        activity?.finish()
     }
+
 }
