@@ -1,17 +1,11 @@
 package com.example.moviecatalogproject.presentation.entrance.authorization
 
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentAuthorizationBinding
@@ -23,8 +17,6 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private lateinit var binding: FragmentAuthorizationBinding
 
-    private lateinit var theme: Resources.Theme
-
     private val viewModel by lazy {
         AuthorizationFragmentViewModel(activity?.application!!)
     }
@@ -35,7 +27,6 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     ): View {
         val mainView = inflater.inflate(R.layout.fragment_authorization, container, false)
         binding = FragmentAuthorizationBinding.bind(mainView)
-        theme = activity?.theme!!
 
         onFieldsFocusChange()
         setupButtonOnClickFunctions()
@@ -56,23 +47,28 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private fun onSignUpButtonClick() {
         binding.signUpButton.setOnClickListener {
-
-            viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
-                makeToast(it)
-                binding.loginEditText.text?.clear()
-                binding.passwordEditText.text?.clear()
-                binding.progressBar.visibility = View.GONE
-                changeRegistrationButtonState()
-            })
-
+            postAuthorizationData()
             binding.progressBar.visibility = View.VISIBLE
+            observeTokenLiveData()
+        }
+    }
 
-            viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
-                if (it != null) {
-                    viewModel.saveTokenToLocalStorage(it)
-                    startActivity(Intent(activity, MainActivity::class.java))
-                    activity?.finish()
-                }
+    private fun postAuthorizationData() {
+        viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
+            makeToast(it)
+            binding.loginEditText.text?.clear()
+            binding.passwordEditText.text?.clear()
+            binding.progressBar.visibility = View.GONE
+            changeRegistrationButtonState()
+        })
+    }
+
+    private fun observeTokenLiveData() {
+        viewModel.getTokenLiveData().observe(this.viewLifecycleOwner) {
+            if (it != null) {
+                viewModel.saveTokenToLocalStorage(it)
+                startActivity(Intent(activity, MainActivity::class.java))
+                activity?.finish()
             }
         }
     }
@@ -92,11 +88,11 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
 
     private fun onFieldsFocusChange() {
-        onEditTextEditorAction(binding.loginEditText)
+        binding.loginEditText.onEditTextEditorAction()
         binding.loginEditText.setOnFocusChangeListener { _, _ ->
             changeRegistrationButtonState()
         }
-        onEditTextEditorAction(binding.passwordEditText)
+        binding.passwordEditText.onEditTextEditorAction()
         binding.passwordEditText.setOnFocusChangeListener { _, _ ->
             changeRegistrationButtonState()
         }
@@ -106,11 +102,15 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
             binding.signUpButton.isEnabled = true
-            binding.signUpButton.setTextColor(resources.getColor(R.color.bright_white, theme))
+            setSignUpButtonTextColor(R.color.bright_white)
         } else {
             binding.signUpButton.isEnabled = false
-            binding.signUpButton.setTextColor(resources.getColor(R.color.accent, theme))
+            setSignUpButtonTextColor(R.color.accent)
         }
+    }
+
+    private fun setSignUpButtonTextColor(colorId: Int) {
+        binding.signUpButton.setTextColor(resources.getColor(colorId, requireContext().theme))
     }
 
     private fun checkFullnessOfFields(): Boolean {
@@ -124,18 +124,6 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
         return true
     }
 
-    private fun onEditTextEditorAction(editText: EditText) {
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                editText.clearFocus()
-                val imm =
-                    activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(editText.windowToken, 0)
-                return@OnEditorActionListener true
-            }
-            false
-        })
-    }
 
     private fun setEditTextsInputSpaceFilter() {
         binding.loginEditText.setEditTextsInputSpaceFilter()

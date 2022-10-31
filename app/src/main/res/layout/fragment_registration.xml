@@ -44,11 +44,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+            <com.example.moviecatalogproject.presentation.model.MyEditText
                 android:id="@+id/loginEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
-                android:hint="@string/sign_in_login_text"
+                android:hint="@string/login_text"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -59,11 +59,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+            <com.example.moviecatalogproject.presentation.model.MyEditText
                 android:id="@+id/emailEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
-                android:hint="@string/sign_in_email_text"
+                android:hint="@string/email_text"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -74,11 +74,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+            <com.example.moviecatalogproject.presentation.model.MyEditText
                 android:id="@+id/nameEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
-                android:hint="@string/sign_in_name_text"
+                android:hint="@string/name_text"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -89,11 +89,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+            <com.example.moviecatalogproject.presentation.model.MyEditText
                 android:id="@+id/passwordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
-                android:hint="@string/sign_in_password_text"
+                android:hint="@string/password_text"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -104,11 +104,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+            <com.example.moviecatalogproject.presentation.model.MyEditText
                 android:id="@+id/repeatPasswordEditText"
                 style="@style/edit_text_style"
                 android:ems="10"
-                android:hint="@string/sign_in_repeat_password_text"
+                android:hint="@string/repeat_password_text"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -126,12 +126,12 @@
                 android:layout_marginBottom="@dimen/edit_texts_margin"
                 android:padding="0dp">
 
-                <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+                <com.example.moviecatalogproject.presentation.model.MyEditText
                     android:id="@+id/dateEditText"
                     style="@style/edit_text_style"
                     android:layout_marginBottom="0dp"
                     android:ems="10"
-                    android:hint="@string/sign_in_birth_date_text"
+                    android:hint="@string/birth_date_text"
                     android:importantForAutofill="no"
                     android:inputType="date"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -163,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <com.example.moviecatalogproject.presentation.entrance.model.GenderPickerCustomView
+            <com.example.moviecatalogproject.presentation.model.GenderPickerCustomView
                 android:id="@+id/genderPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,5 +201,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorTextViewsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="emailErrorTextView,nameErrorTextView,secondPasswordErrorTextView,genderPickerErrorTextView,dateErrorTextView,firstPasswordErrorTextView,loginErrorTextView"
+        tools:ignore="NotSibling" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/editTextsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="loginEditText, emailEditText, nameEditText,
+         passwordEditText, repeatPasswordEditText, dateEditText"
+        tools:ignore="NotSibling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

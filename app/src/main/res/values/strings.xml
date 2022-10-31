@@ -10,20 +10,21 @@
     <string name="sign_up_registration_button_text">Registration</string>
     <string name="layout_description">logo decreasing layout</string>
 
-    <!--  sign in screen strings  -->
     <string name="date_picker_content_description">date picker</string>
     <string name="sign_in_registration_text">Registration</string>
     <string name="sign_in_registration_button_text">Registration</string>
     <string name="sign_in_sign_up_button_text">I already have account</string>
-    <string name="sign_in_name_text">Name</string>
-    <string name="sign_in_email_text">Email</string>
-    <string name="sign_in_login_text">Login</string>
-    <string name="sign_in_password_text">Password</string>
-    <string name="sign_in_repeat_password_text">Repeat password</string>
-    <string name="sign_in_birth_date_text">Birthday date</string>
-    <string name="sign_in_male_text">Male</string>
-    <string name="sign_in_female_text">Female</string>
-    <!--  errors  -->
+
+    <string name="name_text">Name</string>
+    <string name="email_text">E-mail</string>
+    <string name="login_text">Login</string>
+    <string name="password_text">Password</string>
+    <string name="repeat_password_text">Repeat password</string>
+    <string name="birth_date_text">Birthday date</string>
+    <string name="male_text">Male</string>
+    <string name="female_text">Female</string>
+    <string name="gender_text">Gender</string>
+
     <string name="emptiness_error">Field mustn\'t be empty</string>
     <string name="email_error">Email should contain @ symbol</string>
     <string name="passwords_equality_error">Passwords must be equal</string>
@@ -31,10 +32,31 @@
     <string name="date_error">Date must be in the format of DD.MM.YYYY</string>
     <string name="picker_error">Male must be chosen</string>
     <string name="all_is_ok">OK</string>
-    <!--  http errors  -->
+
     <string name="error_registration_400">Username exists!</string>
     <string name="error_authorization_400">Username or password is invalid!</string>
     <string name="error_401">Access token expired!</string>
 
+
+    <string name="main_tab_name">Main</string>
+    <string name="profile_tab_name">Profile</string>
+    <string name="banner_content_description">this is a banner</string>
+    <string name="watch_button_text">Watch</string>
+
+    <string name="favourites_text">Favourites</string>
+    <string name="favourites_content_description">this is a film from favourites</string>
+    <string name="close_button_content_description">remove from favourites</string>
+
+    <string name="gallery_text">Gallery</string>
+    <string name="gallery_content_description">this is a film from gallery</string>
+    <string name="gallery_start_text">some text</string>
+    <string name="gallery_rating_default_text">0.0</string>
+
+    <string name="profile_content_description">this is your avatar</string>
+    <string name="save_button_text">Save</string>
+    <string name="logout_button_text">Logout</string>
+    <string name="avatar_link_text">Link</string>
+
+    <string name="saved_data_text">Saved!</string>
 
 </resources>
