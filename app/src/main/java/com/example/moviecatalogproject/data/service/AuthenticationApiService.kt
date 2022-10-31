@@ -20,5 +20,5 @@ interface AuthenticationApiService {
     suspend fun checkTokenByGettingProfileData(@Header("Authorization") token: String): Response<Any>
 
     @POST("api/account/logout")
-    suspend fun postLogoutData(@Header("Authorization") token: String): Response<Any>
+    suspend fun postLogoutData(@Header("Authorization") token: String)
 }

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.*
-import com.example.moviecatalogproject.domain.entrance.registration.validator.*
 import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.validator.*
 import kotlinx.coroutines.launch
 
 class RegistrationFragmentViewModel(application: Application) : AndroidViewModel(application) {

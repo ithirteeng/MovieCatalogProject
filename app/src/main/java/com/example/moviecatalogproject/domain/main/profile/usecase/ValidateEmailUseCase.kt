@@ -1,8 +1,12 @@
-package com.example.moviecatalogproject.domain.entrance.registration.usecase
+package com.example.moviecatalogproject.domain.main.profile.usecase
 
 import com.example.moviecatalogproject.domain.validator.EmailValidator
 
-class ValidateEmailUseCase(private val emailValidator: EmailValidator) {
+
+class ValidateEmailUseCase {
+
+    private val emailValidator: EmailValidator = EmailValidator()
+
     fun execute(string: String): Int {
         return emailValidator.validateTextField(string)
     }

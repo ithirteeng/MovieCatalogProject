@@ -16,8 +16,8 @@ class AuthenticationRepository {
         return NetworkService.authenticationApiService.postRegistrationData(registrationData)
     }
 
-    suspend fun postLogoutData() {
-        TODO("Not yet implemented")
+    suspend fun postLogoutData(token: Token) {
+        NetworkService.authenticationApiService.postLogoutData(token.token)
     }
 
 }

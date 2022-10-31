@@ -19,9 +19,9 @@ class TokenRepository(context: Context) {
         return sharedPreferencesStorage.getToken()
     }
 
-//    fun deleteTokenFromLocalStorage() {
-//        sharedPreferencesStorage.deleteToken()
-//    }
+    fun deleteTokenFromLocalStorage() {
+        sharedPreferencesStorage.deleteToken()
+    }
 
     suspend fun checkTokenExpiration(token: Token): Boolean {
         val response =

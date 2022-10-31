@@ -14,8 +14,13 @@ object NetworkService {
             .build()
     }
 
+
     val authenticationApiService: AuthenticationApiService by lazy {
         retrofit.create(AuthenticationApiService::class.java)
+    }
+
+    val profileApiService: ProfileApiService by lazy {
+        retrofit.create(ProfileApiService::class.java)
     }
 
 }

@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
-import com.example.moviecatalogproject.domain.entrance.registration.model.ErrorType
+import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.presentation.entrance.model.MyEditText
 import com.example.moviecatalogproject.presentation.main.MainActivity
@@ -223,20 +223,12 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
 
     private fun onFieldsFocusChange() {
-        val elementsAmount = binding.linearLayout.childCount
-        for (i in 0 until elementsAmount) {
-            val view = binding.linearLayout.getChildAt(i)
-            if (view is EditText) {
-                onEditTextEditorAction(view)
-                view.setOnFocusChangeListener { _, _ ->
-                    changeRegistrationButtonState()
-                }
+        for (id in binding.editTextsGroup.referencedIds) {
+            val editText = binding.root.findViewById<EditText>(id)
+            onEditTextEditorAction(editText)
+            editText.setOnFocusChangeListener { _, _ ->
+                changeRegistrationButtonState()
             }
-        }
-        onEditTextEditorAction(binding.dateEditText)
-        binding.dateEditText.setOnFocusChangeListener { _, _ ->
-            changeRegistrationButtonState()
-
         }
         binding.genderPicker.onPickerButtonsClick {
             changeRegistrationButtonState()
@@ -254,17 +246,11 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     }
 
     private fun checkFullnessOfFields(): Boolean {
-        val elementsAmount = binding.linearLayout.childCount
-        for (i in 0 until elementsAmount) {
-            val view = binding.linearLayout.getChildAt(i)
-            if (view is EditText) {
-                if (view.text.isEmpty()) {
-                    return false
-                }
+        for (id in binding.editTextsGroup.referencedIds) {
+            val editText = binding.root.findViewById<EditText>(id)
+            if (editText.text.isEmpty()) {
+                return false
             }
-        }
-        if (binding.dateEditText.text!!.isEmpty()) {
-            return false
         }
         if (!binding.genderPicker.checkIsPickerInvolved()) {
             return false
