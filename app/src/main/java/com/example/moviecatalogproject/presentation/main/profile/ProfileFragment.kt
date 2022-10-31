@@ -39,9 +39,9 @@ class ProfileFragment : Fragment() {
         val mainView = inflater.inflate(R.layout.fragment_profile, container, false)
         binding = FragmentProfileBinding.bind(mainView)
 
-        onFieldsFocusChange()
         setEditTextsInputSpaceFilter()
         setupButtonOnClickFunctions()
+        onFieldsFocusChange()
 
         return mainView
     }
@@ -53,10 +53,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getProfileData() {
-        viewModel.getProfileData {
+        viewModel.getProfileData(completeOnError = {
             startActivity(Intent(activity, EntranceActivity::class.java))
             activity?.finish()
-        }
+        })
     }
 
     private fun onObserveProfileLiveData() {
@@ -98,7 +98,10 @@ class ProfileFragment : Fragment() {
 
     private fun onLogoutButtonClick() {
         binding.logoutButton.setOnClickListener {
-            // TODO: delete token from local storage, post data and make intent
+            viewModel.logout(onLogout = {
+                startActivity(Intent(activity, EntranceActivity::class.java))
+                activity?.finish()
+            })
         }
     }
 
@@ -112,12 +115,12 @@ class ProfileFragment : Fragment() {
             birthDate = DateConverter.convertDateToCorrectForm(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
         )
-        viewModel.putProfileData(changedProfile) {
+        viewModel.putProfileData(changedProfile, completeOnError = {
             if (it == 401) {
                 startActivity(Intent(activity, EntranceActivity::class.java))
                 activity?.finish()
             }
-        }
+        })
         Toast.makeText(
             requireContext(),
             requireContext().resources.getString(R.string.saved_data_text),
@@ -241,7 +244,6 @@ class ProfileFragment : Fragment() {
             false
         })
     }
-
 
     private fun dateButtonTouchListener() {
         binding.dateButton.setOnClickListener {
