@@ -18,7 +18,7 @@ import com.example.moviecatalogproject.presentation.main.movie.adapter.Favourite
 import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAdapter
 
 
-class MovieFragment : Fragment() {
+class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
 
@@ -108,6 +108,11 @@ class MovieFragment : Fragment() {
         setupGalleryRecyclerView()
 
         return mainView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onFragmentStart()
     }
 
     private fun setupFavouritesRecyclerView() {

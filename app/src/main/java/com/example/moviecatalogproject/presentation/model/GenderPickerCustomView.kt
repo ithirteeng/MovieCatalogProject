@@ -44,11 +44,14 @@ class GenderPickerCustomView @JvmOverloads constructor(
     fun setCorrectGender(gender: Int) {
         if (gender == 1) {
             buttonsChecker.setMaleState(true)
+            buttonsChecker.setFemaleState(false)
             changeMaleButtonBackground(buttonsChecker.getMaleState())
+            changeFemaleButtonBackground(buttonsChecker.getFemaleState())
         } else {
             buttonsChecker.setFemaleState(true)
+            buttonsChecker.setMaleState(false)
             changeFemaleButtonBackground(buttonsChecker.getFemaleState())
-
+            changeMaleButtonBackground(buttonsChecker.getMaleState())
         }
     }
 

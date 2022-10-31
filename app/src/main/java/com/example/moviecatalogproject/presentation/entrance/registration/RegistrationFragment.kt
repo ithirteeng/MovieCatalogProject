@@ -94,7 +94,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
             name = binding.nameEditText.text.toString(),
             password = binding.passwordEditText.text.toString(),
             email = binding.emailEditText.text.toString(),
-            date = DateConverter.convertDateToCorrectForm(binding.dateEditText.text.toString()),
+            date = DateConverter.convertToBackendFormat(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
         )
     }

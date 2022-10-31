@@ -3,6 +3,7 @@ package com.example.moviecatalogproject.presentation.main
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.moviecatalogproject.R
@@ -18,10 +19,18 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
-    private val movieFragment = MovieFragment()
+    private val movieFragment by lazy {
+        MovieFragment {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
 
 
-    private val profileFragment = ProfileFragment()
+    private val profileFragment by lazy {
+        ProfileFragment {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,14 +70,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToMovieFragment() {
+        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, movieFragment)
-
         }
     }
 
     private fun replaceToProfileFragment() {
+        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, profileFragment)

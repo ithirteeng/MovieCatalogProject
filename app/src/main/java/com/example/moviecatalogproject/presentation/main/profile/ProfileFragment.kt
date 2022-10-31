@@ -22,7 +22,7 @@ import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.helper.DateConverter
 import java.util.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -48,6 +48,8 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        onFragmentStart()
+        binding.progressBar.visibility = View.VISIBLE
         getProfileData()
         onObserveProfileLiveData()
     }
@@ -65,6 +67,7 @@ class ProfileFragment : Fragment() {
                 profile = it
                 setProfileData()
                 changeRegistrationButtonState()
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
@@ -73,7 +76,7 @@ class ProfileFragment : Fragment() {
         binding.emailEditText.setText(profile.email)
         binding.nameEditText.setText(profile.name)
         binding.avatarLinkEditText.setText(profile.avatarLink)
-        binding.dateEditText.setText(profile.birthDate)
+        binding.dateEditText.setText(DateConverter.convertToNormalForm(profile.birthDate))
         binding.usernameTextView.text = profile.nickName
         binding.genderPicker.setCorrectGender(profile.gender)
 
@@ -112,7 +115,7 @@ class ProfileFragment : Fragment() {
             email = binding.emailEditText.text.toString(),
             avatarLink = binding.avatarLinkEditText.text.toString(),
             name = binding.nameEditText.text.toString(),
-            birthDate = DateConverter.convertDateToCorrectForm(binding.dateEditText.text.toString()),
+            birthDate = DateConverter.convertToBackendFormat(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
         )
         viewModel.putProfileData(changedProfile, completeOnError = {
