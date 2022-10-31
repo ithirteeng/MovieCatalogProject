@@ -19,7 +19,8 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
 import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
-import com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+import com.example.moviecatalogproject.presentation.helper.DateConverter
+import com.example.moviecatalogproject.presentation.model.MyEditText
 import com.example.moviecatalogproject.presentation.main.MainActivity
 import java.util.*
 
@@ -94,15 +95,11 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
             name = binding.nameEditText.text.toString(),
             password = binding.passwordEditText.text.toString(),
             email = binding.emailEditText.text.toString(),
-            date = dateConverter(binding.dateEditText.text.toString()),
+            date = DateConverter.convertDateToCorrectForm(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
         )
     }
 
-    private fun dateConverter(date: String): String {
-        val dateArray = date.split('.')
-        return (dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0])
-    }
 
     private fun checkFieldsValidity(): Boolean {
         val elementsAmount = binding.linearLayout.childCount

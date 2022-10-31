@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.entrance.model
+package com.example.moviecatalogproject.presentation.model
 
 import android.content.Context
 import android.text.InputFilter

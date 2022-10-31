@@ -15,6 +15,6 @@ interface ProfileApiService {
     suspend fun putProfileData(
         @Header("Authorization") token: String,
         @Body profile: Profile
-    ): Response<Any>
+    ): Response<Unit>
 
 }

@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.entrance.model
+package com.example.moviecatalogproject.presentation.model
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -38,6 +38,17 @@ class GenderPickerCustomView @JvmOverloads constructor(
             1
         } else {
             0
+        }
+    }
+
+    fun setCorrectGender(gender: Int) {
+        if (gender == 1) {
+            buttonsChecker.setMaleState(true)
+            changeMaleButtonBackground(buttonsChecker.getMaleState())
+        } else {
+            buttonsChecker.setFemaleState(true)
+            changeFemaleButtonBackground(buttonsChecker.getFemaleState())
+
         }
     }
 

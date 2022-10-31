@@ -2,6 +2,7 @@ package com.example.moviecatalogproject.presentation.main.profile
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,15 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentProfileBinding
+import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.model.ErrorType
-import com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
+import com.example.moviecatalogproject.presentation.helper.DateConverter
 import java.util.*
 
 class ProfileFragment : Fragment() {
@@ -25,6 +29,8 @@ class ProfileFragment : Fragment() {
     private val viewModel by lazy {
         ProfileFragmentViewModel(activity?.application!!)
     }
+
+    private lateinit var profile: Profile
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +48,35 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        changeRegistrationButtonState()
+        getProfileData()
+        onObserveProfileLiveData()
+    }
+
+    private fun getProfileData() {
+        viewModel.getProfileData {
+            startActivity(Intent(activity, EntranceActivity::class.java))
+            activity?.finish()
+        }
+    }
+
+    private fun onObserveProfileLiveData() {
+        viewModel.getProfileLiveData().observe(viewLifecycleOwner) {
+            if (it != null) {
+                profile = it
+                setProfileData()
+                changeRegistrationButtonState()
+            }
+        }
+    }
+
+    private fun setProfileData() {
+        binding.emailEditText.setText(profile.email)
+        binding.nameEditText.setText(profile.name)
+        binding.avatarLinkEditText.setText(profile.avatarLink)
+        binding.dateEditText.setText(profile.birthDate)
+        binding.usernameTextView.text = profile.nickName
+        binding.genderPicker.setCorrectGender(profile.gender)
+
     }
 
     private fun setupButtonOnClickFunctions() {
@@ -55,7 +89,7 @@ class ProfileFragment : Fragment() {
         binding.saveProfileChangesButton.setOnClickListener {
             validateFields()
             if (checkFieldsValidity()) {
-                // TODO: save changes, post data
+                putData()
             } else {
                 changeRegistrationButtonState()
             }
@@ -68,14 +102,34 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun putData() {
+        val changedProfile = Profile(
+            id = profile.id,
+            nickName = profile.nickName,
+            email = binding.emailEditText.text.toString(),
+            avatarLink = binding.avatarLinkEditText.text.toString(),
+            name = binding.nameEditText.text.toString(),
+            birthDate = DateConverter.convertDateToCorrectForm(binding.dateEditText.text.toString()),
+            gender = binding.genderPicker.getCorrectMeaningOfGender()
+        )
+        viewModel.putProfileData(changedProfile) {
+            if (it == 401) {
+                startActivity(Intent(activity, EntranceActivity::class.java))
+                activity?.finish()
+            }
+        }
+        Toast.makeText(
+            requireContext(),
+            requireContext().resources.getString(R.string.saved_data_text),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     private fun checkFieldsValidity(): Boolean {
-        val elementsAmount = binding.linearLayout.childCount
-        for (i in 0 until elementsAmount) {
-            val view = binding.linearLayout.getChildAt(i)
-            if (view !is MyEditText && view is TextView) {
-                if (view.visibility != View.GONE) {
-                    return false
-                }
+        for (id in binding.errorTextViewsGroup.referencedIds) {
+            val textView = binding.root.findViewById<TextView>(id)
+            if (textView.visibility != View.GONE) {
+                return false
             }
         }
         return true

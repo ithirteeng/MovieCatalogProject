@@ -11,6 +11,8 @@ data class Profile(
     var email: String,
     @SerializedName("avatarLink")
     var avatarLink: String?,
+    @SerializedName("name")
+    var name: String,
     @SerializedName("birthDate")
     var birthDate: String,
     @SerializedName("gender")

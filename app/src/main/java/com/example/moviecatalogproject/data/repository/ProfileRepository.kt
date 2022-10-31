@@ -14,7 +14,7 @@ class ProfileRepository {
         return NetworkService.profileApiService.getProfileData(token.token)
     }
 
-    suspend fun putProfileData(token: Token, profile: Profile): Response<Any> {
+    suspend fun putProfileData(token: Token, profile: Profile): Response<Unit> {
         return NetworkService.profileApiService.putProfileData(token.token, profile)
     }
 

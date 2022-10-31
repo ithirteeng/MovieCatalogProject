@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.main.model
+package com.example.moviecatalogproject.domain.main.movie.model
 
 data class Movie(
     var id: String,

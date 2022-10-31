@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
-import com.example.moviecatalogproject.domain.main.model.Genre
-import com.example.moviecatalogproject.domain.main.model.Movie
+import com.example.moviecatalogproject.domain.main.movie.model.Genre
+import com.example.moviecatalogproject.domain.main.movie.model.Movie
 import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
 import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
 import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoomLinearLayoutManager

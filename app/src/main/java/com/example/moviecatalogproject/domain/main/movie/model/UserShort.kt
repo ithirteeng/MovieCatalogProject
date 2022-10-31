@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.main.model
+package com.example.moviecatalogproject.domain.main.movie.model
 
 data class UserShort(
     var userId: String,

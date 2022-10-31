@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".presentation.entrance.authorization.AuthorizationFragment">
 
-    <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+    <com.example.moviecatalogproject.presentation.model.MyEditText
         android:id="@+id/loginEditText"
         style="@style/edit_text_style"
         android:layout_marginTop="@dimen/edit_texts_margin"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <com.example.moviecatalogproject.presentation.entrance.model.MyEditText
+    <com.example.moviecatalogproject.presentation.model.MyEditText
         android:id="@+id/passwordEditText"
         style="@style/edit_text_style"
         android:layout_marginTop="@dimen/edit_texts_margin"

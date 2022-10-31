@@ -1,6 +1,6 @@
 package com.example.moviecatalogproject.presentation.main.model
 
-import com.example.moviecatalogproject.domain.main.model.Movie
+import com.example.moviecatalogproject.domain.main.movie.model.Movie
 
 data class GalleryMovie(
     var movie: Movie,
