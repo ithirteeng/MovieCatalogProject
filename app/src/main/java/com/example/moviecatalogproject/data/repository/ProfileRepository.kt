@@ -6,7 +6,7 @@ import com.example.moviecatalogproject.domain.model.Token
 import retrofit2.Response
 
 class ProfileRepository {
-    suspend fun checkAvatarLinkAccessibility(avatarLink: String): Response<Any> {
+    suspend fun checkAvatarLinkAccessibility(avatarLink: String): Response<Unit> {
         return NetworkService.profileApiService.checkAvatarLinkAccessibility(avatarLink)
     }
 

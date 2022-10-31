@@ -1,5 +1,7 @@
 package com.example.moviecatalogproject.presentation.model
 
+//noinspection SuspiciousImport
+import android.R
 import android.content.Context
 import android.text.InputFilter
 import android.util.AttributeSet
@@ -12,11 +14,13 @@ class MyEditText @JvmOverloads constructor(
 ) : AppCompatEditText(context, attrs) {
 
     override fun onKeyPreIme(keyCode: Int, event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+        if ((event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK)) {
             this.clearFocus()
         }
+
         return super.onKeyPreIme(keyCode, event)
     }
+
 
     fun setEditTextsInputSpaceFilter() {
         val filter = InputFilter { source, _, _, _, _, _ ->
@@ -27,5 +31,25 @@ class MyEditText @JvmOverloads constructor(
             }
         }
         this.filters = arrayOf(filter)
+    }
+
+    override fun onTextContextMenuItem(id: Int): Boolean {
+        val consumed = super.onTextContextMenuItem(id)
+        when (id) {
+            R.id.cut -> onTextCut()
+            R.id.paste -> onTextPaste()
+            R.id.copy -> onTextCopy()
+        }
+        return consumed
+    }
+
+    private fun onTextCut() {
+    }
+
+    private fun onTextCopy() {
+    }
+
+    private fun onTextPaste() {
+        this.clearFocus()
     }
 }

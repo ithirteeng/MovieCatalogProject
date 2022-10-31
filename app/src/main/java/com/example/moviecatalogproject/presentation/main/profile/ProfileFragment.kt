@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentProfileBinding
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.helper.DateConverter
+import com.example.moviecatalogproject.presentation.main.profile.model.MyRequestListener
 import java.util.*
 
 class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
@@ -33,8 +36,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     private lateinit var profile: Profile
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val mainView = inflater.inflate(R.layout.fragment_profile, container, false)
         binding = FragmentProfileBinding.bind(mainView)
@@ -42,14 +44,17 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         setEditTextsInputSpaceFilter()
         setupButtonOnClickFunctions()
         onFieldsFocusChange()
+        onAvatarEditTextFocusChange()
 
         return mainView
     }
 
     override fun onStart() {
         super.onStart()
+
         onFragmentStart()
         binding.progressBar.visibility = View.VISIBLE
+
         getProfileData()
         onObserveProfileLiveData()
     }
@@ -57,6 +62,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     private fun getProfileData() {
         viewModel.getProfileData(completeOnError = {
             startActivity(Intent(activity, EntranceActivity::class.java))
+            activity?.overridePendingTransition(0, 0)
             activity?.finish()
         })
     }
@@ -66,9 +72,14 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             if (it != null) {
                 profile = it
                 setProfileData()
+                if (profile.avatarLink != null) {
+                    loadAvatar(profile.avatarLink!!)
+                } else {
+                    setDefaultImage()
+                }
                 changeRegistrationButtonState()
-                binding.progressBar.visibility = View.GONE
             }
+
         }
     }
 
@@ -90,8 +101,10 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private fun onSaveButtonClick() {
         binding.saveProfileChangesButton.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             validateFields()
             if (checkFieldsValidity()) {
+                //loadAvatar(binding.avatarLinkEditText.text.toString())
                 putData()
             } else {
                 changeRegistrationButtonState()
@@ -103,6 +116,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.logoutButton.setOnClickListener {
             viewModel.logout(onLogout = {
                 startActivity(Intent(activity, EntranceActivity::class.java))
+                activity?.overridePendingTransition(0, 0)
                 activity?.finish()
             })
         }
@@ -113,7 +127,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             id = profile.id,
             nickName = profile.nickName,
             email = binding.emailEditText.text.toString(),
-            avatarLink = binding.avatarLinkEditText.text.toString(),
+            avatarLink = convertAvatarLinkToNormalForm(binding.avatarLinkEditText.text.toString()),
             name = binding.nameEditText.text.toString(),
             birthDate = DateConverter.convertToBackendFormat(binding.dateEditText.text.toString()),
             gender = binding.genderPicker.getCorrectMeaningOfGender()
@@ -121,14 +135,53 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         viewModel.putProfileData(changedProfile, completeOnError = {
             if (it == 401) {
                 startActivity(Intent(activity, EntranceActivity::class.java))
+                activity?.overridePendingTransition(0, 0)
                 activity?.finish()
             }
         })
+        binding.progressBar.visibility = View.GONE
         Toast.makeText(
             requireContext(),
             requireContext().resources.getString(R.string.saved_data_text),
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun convertAvatarLinkToNormalForm(avatarLink: String): String? {
+        avatarLink.ifEmpty {
+            return null
+        }
+        return avatarLink
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun loadAvatar(link: String) {
+        binding.progressBar.visibility = View.VISIBLE
+        Glide.with(requireContext()).load(link).listener(
+            MyRequestListener(onReadyFunction = {
+                binding.progressBar.visibility = View.GONE
+            }, onErrorFunction = {
+                binding.avatarLinkEditText.text?.clear()
+                setDefaultImage()
+            })
+        ).placeholder(
+            resources.getDrawable(R.drawable.default_avatar_image, requireContext().theme)
+        ).error(
+            resources.getDrawable(R.drawable.default_avatar_image, requireContext().theme)
+        ).into(binding.avatarImageView)
+
+
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setDefaultImage() {
+        binding.avatarImageView.setImageDrawable(
+            resources.getDrawable(
+                R.drawable.default_avatar_image, requireContext().theme
+            )
+        )
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun checkFieldsValidity(): Boolean {
@@ -206,16 +259,14 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             binding.saveProfileChangesButton.isEnabled = true
             binding.saveProfileChangesButton.setTextColor(
                 resources.getColor(
-                    R.color.bright_white,
-                    requireContext().theme
+                    R.color.bright_white, requireContext().theme
                 )
             )
         } else {
             binding.saveProfileChangesButton.isEnabled = false
             binding.saveProfileChangesButton.setTextColor(
                 resources.getColor(
-                    R.color.accent,
-                    requireContext().theme
+                    R.color.accent, requireContext().theme
                 )
             )
         }
@@ -236,8 +287,8 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
     }
 
     private fun onEditTextEditorAction(editText: EditText) {
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+        editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || event.keyCode == KeyEvent.KEYCODE_PASTE) {
                 editText.clearFocus()
                 val imm =
                     activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -286,7 +337,13 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.dateEditText.setEditTextsInputSpaceFilter()
         binding.emailEditText.setEditTextsInputSpaceFilter()
         binding.nameEditText.setEditTextsInputSpaceFilter()
+    }
 
-
+    private fun onAvatarEditTextFocusChange() {
+        binding.avatarLinkEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                loadAvatar(binding.avatarLinkEditText.text.toString())
+            }
+        }
     }
 }

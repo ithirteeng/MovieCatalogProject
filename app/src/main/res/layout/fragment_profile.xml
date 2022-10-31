@@ -41,7 +41,7 @@
                 android:layout_height="100dp"
                 android:contentDescription="@string/profile_content_description"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test_image" />
+                android:src="@drawable/default_avatar_image" />
 
         </androidx.cardview.widget.CardView>
 
