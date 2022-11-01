@@ -8,7 +8,6 @@ import com.example.moviecatalogproject.domain.model.Token
 import retrofit2.Response
 
 class MoviesRepository {
-
     suspend fun getFavouritesList(token: Token): Response<FavouritesResponse> {
         return NetworkService.moviesApiService.getFavouritesList(token.token)
     }
@@ -17,7 +16,7 @@ class MoviesRepository {
         return NetworkService.moviesApiService.postFavouritesAddedData(movieId, token.token)
     }
 
-    suspend fun deleteFavourites(movieId: String, token: Token): Response<Unit> {
+    suspend fun deleteFromFavourites(movieId: String, token: Token): Response<Unit> {
         return NetworkService.moviesApiService.deleteFavouritesData(movieId, token.token)
     }
 
