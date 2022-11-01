@@ -6,10 +6,6 @@ import com.example.moviecatalogproject.domain.model.Token
 import retrofit2.Response
 
 class ProfileRepository {
-    suspend fun checkAvatarLinkAccessibility(avatarLink: String): Response<Unit> {
-        return NetworkService.profileApiService.checkAvatarLinkAccessibility(avatarLink)
-    }
-
     suspend fun getProfileData(token: Token): Response<Profile> {
         return NetworkService.profileApiService.getProfileData(token.token)
     }

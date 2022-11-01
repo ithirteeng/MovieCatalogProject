@@ -15,7 +15,7 @@
     <dimen name="header_second_text_size">22sp</dimen>
     <dimen name="header_second_text_margin">3dp</dimen>
 
-    <dimen name="small_body_text_size">16sp</dimen>
+    <dimen name="small_body_text_size">15sp</dimen>
     <dimen name="small_body_text_margin">2dp</dimen>
 
     <dimen name="body_text_size">18sp</dimen>

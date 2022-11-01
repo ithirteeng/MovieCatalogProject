@@ -47,10 +47,8 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
                     }
                 }
             }
-
             return result
         }
-
     }
 
     private var galleryMoviesList = arrayListOf<GalleryMovie>()

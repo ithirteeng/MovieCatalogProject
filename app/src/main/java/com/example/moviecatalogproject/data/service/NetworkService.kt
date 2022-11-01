@@ -23,4 +23,8 @@ object NetworkService {
         retrofit.create(ProfileApiService::class.java)
     }
 
+    val moviesApiService: MoviesApiService by lazy {
+        retrofit.create(MoviesApiService::class.java)
+    }
+
 }

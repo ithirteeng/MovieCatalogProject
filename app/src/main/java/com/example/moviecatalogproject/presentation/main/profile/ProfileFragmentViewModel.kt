@@ -60,21 +60,6 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-
-    private val checkAvatarLinkUseCase = CheckAvatarLinkUseCase()
-    private val avatarLinkAccessibilityLiveData = MutableLiveData<Boolean>()
-
-    fun checkAvatarLinkAccessibility(avatarLink: String) {
-        viewModelScope.launch {
-            avatarLinkAccessibilityLiveData.value = checkAvatarLinkUseCase.execute(avatarLink)
-        }
-    }
-
-    fun getAvatarLinkAccessibilityLiveData(): MutableLiveData<Boolean> {
-        return avatarLinkAccessibilityLiveData
-    }
-
-
     private val logoutUseCase = LogoutUseCase(application.applicationContext)
 
     fun logout(onLogout: () -> Unit) {
