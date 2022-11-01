@@ -4,6 +4,8 @@ import com.example.moviecatalogproject.domain.main.movie.model.Movie
 
 data class GalleryMovie(
     var movie: Movie,
+    val page: Int,
+    var pageAmount: Int,
     var onClick: () -> Unit
 ) {
     fun countRating(): Double {
