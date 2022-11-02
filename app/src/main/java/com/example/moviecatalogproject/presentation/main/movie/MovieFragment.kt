@@ -33,8 +33,7 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val mainView = inflater.inflate(R.layout.fragment_movie, container, false)
         binding = FragmentMovieBinding.bind(mainView)
@@ -45,32 +44,29 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         return mainView
     }
 
-    override fun onStop() {
-        super.onStop()
-        galleryAdapter.clearMovieList()
-    }
-
     override fun onStart() {
         super.onStart()
         onFragmentStart()
     }
 
+    override fun onStop() {
+        super.onStop()
+        galleryAdapter.clearMovieList()
+    }
+
+
     @SuppressLint("NotifyDataSetChanged")
     private fun setupFavouritesRecyclerView() {
         val favouritesRecyclerView = binding.favouritesRecyclerView
         favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
-            requireContext(),
-            1.3f,
-            0.3f
+            requireContext(), 1.3f, 0.3f
         )
 
         val favouritesAdapter = FavouritesAdapter()
         favouritesRecyclerView.adapter = favouritesAdapter
 
         viewModel.getFavouritesList {
-            if (it == 401) {
-                makeIntentToEntranceActivity()
-            }
+            onErrorAppearanceFunction(it)
         }
 
         viewModel.getFavouritesLiveData().observe(viewLifecycleOwner) {
@@ -89,10 +85,8 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
     private fun addOnFavouritesCloseButtonFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
         for (movie in favouritesArrayList) {
             movie.removeFromFavourites = {
-                viewModel.deleteMovieFromFavourites(movie.id) { code ->
-                    if (code == 401) {
-                        makeIntentToEntranceActivity()
-                    }
+                viewModel.deleteMovieFromFavourites(movie.id) {
+                    onErrorAppearanceFunction(it)
                 }
             }
         }
@@ -107,13 +101,10 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
 
         viewModel.getMoviesList(1) {
-            if (it == 401) {
-                makeIntentToEntranceActivity()
-            }
+            onErrorAppearanceFunction(it)
         }
 
         viewModel.getGalleryMoviesLiveData().observe(viewLifecycleOwner) {
-
             if (it != null) {
                 val galleryList = it
 
@@ -129,14 +120,32 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun getNextMoviesList(page: Int) {
         viewModel.getMoviesList(page) {
-            if (it == 401) {
-                makeIntentToEntranceActivity()
-            }
+            onErrorAppearanceFunction(it)
         }
+    }
 
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setBannerImage(url: String) {
+        Glide.with(requireContext()).load(url).placeholder(
+                binding.root.resources.getDrawable(
+                    R.drawable.default_movie_poster,
+                    binding.root.context.theme
+                )
+            ).error(
+                binding.root.resources.getDrawable(
+                    R.drawable.default_movie_poster,
+                    binding.root.context.theme
+                )
+            ).into(binding.bannerImageView)
+    }
+
+    private fun onErrorAppearanceFunction(errorCode: Int) {
+        if (errorCode == 401) {
+            makeIntentToEntranceActivity()
+        }
     }
 
     private fun makeIntentToEntranceActivity() {
@@ -144,24 +153,5 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         activity?.overridePendingTransition(0, 0)
         activity?.finish()
     }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun setBannerImage(url: String) {
-        Glide
-            .with(requireContext())
-            .load(url)
-            .placeholder(
-                binding.root.resources.getDrawable(
-                    R.drawable.default_movie_poster, binding.root.context.theme
-                )
-            )
-            .error(
-                binding.root.resources.getDrawable(
-                    R.drawable.default_movie_poster, binding.root.context.theme
-                )
-            )
-            .into(binding.bannerImageView)
-    }
-
 }
 

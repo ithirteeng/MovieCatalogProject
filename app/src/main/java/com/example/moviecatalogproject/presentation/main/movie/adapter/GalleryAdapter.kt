@@ -76,6 +76,7 @@ class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
         holder.onMovieCLick {
             item.onClick?.invoke()
         }
+
         if (item.page < item.pageAmount && position == galleryMoviesList.size - 1) {
             getGalleryMoviesList(item.page + 1)
         }
@@ -85,7 +86,6 @@ class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
         galleryMoviesList.clear()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addMovies(newMoviesList: ArrayList<GalleryMovie>) {
         for (movie in newMoviesList) {
             galleryMoviesList.add(movie)

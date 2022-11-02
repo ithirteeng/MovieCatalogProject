@@ -9,7 +9,7 @@ import com.example.moviecatalogproject.domain.main.movie.usecase.GetFavouritesLi
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetMoviesListUseCase
 import com.example.moviecatalogproject.domain.main.profile.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.model.Token
-import com.example.moviecatalogproject.presentation.main.SingleLiveEvent
+import com.example.moviecatalogproject.presentation.model.SingleEventLiveData
 import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
 import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val getMoviesListUseCase = GetMoviesListUseCase()
-    private val galleryMoviesLiveData = SingleLiveEvent<ArrayList<GalleryMovie>?>()
+    private val galleryMoviesLiveData = SingleEventLiveData<ArrayList<GalleryMovie>?>()
 
 
     fun getMoviesList(page: Int, completeOnError: (errorCode: Int) -> Unit) {
@@ -43,7 +43,7 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val getFavouritesListUseCase = GetFavouritesListUseCase()
-    private val favouritesListLiveData = SingleLiveEvent<ArrayList<FavouriteMovie>?>()
+    private val favouritesListLiveData = SingleEventLiveData<ArrayList<FavouriteMovie>?>()
 
     fun getFavouritesList(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {

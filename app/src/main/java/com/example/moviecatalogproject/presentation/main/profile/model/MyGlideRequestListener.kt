@@ -6,7 +6,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-class MyRequestListener(
+class MyGlideRequestListener(
     private val onReadyFunction: () -> Unit,
     private val onErrorFunction: () -> Unit
 

@@ -11,9 +11,9 @@
     <ImageView
         android:id="@+id/movieImageView"
         android:layout_width="0dp"
-        android:scaleType="fitXY"
         android:layout_height="200dp"
         android:contentDescription="@string/gallery_content_description"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

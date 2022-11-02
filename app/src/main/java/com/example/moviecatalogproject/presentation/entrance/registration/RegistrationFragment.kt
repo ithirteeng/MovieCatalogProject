@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
@@ -69,7 +68,6 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
     private fun postRegistrationData() {
         viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
-            makeToast(it)
             binding.loginEditText.text?.clear()
             binding.progressBar.visibility = View.GONE
             changeRegistrationButtonState()
@@ -292,10 +290,6 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         binding.signUpButton.setOnClickListener {
             bottomButtonCallback?.invoke()
         }
-    }
-
-    private fun makeToast(stringId: Int) {
-        Toast.makeText(requireContext(), resources.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 
     private fun setEditTextsInputSpaceFilter() {
