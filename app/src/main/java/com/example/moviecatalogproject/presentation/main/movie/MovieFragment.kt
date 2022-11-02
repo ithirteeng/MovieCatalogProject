@@ -69,12 +69,25 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
             var favouritesList = arrayListOf<FavouriteMovie>()
             if (it != null) {
                 favouritesList = it
+                addOnFavouritesCloseButtonFunction(favouritesList)
             }
 
             favouritesAdapter.setFavouritesList(favouritesList)
             favouritesRecyclerView.adapter?.notifyDataSetChanged()
         }
 
+    }
+
+    private fun addOnFavouritesCloseButtonFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
+        for (movie in favouritesArrayList) {
+            movie.removeFromFavourites = {
+                viewModel.deleteMovieFromFavourites(movie.id) { code ->
+                    if (code == 401) {
+                        makeIntentToEntranceActivity()
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

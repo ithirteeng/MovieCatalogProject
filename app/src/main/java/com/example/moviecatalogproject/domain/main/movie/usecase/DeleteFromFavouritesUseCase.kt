@@ -9,12 +9,13 @@ class DeleteFromFavouritesUseCase {
         MoviesRepository()
     }
 
-    suspend fun execute(movieId: String, token: Token) {
+    suspend fun execute(movieId: String, token: Token, completeOnError: (errorCode: Int) -> Unit) {
         val response = moviesRepository.deleteFromFavourites(movieId, token)
         if (response.isSuccessful) {
             Log.d("MOVIEREP", "deleteFavourites success")
         } else {
             Log.d("MOVIEREP", "deleteFavourites error: ${response.code()}")
+            completeOnError(response.code())
         }
     }
 

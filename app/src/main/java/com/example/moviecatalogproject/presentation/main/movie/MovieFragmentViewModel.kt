@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.moviecatalogproject.domain.main.movie.usecase.DeleteFromFavouritesUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetFavouritesListUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetMoviesListUseCase
 import com.example.moviecatalogproject.domain.main.profile.usecase.GetTokenFromLocalStorageUseCase
@@ -53,6 +54,14 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
 
     fun getFavouritesLiveData(): MutableLiveData<ArrayList<FavouriteMovie>?> {
         return favouritesListLiveData
+    }
+
+    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
+
+    fun deleteMovieFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
+        viewModelScope.launch {
+            deleteFromFavouritesUseCase.execute(movieId, bearerToken, completeOnError)
+        }
     }
 
 
