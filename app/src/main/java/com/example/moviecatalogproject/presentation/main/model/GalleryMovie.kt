@@ -6,18 +6,22 @@ data class GalleryMovie(
     var movie: Movie,
     val page: Int,
     var pageAmount: Int,
-    var onClick: () -> Unit
+    var onClick: (() -> Unit)?
 ) {
     fun countRating(): Double {
         val reviews = movie.reviews
         var ratingAmount = 0
         return if (reviews != null) {
-            for (review in reviews) {
-                ratingAmount += review.rating
+            if (reviews.size != 0) {
+                for (review in reviews) {
+                    ratingAmount += review.rating
+                }
+                (ratingAmount / (reviews.size)).toDouble()
+            } else {
+                0.0
             }
-            (ratingAmount / (reviews.size)).toDouble()
         } else {
-            8.0
+            0.0
         }
     }
 }

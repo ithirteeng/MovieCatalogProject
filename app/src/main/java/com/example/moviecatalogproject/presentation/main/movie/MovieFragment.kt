@@ -1,18 +1,18 @@
 package com.example.moviecatalogproject.presentation.main.movie
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
-import com.example.moviecatalogproject.domain.main.movie.model.Genre
-import com.example.moviecatalogproject.domain.main.movie.model.Movie
+import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
-import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
 import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoomLinearLayoutManager
 import com.example.moviecatalogproject.presentation.main.movie.adapter.FavouritesAdapter
 import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAdapter
@@ -22,80 +22,10 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
 
-    private val favouritesList: ArrayList<FavouriteMovie> = arrayListOf(
-        FavouriteMovie(
-            "1",
-            { Log.d("FAVOURITE", "removed 1") },
-            { Log.d("FAVOURITE", "added 1") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ),
-        FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        ), FavouriteMovie(
-            "4",
-            { Log.d("FAVOURITE", "removed 4") },
-            { Log.d("FAVOURITE", "added 4") }
-        )
-    )
+    private val viewModel by lazy {
+        MovieFragmentViewModel(activity?.application!!)
+    }
 
-    private val movie = Movie(
-        id = "sfdf",
-        name = "name",
-        poster = "shit",
-        year = 2003,
-        country = "Russia",
-        genres = arrayListOf(
-            Genre("2", "МОРС"),
-            Genre("0", "МОРС3"),
-            Genre("1", "МОРС2")
-        ),
-        null
-    )
-
-    private val galleryMoviesList: ArrayList<GalleryMovie> = arrayListOf(
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") },
-        GalleryMovie(movie) { Log.d("GALLERY", "id: ${movie.id}") }
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,6 +37,8 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         setupFavouritesRecyclerView()
         setupGalleryRecyclerView()
 
+
+
         return mainView
     }
 
@@ -115,6 +47,7 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         onFragmentStart()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupFavouritesRecyclerView() {
         val favouritesRecyclerView = binding.favouritesRecyclerView
         favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
@@ -124,19 +57,82 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         )
 
         val favouritesAdapter = FavouritesAdapter()
-
-        favouritesAdapter.setFavouritesList(favouritesList)
         favouritesRecyclerView.adapter = favouritesAdapter
+
+        viewModel.getFavouritesList {
+            if (it == 401) {
+                makeIntentToEntranceActivity()
+            }
+        }
+
+        viewModel.getFavouritesLiveData().observe(viewLifecycleOwner) {
+            var favouritesList = arrayListOf<FavouriteMovie>()
+            if (it != null) {
+                favouritesList = it
+            }
+
+            favouritesAdapter.setFavouritesList(favouritesList)
+            favouritesRecyclerView.adapter?.notifyDataSetChanged()
+        }
+
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupGalleryRecyclerView() {
-        val galleryRecyclerView = binding.galleryRecyclerView
-        galleryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         val galleryAdapter = GalleryAdapter()
+        val galleryRecyclerView = binding.galleryRecyclerView
 
-        galleryAdapter.setGalleryMovieList(galleryMoviesList)
+        galleryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         galleryRecyclerView.adapter = galleryAdapter
+
+
+        viewModel.getMoviesList(1) {
+            if (it == 401) {
+                makeIntentToEntranceActivity()
+            }
+        }
+
+        viewModel.getGalleryMoviesLiveData().observe(viewLifecycleOwner) {
+            var galleryList = galleryAdapter.getGalleryMovieList()
+            if (it != null) {
+                galleryList = it
+
+                if (galleryList[0].page == 1) {
+                    setBannerImage(galleryList[0].movie.poster!!)
+                    galleryList.removeFirst()
+                }
+            }
+
+            galleryAdapter.setGalleryMovieList(galleryList)
+            galleryRecyclerView.adapter?.notifyDataSetChanged()
+
+        }
+
+    }
+
+    private fun makeIntentToEntranceActivity() {
+        startActivity(Intent(activity, EntranceActivity::class.java))
+        activity?.overridePendingTransition(0, 0)
+        activity?.finish()
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setBannerImage(url: String) {
+        Glide
+            .with(requireContext())
+            .load(url)
+            .placeholder(
+                binding.root.resources.getDrawable(
+                    R.drawable.default_movie_poster, binding.root.context.theme
+                )
+            )
+            .error(
+                binding.root.resources.getDrawable(
+                    R.drawable.default_movie_poster, binding.root.context.theme
+                )
+            )
+            .into(binding.bannerImageView)
     }
 
 }
+

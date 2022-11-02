@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.main.profile.usecase.*
 import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.presentation.main.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class ProfileFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -38,7 +39,7 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
 
     private val getProfileDataUseCase = GetProfileDataUseCase()
     private val putProfileDataUseCase = PutProfileDataUseCase()
-    private val profileLiveData = MutableLiveData<Profile?>()
+    private val profileLiveData = SingleLiveEvent<Profile?>()
 
     fun getProfileData(completeOnError: () -> Unit) {
         viewModelScope.launch {

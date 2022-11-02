@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface MoviesApiService {
 
-    @GET("spi/favorites")
+    @GET("api/favorites")
     suspend fun getFavouritesList(@Header("Authorization") token: String): Response<FavouritesResponse>
 
     @POST("api/favorites/{id}/add")

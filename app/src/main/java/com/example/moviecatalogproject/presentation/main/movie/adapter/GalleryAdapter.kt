@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.GalleryItemBinding
 import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
@@ -15,13 +16,20 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
 
         @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(galleryMovie: GalleryMovie) {
-            // TODO: glide picture
-            binding.movieImageView.setImageDrawable(
-                binding.root.resources.getDrawable(
-                    R.drawable.test_favourites_image,
-                    binding.root.context.theme
+            Glide
+                .with(binding.root)
+                .load(galleryMovie.movie.poster)
+                .placeholder(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
                 )
-            )
+                .error(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
+                )
+                .into(binding.movieImageView)
             binding.movieNameTextView.text = galleryMovie.movie.name!!
             binding.movieYearTextView.text = galleryMovie.movie.year.toString()
             binding.movieCountryTextView.text = galleryMovie.movie.country!!
@@ -57,6 +65,8 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         galleryMoviesList = movies
     }
 
+    fun getGalleryMovieList(): ArrayList<GalleryMovie> = galleryMoviesList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val view = LayoutInflater
             .from(parent.context)
@@ -68,7 +78,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         val item = galleryMoviesList[position]
         holder.bind(item)
         holder.onMovieCLick {
-            item.onClick()
+            item.onClick?.invoke()
         }
     }
 

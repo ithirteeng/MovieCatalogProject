@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/common_end_start_margins"
-    android:clickable="true"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/movieImageView"
@@ -15,14 +15,15 @@
         android:contentDescription="@string/gallery_content_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/test_favourites_image" />
+        app:srcCompat="@drawable/default_movie_poster" />
 
     <TextView
         android:id="@+id/movieNameTextView"
         style="@style/header_second_style"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/gallery_start_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movieImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
@@ -66,6 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:layout_marginBottom="3dp"
         android:text="@string/gallery_start_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movieImageView"
@@ -77,6 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginTop="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieImageView" />
+        app:layout_constraintStart_toEndOf="@+id/movieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieGenresTextView"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
