@@ -19,17 +19,13 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
-    private val movieFragment by lazy {
-        MovieFragment {
-            binding.progressBar.visibility = View.GONE
-        }
+    private val movieFragment = MovieFragment {
+        binding.progressBar.visibility = View.GONE
     }
 
 
-    private val profileFragment by lazy {
-        ProfileFragment {
-            binding.progressBar.visibility = View.GONE
-        }
+    private val profileFragment = ProfileFragment {
+        binding.progressBar.visibility = View.GONE
     }
 
 
@@ -37,9 +33,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        replaceToMovieFragment()
         onTabsSelected()
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.fragmentContainerView, movieFragment)
+        }
+
     }
+
 
     private fun onTabsSelected() {
         colorizeTab(

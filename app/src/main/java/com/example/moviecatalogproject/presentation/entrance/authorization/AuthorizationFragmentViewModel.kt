@@ -24,7 +24,7 @@ class AuthorizationFragmentViewModel(application: Application) : AndroidViewMode
 
     fun postAuthorizationData(
         authorizationData: AuthorizationData,
-        completeOnError: (errorId: Int) -> Unit
+        completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
             tokenLiveData.value = postAuthorizationDataUseCase.execute(

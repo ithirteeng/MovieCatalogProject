@@ -23,7 +23,8 @@ class RegistrationFragmentViewModel(application: Application) : AndroidViewModel
     private var tokenLiveData = MutableLiveData<Token?>()
 
     fun postRegistrationData(
-        registrationData: RegistrationData, completeOnError: (stringId: Int) -> Unit
+        registrationData: RegistrationData,
+        completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
             tokenLiveData.value = postRegistrationDataUseCase.execute(

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.main.profile.usecase.*
 import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.presentation.model.SingleEventLiveData
 import kotlinx.coroutines.launch
 
 class ProfileFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -38,7 +39,7 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
 
     private val getProfileDataUseCase = GetProfileDataUseCase()
     private val putProfileDataUseCase = PutProfileDataUseCase()
-    private val profileLiveData = MutableLiveData<Profile?>()
+    private val profileLiveData = SingleEventLiveData<Profile?>()
 
     fun getProfileData(completeOnError: () -> Unit) {
         viewModelScope.launch {
@@ -59,21 +60,6 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
             }
         }
     }
-
-
-    private val checkAvatarLinkUseCase = CheckAvatarLinkUseCase()
-    private val avatarLinkAccessibilityLiveData = MutableLiveData<Boolean>()
-
-    fun checkAvatarLinkAccessibility(avatarLink: String) {
-        viewModelScope.launch {
-            avatarLinkAccessibilityLiveData.value = checkAvatarLinkUseCase.execute(avatarLink)
-        }
-    }
-
-    fun getAvatarLinkAccessibilityLiveData(): MutableLiveData<Boolean> {
-        return avatarLinkAccessibilityLiveData
-    }
-
 
     private val logoutUseCase = LogoutUseCase(application.applicationContext)
 
