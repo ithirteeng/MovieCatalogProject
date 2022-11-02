@@ -18,7 +18,7 @@ import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.model.ErrorType
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.helper.DateConverter
-import com.example.moviecatalogproject.presentation.main.profile.model.MyRequestListener
+import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import com.example.moviecatalogproject.presentation.model.MyEditText
 import java.util.*
 
@@ -124,9 +124,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         )
 
         viewModel.putProfileData(changedProfile, completeOnError = {
-            if (it == 401) {
-                makeIntentToEntranceActivity()
-            }
+            onErrorAppearanceFunction(it)
         })
 
         binding.progressBar.visibility = View.GONE
@@ -152,14 +150,17 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         Glide.with(requireContext())
             .load(link)
             .listener(
-                MyRequestListener(onReadyFunction = {
-                    changeRegistrationButtonState(true)
-                    binding.progressBar.visibility = View.GONE
-                }, onErrorFunction = {
-                    changeRegistrationButtonState(true)
-                    binding.avatarLinkEditText.text?.clear()
-                    setDefaultImage()
-                })
+                MyGlideRequestListener(
+                    onReadyFunction = {
+                        changeRegistrationButtonState(true)
+                        binding.progressBar.visibility = View.GONE
+                    },
+                    onErrorFunction = {
+                        changeRegistrationButtonState(true)
+                        binding.avatarLinkEditText.text?.clear()
+                        setDefaultImage()
+                    }
+                )
             )
             .placeholder(
                 resources.getDrawable(
@@ -320,6 +321,12 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.dateEditText.setEditTextsInputSpaceFilter()
         binding.emailEditText.setEditTextsInputSpaceFilter()
         binding.nameEditText.setEditTextsInputSpaceFilter()
+    }
+
+    private fun onErrorAppearanceFunction(errorCode: Int) {
+        if (errorCode == 401) {
+            makeIntentToEntranceActivity()
+        }
     }
 
     private fun makeIntentToEntranceActivity() {

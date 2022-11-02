@@ -2,7 +2,6 @@ package com.example.moviecatalogproject.domain.entrance.registration.usecase
 
 import android.util.Log
 import com.example.moviecatalogproject.data.repository.AuthenticationRepository
-import com.example.moviecatalogproject.domain.ResponseOnFailureHelper
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.model.Token
 
@@ -14,7 +13,7 @@ class PostRegistrationDataUseCase {
 
     suspend fun execute(
         registrationData: RegistrationData,
-        complete: (stringId: Int) -> Unit
+        completeOnError: (errorCode: Int) -> Unit
     ): Token? {
         val response = authenticationRepository.postRegistrationData(registrationData)
         return if (response.isSuccessful) {
@@ -22,7 +21,7 @@ class PostRegistrationDataUseCase {
             response.body()
         } else {
             Log.d("AUTH", "registration error: ${response.code()}")
-            complete(ResponseOnFailureHelper.registrationOnFailure(response.code()))
+            completeOnError(response.code())
             null
         }
     }

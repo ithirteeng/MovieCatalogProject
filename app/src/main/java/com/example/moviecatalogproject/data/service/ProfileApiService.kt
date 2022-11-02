@@ -5,9 +5,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ProfileApiService {
-    @GET
-    suspend fun checkAvatarLinkAccessibility(@Url avatarLink: String): Response<Unit>
-
     @GET("api/account/profile")
     suspend fun getProfileData(@Header("Authorization") token: String): Response<Profile>
 

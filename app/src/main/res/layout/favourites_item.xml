@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/test_favourites_image" />
+            tools:src="@drawable/default_movie_poster" />
 
     </androidx.cardview.widget.CardView>
 
