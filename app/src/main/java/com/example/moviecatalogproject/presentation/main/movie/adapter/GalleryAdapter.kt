@@ -10,7 +10,9 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.GalleryItemBinding
 import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
 
-class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
+    RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+
     class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GalleryItemBinding.bind(view)
 
@@ -61,12 +63,6 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
 
     private var galleryMoviesList = arrayListOf<GalleryMovie>()
 
-    fun setGalleryMovieList(movies: ArrayList<GalleryMovie>) {
-        galleryMoviesList = movies
-    }
-
-    fun getGalleryMovieList(): ArrayList<GalleryMovie> = galleryMoviesList
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val view = LayoutInflater
             .from(parent.context)
@@ -79,6 +75,21 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         holder.bind(item)
         holder.onMovieCLick {
             item.onClick?.invoke()
+        }
+        if (item.page < item.pageAmount && position == galleryMoviesList.size - 1) {
+            getGalleryMoviesList(item.page + 1)
+        }
+    }
+
+    fun clearMovieList() {
+        galleryMoviesList.clear()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addMovies(newMoviesList: ArrayList<GalleryMovie>) {
+        for (movie in newMoviesList) {
+            galleryMoviesList.add(movie)
+            notifyItemInserted(galleryMoviesList.size - 1)
         }
     }
 

@@ -27,6 +27,7 @@ object MovieMapper {
             movie = movie,
             page = pageInfo.currentPage,
             pageAmount = pageInfo.pageCount,
+            pageSize = pageInfo.pageSize,
             onClick = null
         )
     }

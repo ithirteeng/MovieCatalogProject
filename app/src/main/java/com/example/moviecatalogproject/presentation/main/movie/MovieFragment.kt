@@ -26,6 +26,11 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         MovieFragmentViewModel(activity?.application!!)
     }
 
+    private val galleryAdapter by lazy {
+        GalleryAdapter {
+            getNextMoviesList(it)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +42,12 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         setupFavouritesRecyclerView()
         setupGalleryRecyclerView()
 
-
-
         return mainView
+    }
+
+    override fun onStop() {
+        super.onStop()
+        galleryAdapter.clearMovieList()
     }
 
     override fun onStart() {
@@ -92,7 +100,6 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupGalleryRecyclerView() {
-        val galleryAdapter = GalleryAdapter()
         val galleryRecyclerView = binding.galleryRecyclerView
 
         galleryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -106,19 +113,28 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
         }
 
         viewModel.getGalleryMoviesLiveData().observe(viewLifecycleOwner) {
-            var galleryList = galleryAdapter.getGalleryMovieList()
+
             if (it != null) {
-                galleryList = it
+                val galleryList = it
 
                 if (galleryList[0].page == 1) {
                     setBannerImage(galleryList[0].movie.poster!!)
                     galleryList.removeFirst()
                 }
-            }
 
-            galleryAdapter.setGalleryMovieList(galleryList)
+                galleryAdapter.addMovies(galleryList)
+            }
             galleryRecyclerView.adapter?.notifyDataSetChanged()
 
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun getNextMoviesList(page: Int) {
+        viewModel.getMoviesList(page) {
+            if (it == 401) {
+                makeIntentToEntranceActivity()
+            }
         }
 
     }
