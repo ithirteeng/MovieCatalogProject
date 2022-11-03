@@ -3,7 +3,7 @@ package com.example.moviecatalogproject.domain.entrance.registration.usecase
 import android.util.Log
 import com.example.moviecatalogproject.data.repository.AuthenticationRepository
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 
 class PostRegistrationDataUseCase {
 

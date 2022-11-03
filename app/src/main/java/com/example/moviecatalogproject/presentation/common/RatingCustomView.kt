@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.model
+package com.example.moviecatalogproject.presentation.common
 
 import android.content.Context
 import android.util.AttributeSet

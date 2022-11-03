@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.domain.main.movie.usecase
 
 import android.content.Context
 import com.example.moviecatalogproject.data.repository.TokenRepository
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 
 class GetTokenFromLocalStorageUseCase(private val context: Context) {
 

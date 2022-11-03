@@ -4,7 +4,7 @@ import com.example.moviecatalogproject.data.model.FavouritesResponse
 import com.example.moviecatalogproject.data.model.GalleryResponse
 import com.example.moviecatalogproject.data.service.NetworkService
 import com.example.moviecatalogproject.domain.main.movie.model.Movie
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 import retrofit2.Response
 
 class MoviesRepository {

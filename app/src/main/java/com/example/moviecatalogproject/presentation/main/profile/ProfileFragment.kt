@@ -15,11 +15,11 @@ import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentProfileBinding
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
-import com.example.moviecatalogproject.domain.model.ErrorType
+import com.example.moviecatalogproject.domain.common.model.ErrorType
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.helper.DateConverter
 import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
-import com.example.moviecatalogproject.presentation.model.MyEditText
+import com.example.moviecatalogproject.presentation.common.MyEditText
 import java.util.*
 
 class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {

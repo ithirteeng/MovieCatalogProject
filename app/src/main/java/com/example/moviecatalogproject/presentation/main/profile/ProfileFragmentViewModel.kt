@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.main.profile.usecase.*
-import com.example.moviecatalogproject.domain.model.Token
-import com.example.moviecatalogproject.presentation.model.SingleEventLiveData
+import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
 class ProfileFragmentViewModel(application: Application) : AndroidViewModel(application) {

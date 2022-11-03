@@ -2,12 +2,12 @@ package com.example.moviecatalogproject.presentation.launch
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.moviecatalogproject.R
+import androidx.lifecycle.lifecycleScope
+import com.example.moviecatalogproject.databinding.ActivityLaunchBinding
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -17,16 +17,20 @@ class LaunchActivity : AppCompatActivity() {
         LaunchActivityViewModel(application)
     }
 
+    private val binding by lazy {
+        ActivityLaunchBinding.inflate(this.layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launch)
+        setContentView(binding.root)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.checkTokenExisting()
+        lifecycleScope.launch {
             delay(1500)
-            makeIntent()
+            binding.progressBar.visibility = View.VISIBLE
         }
 
+        makeIntent()
     }
 
     private fun makeIntent() {

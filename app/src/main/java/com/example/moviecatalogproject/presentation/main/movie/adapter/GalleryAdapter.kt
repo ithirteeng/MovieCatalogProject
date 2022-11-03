@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.GalleryItemBinding
-import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
 
 class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
     RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {

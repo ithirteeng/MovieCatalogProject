@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.entrance.authorization.usecase.PostAuthorizationDataUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.SaveTokenUseCase
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.entrance.authorization.usecase.SaveTokenUseCase
 import kotlinx.coroutines.launch
 
 class AuthorizationFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,13 +23,11 @@ class AuthorizationFragmentViewModel(application: Application) : AndroidViewMode
     private val tokenLiveData = MutableLiveData<Token?>()
 
     fun postAuthorizationData(
-        authorizationData: AuthorizationData,
-        completeOnError: (errorCode: Int) -> Unit
+        authorizationData: AuthorizationData, completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
             tokenLiveData.value = postAuthorizationDataUseCase.execute(
-                authorizationData,
-                completeOnError
+                authorizationData, completeOnError
             )
         }
     }

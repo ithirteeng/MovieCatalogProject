@@ -4,8 +4,8 @@ import com.example.moviecatalogproject.data.model.FavouritesResponse
 import com.example.moviecatalogproject.data.model.GalleryResponse
 import com.example.moviecatalogproject.domain.main.movie.model.Movie
 import com.example.moviecatalogproject.domain.main.movie.model.PageInfo
-import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
-import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
 
 object MovieMapper {
 

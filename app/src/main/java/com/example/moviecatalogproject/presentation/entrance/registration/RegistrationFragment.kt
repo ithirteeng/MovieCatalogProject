@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentRegistrationBinding
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
-import com.example.moviecatalogproject.domain.model.ErrorType
+import com.example.moviecatalogproject.domain.common.model.ErrorType
 import com.example.moviecatalogproject.presentation.helper.DateConverter
 import com.example.moviecatalogproject.presentation.main.MainActivity
-import com.example.moviecatalogproject.presentation.model.MyEditText
+import com.example.moviecatalogproject.presentation.common.MyEditText
 import java.util.*
 
 class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = null) : Fragment() {

@@ -12,10 +12,10 @@ import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
-import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
 import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoomLinearLayoutManager
 import com.example.moviecatalogproject.presentation.main.movie.adapter.FavouritesAdapter
 import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAdapter
+import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 
 
 class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
@@ -130,16 +130,16 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setBannerImage(url: String) {
         Glide.with(requireContext()).load(url).placeholder(
-                binding.root.resources.getDrawable(
-                    R.drawable.default_movie_poster,
-                    binding.root.context.theme
-                )
-            ).error(
-                binding.root.resources.getDrawable(
-                    R.drawable.default_movie_poster,
-                    binding.root.context.theme
-                )
-            ).into(binding.bannerImageView)
+            binding.root.resources.getDrawable(
+                R.drawable.default_movie_poster,
+                binding.root.context.theme
+            )
+        ).error(
+            binding.root.resources.getDrawable(
+                R.drawable.default_movie_poster,
+                binding.root.context.theme
+            )
+        ).into(binding.bannerImageView)
     }
 
     private fun onErrorAppearanceFunction(errorCode: Int) {

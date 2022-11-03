@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.model
+package com.example.moviecatalogproject.presentation.common
 
 //noinspection SuspiciousImport
 import android.R

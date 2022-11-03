@@ -1,6 +1,6 @@
-package com.example.moviecatalogproject.domain.validator
+package com.example.moviecatalogproject.domain.common.validator
 
-import com.example.moviecatalogproject.domain.model.ErrorType
+import com.example.moviecatalogproject.domain.common.model.ErrorType
 
 class DateValidator : Validator {
     override fun validateTextField(string: String): Int {
