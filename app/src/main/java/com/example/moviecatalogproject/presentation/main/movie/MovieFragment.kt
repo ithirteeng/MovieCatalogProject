@@ -16,6 +16,8 @@ import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoo
 import com.example.moviecatalogproject.presentation.main.movie.adapter.FavouritesAdapter
 import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAdapter
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
+import com.example.moviecatalogproject.presentation.movie_info.MovieInfoActivity
 
 
 class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
@@ -38,15 +40,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         val mainView = inflater.inflate(R.layout.fragment_movie, container, false)
         binding = FragmentMovieBinding.bind(mainView)
 
-        setupFavouritesRecyclerView()
-        setupGalleryRecyclerView()
-
         return mainView
     }
 
     override fun onStart() {
         super.onStart()
         changeProgressBarVisibility(true)
+        setupFavouritesRecyclerView()
+        setupGalleryRecyclerView()
     }
 
     override fun onStop() {
@@ -75,6 +76,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
             if (it != null) {
                 favouritesList = it
                 addOnFavouritesCloseButtonFunction(favouritesList)
+                addOnFavouritesClickFunction(favouritesList)
             }
 
             favouritesAdapter.setFavouritesList(favouritesList)
@@ -89,6 +91,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
                 viewModel.deleteMovieFromFavourites(movie.id) {
                     onErrorAppearanceFunction(it)
                 }
+            }
+        }
+    }
+
+    private fun addOnFavouritesClickFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
+        for (movie in favouritesArrayList) {
+            movie.onMovieClick = { movieId ->
+                makeIntentToMovieInfoActivity(movieId)
             }
         }
     }
@@ -114,6 +124,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
                     galleryList.removeFirst()
                 }
 
+                addOnGalleryMovieClickFunction(galleryList)
                 galleryAdapter.addMovies(galleryList)
             }
             galleryRecyclerView.adapter?.notifyDataSetChanged()
@@ -124,6 +135,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     private fun getNextMoviesList(page: Int) {
         viewModel.getMoviesList(page) {
             onErrorAppearanceFunction(it)
+        }
+    }
+
+    private fun addOnGalleryMovieClickFunction(galleryMoviesList: ArrayList<GalleryMovie>) {
+        for (movie in galleryMoviesList) {
+            movie.onMovieClick = { movieId ->
+                makeIntentToMovieInfoActivity(movieId)
+            }
         }
     }
 
@@ -153,6 +172,13 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         startActivity(Intent(activity, EntranceActivity::class.java))
         activity?.overridePendingTransition(0, 0)
         activity?.finish()
+    }
+
+    private fun makeIntentToMovieInfoActivity(movieId: String) {
+        val intent = Intent(activity, MovieInfoActivity::class.java)
+        activity?.overridePendingTransition(0, 0)
+        intent.putExtra(MovieInfoActivity.MOVIE_ID, movieId)
+        startActivity(intent)
     }
 }
 

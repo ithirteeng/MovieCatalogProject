@@ -7,7 +7,7 @@ data class GalleryMovie(
     val page: Int,
     var pageAmount: Int,
     var pageSize: Int,
-    var onClick: (() -> Unit)?
+    var onMovieClick: ((movieId: String) -> Unit)?
 ) {
     fun countRating(): Double {
         val reviews = movie.reviews

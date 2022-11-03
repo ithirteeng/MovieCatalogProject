@@ -65,7 +65,7 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
             removeItemAt(position)
         }
         holder.onMovieClick {
-            item.onMovieClick?.invoke()
+            item.onMovieClick?.invoke(item.id)
         }
     }
 

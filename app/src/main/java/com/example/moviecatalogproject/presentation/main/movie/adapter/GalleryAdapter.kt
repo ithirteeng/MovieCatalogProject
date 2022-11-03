@@ -74,7 +74,7 @@ class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
         val item = galleryMoviesList[position]
         holder.bind(item)
         holder.onMovieCLick {
-            item.onClick?.invoke()
+            item.onMovieClick?.invoke(item.movie.id)
         }
 
         if (item.page < item.pageAmount && position == galleryMoviesList.size - 1) {
