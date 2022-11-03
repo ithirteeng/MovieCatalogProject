@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.presentation.main.movie
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.domain.main.movie.usecase.DeleteFromFavouritesUseCase
@@ -38,7 +38,7 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun getGalleryMoviesLiveData(): MutableLiveData<ArrayList<GalleryMovie>?> {
+    fun getGalleryMoviesLiveData(): LiveData<ArrayList<GalleryMovie>?> {
         return galleryMoviesLiveData
     }
 
@@ -52,7 +52,7 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun getFavouritesLiveData(): MutableLiveData<ArrayList<FavouriteMovie>?> {
+    fun getFavouritesLiveData(): LiveData<ArrayList<FavouriteMovie>?> {
         return favouritesListLiveData
     }
 

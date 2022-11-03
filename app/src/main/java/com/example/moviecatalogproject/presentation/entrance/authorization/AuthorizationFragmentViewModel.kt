@@ -2,6 +2,7 @@ package com.example.moviecatalogproject.presentation.entrance.authorization
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
@@ -36,7 +37,7 @@ class AuthorizationFragmentViewModel(application: Application) : AndroidViewMode
         saveTokenUseCase.execute(token)
     }
 
-    fun getTokenLiveData(): MutableLiveData<Token?> {
+    fun getTokenLiveData(): LiveData<Token?> {
         return tokenLiveData
     }
 

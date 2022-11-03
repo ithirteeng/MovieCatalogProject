@@ -2,6 +2,7 @@ package com.example.moviecatalogproject.presentation.entrance.registration
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
@@ -49,23 +50,23 @@ class RegistrationFragmentViewModel(application: Application) : AndroidViewModel
     private val validateDateUseCase = ValidateDateUseCase(DateValidator())
 
 
-    fun getPasswordErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getPasswordErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validatePasswordUseCase.execute(string))
     }
 
-    fun getEmailErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getEmailErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateEmailUseCase.execute(string))
     }
 
-    fun getNameErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getNameErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateNameUseCase.execute(string))
     }
 
-    fun getLoginErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getLoginErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateLoginUseCase.execute(string))
     }
 
-    fun getDateErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getDateErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateDateUseCase.execute(string))
     }
 }

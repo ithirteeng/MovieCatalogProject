@@ -2,11 +2,12 @@ package com.example.moviecatalogproject.presentation.main.profile
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.main.profile.usecase.*
-import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
@@ -16,11 +17,11 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val validateEmailUseCase = ValidateEmailUseCase()
 
 
-    fun getEmailErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getEmailErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateEmailUseCase.execute(string))
     }
 
-    fun getDateErrorLiveData(string: String): MutableLiveData<Int> {
+    fun getDateErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateDateUseCase.execute(string))
     }
 
@@ -49,7 +50,7 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-    fun getProfileLiveData(): MutableLiveData<Profile?> {
+    fun getProfileLiveData(): LiveData<Profile?> {
         return profileLiveData
     }
 
