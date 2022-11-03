@@ -19,17 +19,13 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
-    private val movieFragment by lazy {
-        MovieFragment {
-            binding.progressBar.visibility = View.GONE
-        }
+    private val movieFragment = MovieFragment {
+        changeProgressBarVisibility(it)
     }
 
 
-    private val profileFragment by lazy {
-        ProfileFragment {
-            binding.progressBar.visibility = View.GONE
-        }
+    private val profileFragment = ProfileFragment {
+        changeProgressBarVisibility(it)
     }
 
 
@@ -37,9 +33,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        replaceToMovieFragment()
         onTabsSelected()
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.fragmentContainerView, movieFragment)
+        }
+
     }
+
 
     private fun onTabsSelected() {
         colorizeTab(
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToMovieFragment() {
-        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, movieFragment)
@@ -78,11 +78,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToProfileFragment() {
-        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, profileFragment)
 
+        }
+    }
+
+    private fun changeProgressBarVisibility(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.validator.*
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.*
-import com.example.moviecatalogproject.domain.model.Token
-import com.example.moviecatalogproject.domain.validator.*
 import kotlinx.coroutines.launch
 
 class RegistrationFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,7 +23,8 @@ class RegistrationFragmentViewModel(application: Application) : AndroidViewModel
     private var tokenLiveData = MutableLiveData<Token?>()
 
     fun postRegistrationData(
-        registrationData: RegistrationData, completeOnError: (stringId: Int) -> Unit
+        registrationData: RegistrationData,
+        completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
             tokenLiveData.value = postRegistrationDataUseCase.execute(

@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FavouritesItemBinding
-import com.example.moviecatalogproject.presentation.main.model.FavouriteMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 
 class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
@@ -15,13 +16,21 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
         private val binding = FavouritesItemBinding.bind(view)
 
         @SuppressLint("UseCompatLoadingForDrawables")
-        fun setImage() {
-            binding.filmImageView.setImageDrawable(
-                binding.root.resources.getDrawable(
-                    R.drawable.test_favourites_image,
-                    binding.root.context.theme
+        fun setImage(favouriteMovie: FavouriteMovie) {
+            Glide
+                .with(binding.root)
+                .load(favouriteMovie.movie.poster)
+                .placeholder(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
                 )
-            )
+                .error(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
+                )
+                .into(binding.filmImageView)
         }
 
         fun onCloseButtonClick(onCloseButtonClick: () -> Unit) {
@@ -37,7 +46,6 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
         }
 
 
-
     }
 
     private var favouritesList = arrayListOf<FavouriteMovie>()
@@ -51,13 +59,13 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         val item = favouritesList[position]
-        holder.setImage()
+        holder.setImage(item)
         holder.onCloseButtonClick {
-            item.removeFromFavourites()
+            item.removeFromFavourites?.invoke()
             removeItemAt(position)
         }
         holder.onMovieClick {
-            item.onMovieClick()
+            item.onMovieClick?.invoke()
         }
     }
 

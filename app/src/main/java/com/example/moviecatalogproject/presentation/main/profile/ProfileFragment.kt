@@ -14,15 +14,15 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentProfileBinding
+import com.example.moviecatalogproject.domain.common.model.ErrorType
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
-import com.example.moviecatalogproject.domain.model.ErrorType
+import com.example.moviecatalogproject.presentation.common.MyEditText
+import com.example.moviecatalogproject.presentation.common.helper.DateConverter
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
-import com.example.moviecatalogproject.presentation.helper.DateConverter
-import com.example.moviecatalogproject.presentation.main.profile.model.MyRequestListener
-import com.example.moviecatalogproject.presentation.model.MyEditText
+import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
+class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -47,12 +47,14 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        onFragmentStart()
-        binding.progressBar.visibility = View.VISIBLE
-
+        changeProgressBarVisibility(true)
         getProfileData()
         onObserveProfileLiveData()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        changeProgressBarVisibility(true)
     }
 
     private fun getProfileData() {
@@ -71,7 +73,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 } else {
                     setDefaultImage()
                 }
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
 
         }
@@ -94,12 +96,12 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private fun onSaveButtonClick() {
         binding.saveProfileChangesButton.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
+            changeProgressBarVisibility(true)
             validateFields()
             if (checkFieldsValidity()) {
                 putData()
             } else {
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
         }
     }
@@ -124,12 +126,9 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         )
 
         viewModel.putProfileData(changedProfile, completeOnError = {
-            if (it == 401) {
-                makeIntentToEntranceActivity()
-            }
+            onErrorAppearanceFunction(it)
         })
-
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(false)
         Toast.makeText(
             requireContext(),
             requireContext().resources.getString(R.string.saved_data_text),
@@ -147,25 +146,33 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
-        binding.progressBar.visibility = View.VISIBLE
-        Glide.
-        with(requireContext())
+        changeProgressBarVisibility(true)
+        changeRegistrationButtonState(false)
+        Glide.with(requireContext())
             .load(link)
             .listener(
-                MyRequestListener(onReadyFunction = {
-                    binding.progressBar.visibility = View.GONE
-                }, onErrorFunction = {
-                    binding.avatarLinkEditText.text?.clear()
-                    setDefaultImage()
-                }))
+                MyGlideRequestListener(
+                    onReadyFunction = {
+                        changeRegistrationButtonState(true)
+                        changeProgressBarVisibility(false)
+                    },
+                    onErrorFunction = {
+                        changeRegistrationButtonState(true)
+                        binding.avatarLinkEditText.text?.clear()
+                        setDefaultImage()
+                    }
+                )
+            )
             .placeholder(
                 resources.getDrawable(
                     R.drawable.default_avatar_image, requireContext().theme
-                ))
+                )
+            )
             .error(
                 resources.getDrawable(
                     R.drawable.default_avatar_image, requireContext().theme
-                ))
+                )
+            )
             .into(binding.avatarImageView)
     }
 
@@ -176,7 +183,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 R.drawable.default_avatar_image, requireContext().theme
             )
         )
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(false)
     }
 
     private fun checkFieldsValidity(): Boolean {
@@ -235,11 +242,11 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
             val editText = binding.root.findViewById<MyEditText>(id)
             editText.onEditTextEditorAction()
             editText.setOnFocusChangeListener { _, _ ->
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             }
         }
         binding.genderPicker.onPickerButtonsClick {
-            changeRegistrationButtonState()
+            changeRegistrationButtonState(checkFullnessOfFields())
         }
         binding.avatarLinkEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -248,8 +255,8 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         }
     }
 
-    private fun changeRegistrationButtonState() {
-        if (checkFullnessOfFields()) {
+    private fun changeRegistrationButtonState(state: Boolean) {
+        if (state) {
             binding.saveProfileChangesButton.isEnabled = true
             setProfileChangesButtonTextColor(R.color.bright_white)
         } else {
@@ -302,7 +309,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                     monthString = "10"
                 }
                 binding.dateEditText.setText("$dayString.$monthString.$year")
-                changeRegistrationButtonState()
+                changeRegistrationButtonState(checkFullnessOfFields())
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -315,6 +322,12 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         binding.dateEditText.setEditTextsInputSpaceFilter()
         binding.emailEditText.setEditTextsInputSpaceFilter()
         binding.nameEditText.setEditTextsInputSpaceFilter()
+    }
+
+    private fun onErrorAppearanceFunction(errorCode: Int) {
+        if (errorCode == 401) {
+            makeIntentToEntranceActivity()
+        }
     }
 
     private fun makeIntentToEntranceActivity() {

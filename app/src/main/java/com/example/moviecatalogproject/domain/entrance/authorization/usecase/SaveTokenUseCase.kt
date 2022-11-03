@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.domain.entrance.authorization.usecase
 
 import android.content.Context
 import com.example.moviecatalogproject.data.repository.TokenRepository
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 
 class SaveTokenUseCase(private val context: Context) {
 

@@ -5,23 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.GalleryItemBinding
-import com.example.moviecatalogproject.presentation.main.model.GalleryMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
 
-class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
+    RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+
     class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GalleryItemBinding.bind(view)
 
         @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(galleryMovie: GalleryMovie) {
-            // TODO: glide picture
-            binding.movieImageView.setImageDrawable(
-                binding.root.resources.getDrawable(
-                    R.drawable.test_favourites_image,
-                    binding.root.context.theme
+            Glide
+                .with(binding.root)
+                .load(galleryMovie.movie.poster)
+                .placeholder(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
                 )
-            )
+                .error(
+                    binding.root.resources.getDrawable(
+                        R.drawable.default_movie_poster, binding.root.context.theme
+                    )
+                )
+                .into(binding.movieImageView)
             binding.movieNameTextView.text = galleryMovie.movie.name!!
             binding.movieYearTextView.text = galleryMovie.movie.year.toString()
             binding.movieCountryTextView.text = galleryMovie.movie.country!!
@@ -47,17 +57,11 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
                     }
                 }
             }
-
             return result
         }
-
     }
 
     private var galleryMoviesList = arrayListOf<GalleryMovie>()
-
-    fun setGalleryMovieList(movies: ArrayList<GalleryMovie>) {
-        galleryMoviesList = movies
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val view = LayoutInflater
@@ -70,7 +74,22 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         val item = galleryMoviesList[position]
         holder.bind(item)
         holder.onMovieCLick {
-            item.onClick()
+            item.onClick?.invoke()
+        }
+
+        if (item.page < item.pageAmount && position == galleryMoviesList.size - 1) {
+            getGalleryMoviesList(item.page + 1)
+        }
+    }
+
+    fun clearMovieList() {
+        galleryMoviesList.clear()
+    }
+
+    fun addMovies(newMoviesList: ArrayList<GalleryMovie>) {
+        for (movie in newMoviesList) {
+            galleryMoviesList.add(movie)
+            notifyItemInserted(galleryMoviesList.size - 1)
         }
     }
 
