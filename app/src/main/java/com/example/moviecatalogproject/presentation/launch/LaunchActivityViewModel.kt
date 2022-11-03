@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExpirationUseCase
 import com.example.moviecatalogproject.domain.launch.usecase.GetTokenFromLocalStorageUseCase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LaunchActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -35,7 +34,6 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
             val token = getTokenFromLocalStorageUseCase.execute()
             token.token = "Bearer ${token.token}"
             val result = checkTokenExpirationUseCase.execute(token)
-            delay(10000)
             tokenExistingLiveData.value = result
         }
     }

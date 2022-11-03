@@ -18,7 +18,7 @@ import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAd
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 
 
-class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
+class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
 
@@ -46,11 +46,12 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        onFragmentStart()
+        changeProgressBarVisibility(true)
     }
 
     override fun onStop() {
         super.onStop()
+        changeProgressBarVisibility(true)
         galleryAdapter.clearMovieList()
     }
 
@@ -116,7 +117,7 @@ class MovieFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 galleryAdapter.addMovies(galleryList)
             }
             galleryRecyclerView.adapter?.notifyDataSetChanged()
-
+            changeProgressBarVisibility(false)
         }
     }
 

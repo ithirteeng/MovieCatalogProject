@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val movieFragment = MovieFragment {
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(it)
     }
 
 
     private val profileFragment = ProfileFragment {
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(it)
     }
 
 
@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToMovieFragment() {
-        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, movieFragment)
@@ -79,11 +78,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToProfileFragment() {
-        binding.progressBar.visibility = View.VISIBLE
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, profileFragment)
 
+        }
+    }
+
+    private fun changeProgressBarVisibility(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

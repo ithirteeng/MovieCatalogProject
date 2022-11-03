@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.presentation.helper
+package com.example.moviecatalogproject.presentation.common.helper
 
 object DateConverter {
 

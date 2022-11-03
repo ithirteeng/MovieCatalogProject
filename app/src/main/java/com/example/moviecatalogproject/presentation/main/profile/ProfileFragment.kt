@@ -14,15 +14,15 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentProfileBinding
-import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.domain.common.model.ErrorType
-import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
-import com.example.moviecatalogproject.presentation.helper.DateConverter
-import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
+import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.presentation.common.MyEditText
+import com.example.moviecatalogproject.presentation.common.helper.DateConverter
+import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
+import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
+class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -47,12 +47,14 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        onFragmentStart()
-        binding.progressBar.visibility = View.VISIBLE
-
+        changeProgressBarVisibility(true)
         getProfileData()
         onObserveProfileLiveData()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        changeProgressBarVisibility(true)
     }
 
     private fun getProfileData() {
@@ -94,7 +96,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     private fun onSaveButtonClick() {
         binding.saveProfileChangesButton.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
+            changeProgressBarVisibility(true)
             validateFields()
             if (checkFieldsValidity()) {
                 putData()
@@ -126,8 +128,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
         viewModel.putProfileData(changedProfile, completeOnError = {
             onErrorAppearanceFunction(it)
         })
-
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(false)
         Toast.makeText(
             requireContext(),
             requireContext().resources.getString(R.string.saved_data_text),
@@ -145,7 +146,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
-        binding.progressBar.visibility = View.VISIBLE
+        changeProgressBarVisibility(true)
         changeRegistrationButtonState(false)
         Glide.with(requireContext())
             .load(link)
@@ -153,7 +154,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 MyGlideRequestListener(
                     onReadyFunction = {
                         changeRegistrationButtonState(true)
-                        binding.progressBar.visibility = View.GONE
+                        changeProgressBarVisibility(false)
                     },
                     onErrorFunction = {
                         changeRegistrationButtonState(true)
@@ -182,7 +183,7 @@ class ProfileFragment(val onFragmentStart: () -> Unit) : Fragment() {
                 R.drawable.default_avatar_image, requireContext().theme
             )
         )
-        binding.progressBar.visibility = View.GONE
+        changeProgressBarVisibility(false)
     }
 
     private fun checkFieldsValidity(): Boolean {
