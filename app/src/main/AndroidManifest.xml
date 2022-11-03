@@ -17,7 +17,8 @@
         <activity
             android:name=".presentation.movie_info.MovieInfoActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:parentActivityName=".presentation.main.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

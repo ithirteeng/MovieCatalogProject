@@ -146,4 +146,7 @@
         <item name="android:textSize">@dimen/main_module_button_text_size</item>
     </style>
 
+    <style name="test_style">
+        <item name="android:textSize">50dp</item>
+    </style>
 </resources>
