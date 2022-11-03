@@ -1,6 +1,6 @@
 package com.example.moviecatalogproject.data.storage
 
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 
 interface TokenStorage {
     companion object {

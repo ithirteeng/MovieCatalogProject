@@ -1,6 +1,6 @@
 package com.example.moviecatalogproject.domain.main.profile.usecase
 
-import com.example.moviecatalogproject.domain.validator.EmailValidator
+import com.example.moviecatalogproject.domain.common.validator.EmailValidator
 
 
 class ValidateEmailUseCase {

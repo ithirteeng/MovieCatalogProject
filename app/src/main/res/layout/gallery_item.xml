@@ -5,23 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/common_end_start_margins"
+    android:background="@color/background_color"
     android:clickable="true">
 
     <ImageView
         android:id="@+id/movieImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/gallery_content_description"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/test_favourites_image" />
+        app:srcCompat="@drawable/default_movie_poster" />
 
     <TextView
         android:id="@+id/movieNameTextView"
         style="@style/header_second_style"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/gallery_start_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movieImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
@@ -38,9 +42,10 @@
 
     <View
         android:id="@+id/separator"
-        android:layout_width="5dp"
-        android:layout_height="5dp"
-        android:layout_margin="2dp"
+        android:layout_width="3dp"
+        android:layout_height="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="2dp"
         android:background="@drawable/gallery_details_separator"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/movieYearTextView"
@@ -51,10 +56,12 @@
     <TextView
         android:id="@+id/movieCountryTextView"
         style="@style/movie_details_style"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
         android:text="@string/gallery_start_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/separator"
         app:layout_constraintTop_toBottomOf="@+id/movieNameTextView"
         tools:ignore="TextContrastCheck" />
@@ -65,17 +72,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:layout_marginBottom="3dp"
         android:text="@string/gallery_start_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movieImageView"
         app:layout_constraintTop_toBottomOf="@+id/movieCountryTextView"
         tools:ignore="TextContrastCheck" />
 
-    <com.example.moviecatalogproject.presentation.model.RatingCustomView
+    <com.example.moviecatalogproject.presentation.common.RatingCustomView
         android:id="@+id/ratingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginTop="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieImageView" />
+        app:layout_constraintStart_toEndOf="@+id/movieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieGenresTextView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.39" />
 </androidx.constraintlayout.widget.ConstraintLayout>
