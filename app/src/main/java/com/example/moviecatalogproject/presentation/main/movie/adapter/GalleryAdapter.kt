@@ -36,7 +36,10 @@ class GalleryAdapter(val getGalleryMoviesList: (page: Int) -> Unit) :
             binding.movieYearTextView.text = galleryMovie.movie.year.toString()
             binding.movieCountryTextView.text = galleryMovie.movie.country!!
             binding.movieGenresTextView.text = makeStringOfGenres(galleryMovie)
-            binding.ratingView.changeRatingView(galleryMovie.countRating())
+            binding.ratingView.changeRatingView(
+                galleryMovie.countRating(),
+                galleryMovie.getReviewsCount()
+            )
         }
 
         fun onMovieCLick(onMovieClick: () -> Unit) {

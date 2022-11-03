@@ -19,20 +19,35 @@ class RatingCustomView @JvmOverloads constructor(
         .inflate(R.layout.rating_custom_view, this)
     private val binding = RatingCustomViewBinding.bind(ratingView)
 
-    fun changeRatingView(rating: Double) {
-        setRating(rating)
-        changeBackgroundColor(rating)
+    fun changeRatingView(rating: Double, reviewsAmount: Int) {
+        setRating(rating, reviewsAmount)
+        changeBackgroundColor(rating, reviewsAmount)
     }
 
-    private fun setRating(rating: Double) {
-        binding.ratingTextView.text = rating.toString()
+    private fun setRating(rating: Double, reviewsAmount: Int) {
+        if (reviewsAmount == 0) {
+            binding.ratingTextView.text = "—"
+        } else {
+            binding.ratingTextView.text = rating.toString()
+        }
+
     }
 
-    private fun changeBackgroundColor(rating: Double) {
-        val startColor = ContextCompat.getColor(context, R.color.start_rating_color)
-        val endColor = ContextCompat.getColor(context, R.color.end_rating_color)
-        val color = ColorUtils.blendARGB(startColor, endColor, (rating / 10).toFloat())
-        binding.ratingBackgroundView.setCardBackgroundColor(color)
+    private fun changeBackgroundColor(rating: Double, reviewsAmount: Int) {
+        if (reviewsAmount == 0) {
+            binding.ratingBackgroundView.setCardBackgroundColor(
+                resources.getColor(
+                    R.color.gray,
+                    context.theme
+                )
+            )
+        } else {
+            val startColor = ContextCompat.getColor(context, R.color.start_rating_color)
+            val endColor = ContextCompat.getColor(context, R.color.end_rating_color)
+            val color = ColorUtils.blendARGB(startColor, endColor, (rating / 10).toFloat())
+            binding.ratingBackgroundView.setCardBackgroundColor(color)
+        }
+
     }
 
 }

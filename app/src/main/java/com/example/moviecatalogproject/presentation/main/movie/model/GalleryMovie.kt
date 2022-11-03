@@ -25,4 +25,6 @@ data class GalleryMovie(
             0.0
         }
     }
+
+    fun getReviewsCount() = movie.reviews?.size!!
 }
