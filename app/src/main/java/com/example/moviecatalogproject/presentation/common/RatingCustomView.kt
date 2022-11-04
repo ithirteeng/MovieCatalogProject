@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.RatingCustomViewBinding
+import java.text.DecimalFormat
 
 class RatingCustomView @JvmOverloads constructor(
     context: Context,
@@ -28,7 +29,12 @@ class RatingCustomView @JvmOverloads constructor(
         if (reviewsAmount == 0) {
             binding.ratingTextView.text = "—"
         } else {
-            binding.ratingTextView.text = rating.toString()
+            val decimalFormat = DecimalFormat("#.#")
+            var result = decimalFormat.format(rating)
+            if (rating - rating.toInt() == 0.0) {
+                result += ".0"
+            }
+            binding.ratingTextView.text = result
         }
 
     }

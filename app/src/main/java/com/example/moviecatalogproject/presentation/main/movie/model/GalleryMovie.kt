@@ -17,7 +17,7 @@ data class GalleryMovie(
                 for (review in reviews) {
                     ratingAmount += review.rating
                 }
-                (ratingAmount / (reviews.size)).toDouble()
+                (ratingAmount.toDouble() / (reviews.size).toDouble())
             } else {
                 0.0
             }

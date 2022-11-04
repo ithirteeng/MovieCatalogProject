@@ -46,7 +46,6 @@ class MovieInfoActivity : AppCompatActivity() {
         setupLikeButtonFunctions()
         getMovieDetails()
 
-
         binding.tableLayout.setColumnShrinkable(1, true)
 
     }
