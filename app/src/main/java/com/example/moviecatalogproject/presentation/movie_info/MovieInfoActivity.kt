@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
+import kotlin.math.abs
 
 class MovieInfoActivity : AppCompatActivity() {
 
@@ -25,22 +26,19 @@ class MovieInfoActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
         }
 
-        binding.button.visibility = View.GONE
+        //binding.tableLayout.setColumnShrinkable(1, true)
 
-        binding.toolbarLayout.title = ":3"
+        binding.button.visibility = View.VISIBLE
 
         binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (kotlin.math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) {
-                if (binding.button.visibility == View.GONE) {
-                    binding.button.visibility = View.VISIBLE
-                }
-            } else {
-                if (binding.button.visibility == View.VISIBLE) {
-                    binding.button.visibility = View.GONE
-                }
-            }
+
+            binding.button.alpha =
+                abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
+
+            binding.button.isEnabled = binding.button.alpha >= 0.7
         }
 
+        binding.toolbarLayout.title = "SHiiiiiiititt"
 
         binding.toolbar.setNavigationOnClickListener { finish() }
 

@@ -9,7 +9,8 @@
     <dimen name="edit_texts_text_size">18sp</dimen>
     <dimen name="button_text_size">20sp</dimen>
 
-    <dimen name="header_first_text_size">26sp</dimen>
+    <dimen name="header_first_text_size">24sp</dimen>
+    <dimen name="header_first_top_bottom_padding">6sp</dimen>
     <dimen name="header_first_text_margin">5dp</dimen>
 
     <dimen name="header_second_text_size">18sp</dimen>
@@ -18,7 +19,8 @@
     <dimen name="small_body_text_size">14sp</dimen>
     <dimen name="small_body_text_margin">2dp</dimen>
 
-    <dimen name="body_text_size">18sp</dimen>
+    <dimen name="body_text_size">16sp</dimen>
+    <dimen name="body_text_top_bottom_padding">4sp</dimen>
     <dimen name="body_text_margin">5dp</dimen>
 
     <dimen name="sign_errors_text_size">14sp</dimen>
@@ -29,6 +31,9 @@
     <dimen name="main_module_button_margin">25dp</dimen>
     <dimen name="main_module_button_padding_top_bottom">35dp</dimen>
     <dimen name="main_module_button_padding_end_start">8dp</dimen>
+
+    <dimen name="title_text_top_bottom_padding">4sp</dimen>
+    <dimen name="title_text_size">36sp</dimen>
 
     <dimen name="launch_logo_margin">70dp</dimen>
 
@@ -42,6 +47,8 @@
 
     <dimen name="profile_image_top_margin">30dp</dimen>
 
+    <dimen name="genre_margin">8dp</dimen>
+    <dimen name="review_margin">10dp</dimen>
 
 
 </resources>
