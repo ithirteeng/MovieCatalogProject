@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
-import com.example.moviecatalogproject.domain.main.profile.usecase.GetTokenFromLocalStorageUseCase
+import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 import com.example.moviecatalogproject.domain.movie_info.usecase.CheckIfMovieIsFavouriteUseCase
+import com.example.moviecatalogproject.domain.movie_info.usecase.GetMovieDetailsUseCase
+import com.example.moviecatalogproject.domain.movie_info.usecase.GetTokenFromLocalStorageUseCase
 import kotlinx.coroutines.launch
 
 class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -35,6 +37,20 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
 
     fun getCheckingIsMovieFavouriteResultLiveData(): LiveData<Boolean> {
         return checkIsFavouriteResultLiveData
+    }
+
+    private val getMovieDetailsUseCase = GetMovieDetailsUseCase()
+    private val movieDetailsLivedata = MutableLiveData<MovieDetails>()
+
+    fun getMovieDetails(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
+        viewModelScope.launch {
+            movieDetailsLivedata.value =
+                getMovieDetailsUseCase.execute(bearerToken, movieId, completeOnError)
+        }
+    }
+
+    fun getMovieDetailsLiveData(): LiveData<MovieDetails> {
+        return movieDetailsLivedata
     }
 
 
