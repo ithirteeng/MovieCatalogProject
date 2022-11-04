@@ -120,9 +120,13 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
 
         viewModel.getGalleryMoviesLiveData().observe(viewLifecycleOwner) {
             if (it != null) {
-                val galleryList = it
-
+                val galleryList = copyArray(it)
                 if (galleryList[0].page == 1) {
+
+                    binding.watchMovieButton.setOnClickListener { _ ->
+                        makeIntentToMovieInfoActivity(it[0].movie.id)
+                    }
+
                     setBannerImage(galleryList[0].movie.poster!!)
                     galleryList.removeFirst()
                 }
@@ -133,6 +137,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
             galleryRecyclerView.adapter?.notifyDataSetChanged()
             changeProgressBarVisibility(false)
         }
+    }
+
+    private fun copyArray(movieArray: ArrayList<GalleryMovie>): ArrayList<GalleryMovie> {
+        val array = arrayListOf<GalleryMovie>()
+        for (movie in movieArray) {
+            array.add(movie)
+        }
+        return array
     }
 
     private fun getNextMoviesList(page: Int) {

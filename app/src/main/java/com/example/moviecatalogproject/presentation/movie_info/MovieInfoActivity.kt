@@ -145,8 +145,8 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun onAppbarOffsetChange() {
         binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            binding.likeButton.alpha =
-                abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
+            val alfa = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
+            binding.likeButton.alpha = alfa
             binding.likeButton.isEnabled = binding.likeButton.alpha >= 0.7
         }
     }

@@ -122,6 +122,9 @@
     </style>
 
     <style name="title_text_style">
+        <item name="android:singleLine">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/title_text_top_bottom_padding</item>
         <item name="android:paddingBottom">@dimen/title_text_top_bottom_padding</item>
         <item name="android:textSize">@dimen/title_text_size</item>

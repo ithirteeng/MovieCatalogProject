@@ -47,7 +47,7 @@ class ReviewsAdapter(private val userId: String) :
         }
 
         fun changeButtonsOnReviewOwnership(userId: String, review: Review) {
-            if (userId == review.author.userId) {
+            if (!review.isAnonymous && userId == review.author.userId) {
                 binding.removeReviewButton.visibility = View.VISIBLE
                 binding.redactReviewButton.visibility = View.VISIBLE
             }
