@@ -56,7 +56,8 @@
                         android:contentDescription="@string/like_content_description"
                         android:scaleType="centerInside"
                         android:src="@drawable/like_outline"
-                        android:text="@string/save_button_text" />
+                        android:text="@string/save_button_text"
+                        tools:ignore="TouchTargetSizeCheck,ImageContrastCheck,RedundantDescriptionCheck" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -301,7 +302,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/reviewsTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flexBox"
-                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck,DuplicateSpeakableTextCheck" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

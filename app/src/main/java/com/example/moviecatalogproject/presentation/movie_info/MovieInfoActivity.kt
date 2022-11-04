@@ -1,7 +1,6 @@
 package com.example.moviecatalogproject.presentation.movie_info
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
 import kotlin.math.abs
@@ -20,27 +19,30 @@ class MovieInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        setupToolbar()
+        onAppbarOffsetChange()
+
+        binding.tableLayout.setColumnShrinkable(1, true)
+        binding.toolbarLayout.title = "SHiiiiiiititt"
+
+
+    }
+
+    private fun setupToolbar() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
+        binding.toolbar.setNavigationOnClickListener { finish() }
+    }
 
-        //binding.tableLayout.setColumnShrinkable(1, true)
-
-        binding.button.visibility = View.VISIBLE
-
+    private fun onAppbarOffsetChange() {
         binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-
             binding.button.alpha =
                 abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
-
             binding.button.isEnabled = binding.button.alpha >= 0.7
         }
-
-        binding.toolbarLayout.title = "SHiiiiiiititt"
-
-        binding.toolbar.setNavigationOnClickListener { finish() }
-
     }
 }

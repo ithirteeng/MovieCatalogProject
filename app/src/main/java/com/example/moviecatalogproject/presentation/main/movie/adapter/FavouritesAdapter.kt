@@ -69,6 +69,17 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
         }
     }
 
+    fun addMovies(newMoviesList: ArrayList<FavouriteMovie>) {
+        for (movie in newMoviesList) {
+            favouritesList.add(movie)
+            notifyItemInserted(favouritesList.size - 1)
+        }
+    }
+
+    fun clearMovieList() {
+        favouritesList.clear()
+    }
+
     override fun getItemCount(): Int {
         return favouritesList.size
     }
@@ -77,10 +88,6 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
         favouritesList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, favouritesList.size)
-    }
-
-    fun setFavouritesList(movieList: ArrayList<FavouriteMovie>) {
-        favouritesList = movieList
     }
 
 }

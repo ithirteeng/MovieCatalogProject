@@ -55,7 +55,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/favouritesRecyclerView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_end_start_margins"
                 android:layout_marginEnd="@dimen/common_end_start_margins"

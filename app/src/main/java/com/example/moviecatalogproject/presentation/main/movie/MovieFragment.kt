@@ -34,6 +34,10 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         }
     }
 
+    private val favouritesAdapter by lazy {
+        FavouritesAdapter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -53,6 +57,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     override fun onStop() {
         super.onStop()
         changeProgressBarVisibility(true)
+        favouritesAdapter.clearMovieList()
         galleryAdapter.clearMovieList()
     }
 
@@ -60,11 +65,11 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     @SuppressLint("NotifyDataSetChanged")
     private fun setupFavouritesRecyclerView() {
         val favouritesRecyclerView = binding.favouritesRecyclerView
+
         favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
             requireContext(), 1.3f, 0.3f
         )
 
-        val favouritesAdapter = FavouritesAdapter()
         favouritesRecyclerView.adapter = favouritesAdapter
 
         viewModel.getFavouritesList {
@@ -72,14 +77,12 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         }
 
         viewModel.getFavouritesLiveData().observe(viewLifecycleOwner) {
-            var favouritesList = arrayListOf<FavouriteMovie>()
             if (it != null) {
-                favouritesList = it
+                val favouritesList = it
                 addOnFavouritesCloseButtonFunction(favouritesList)
                 addOnFavouritesClickFunction(favouritesList)
+                favouritesAdapter.addMovies(favouritesList)
             }
-
-            favouritesAdapter.setFavouritesList(favouritesList)
             favouritesRecyclerView.adapter?.notifyDataSetChanged()
         }
 
