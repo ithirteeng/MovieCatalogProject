@@ -133,14 +133,30 @@ class MovieInfoActivity : AppCompatActivity() {
 
         viewModel.getCheckingIsMovieFavouriteResultLiveData().observe(this) {
             binding.likeButton.setButtonFavouriteState(it)
-            binding.likeButton.setButtonCorrectBackground()
+            binding.likeButton.setCorrectBackground()
         }
     }
 
     private fun onLikeButtonClick() {
         binding.likeButton.onClick {
-            //send request
+            if (binding.likeButton.isButtonFilled()) {
+                addToFavourites()
+            } else {
+                deleteFromFavourites()
+            }
         }
+    }
+
+    private fun deleteFromFavourites() {
+        viewModel.deleteFromFavourites(movieId, completeOnError = {
+            onErrorAppearanceFunction(it)
+        })
+    }
+
+    private fun addToFavourites() {
+        viewModel.addToFavourites(movieId, completeOnError = {
+            onErrorAppearanceFunction(it)
+        })
     }
 
     private fun onErrorAppearanceFunction(errorCode: Int) {
@@ -174,6 +190,5 @@ class MovieInfoActivity : AppCompatActivity() {
                 .replace(",", " ")
         }
     }
-
 }
 

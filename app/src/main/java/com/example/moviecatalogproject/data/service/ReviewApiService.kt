@@ -25,5 +25,5 @@ interface ReviewApiService {
         @Path("movieId") movieId: String,
         @Path("id") reviewId: String,
         @Header("Authorization") token: String
-    )
+    ): Response<Unit>
 }

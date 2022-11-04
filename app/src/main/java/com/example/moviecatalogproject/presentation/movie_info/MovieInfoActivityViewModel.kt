@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
-import com.example.moviecatalogproject.domain.movie_info.usecase.CheckIfMovieIsFavouriteUseCase
-import com.example.moviecatalogproject.domain.movie_info.usecase.GetMovieDetailsUseCase
-import com.example.moviecatalogproject.domain.movie_info.usecase.GetTokenFromLocalStorageUseCase
+import com.example.moviecatalogproject.domain.movie_info.usecase.*
 import kotlinx.coroutines.launch
 
 class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -51,6 +49,22 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
 
     fun getMovieDetailsLiveData(): LiveData<MovieDetails> {
         return movieDetailsLivedata
+    }
+
+    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
+
+    fun deleteFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
+        viewModelScope.launch {
+            deleteFromFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
+        }
+    }
+
+    private val addToFavouritesUseCase = AddToFavouritesUseCase()
+
+    fun addToFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
+        viewModelScope.launch {
+            addToFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
+        }
     }
 
 

@@ -21,7 +21,7 @@ class ReviewRepository {
             .putReviewEdits(movieId, reviewId, token.token, reviewShort)
     }
 
-    suspend fun deleteReview(token: Token, movieId: String, reviewId: String) {
-        NetworkService.reviewApiService.deleteReview(movieId, reviewId, token.token)
+    suspend fun deleteReview(token: Token, movieId: String, reviewId: String): Response<Unit> {
+        return NetworkService.reviewApiService.deleteReview(movieId, reviewId, token.token)
     }
 }

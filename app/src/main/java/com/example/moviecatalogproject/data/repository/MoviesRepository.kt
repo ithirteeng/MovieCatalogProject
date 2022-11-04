@@ -12,7 +12,7 @@ class MoviesRepository {
         return NetworkService.moviesApiService.getFavouritesList(token.token)
     }
 
-    suspend fun postFavouritesAddedData(movieId: String, token: Token): Response<Unit> {
+    suspend fun addToFavourites(movieId: String, token: Token): Response<Unit> {
         return NetworkService.moviesApiService.postFavouritesAddedData(movieId, token.token)
     }
 

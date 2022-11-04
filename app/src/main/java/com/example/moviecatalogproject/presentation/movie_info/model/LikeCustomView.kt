@@ -25,15 +25,19 @@ class LikeCustomView @JvmOverloads constructor(
         isFavourite = state
     }
 
-    fun onClick(addToFavourites: () -> Unit) {
+    fun onClick(completeSomething: () -> Unit) {
         binding.button.setOnClickListener {
             isFavourite = !isFavourite
-            setButtonCorrectBackground()
-            addToFavourites()
+            setCorrectBackground()
+            completeSomething()
         }
     }
 
-    fun setButtonCorrectBackground() {
+    fun isButtonFilled(): Boolean {
+        return isFavourite
+    }
+
+    fun setCorrectBackground() {
         if (isFavourite) {
             setButtonBackground(R.drawable.like_filled)
         } else {
