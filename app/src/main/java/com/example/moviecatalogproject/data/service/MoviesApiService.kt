@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.data.service
 
 import com.example.moviecatalogproject.data.model.FavouritesResponse
 import com.example.moviecatalogproject.data.model.GalleryResponse
-import com.example.moviecatalogproject.domain.main.movie.model.Movie
+import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -33,6 +33,6 @@ interface MoviesApiService {
     suspend fun getMovieDetails(
         @Path("id") movieId: String,
         @Header("Authorization") token: String
-    ): Response<Movie>
+    ): Response<MovieDetails>
 
 }

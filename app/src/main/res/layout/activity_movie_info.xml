@@ -48,15 +48,10 @@
                     android:orientation="horizontal"
                     app:layout_collapseMode="parallax">
 
-                    <ImageButton
-                        android:id="@+id/button"
+                    <com.example.moviecatalogproject.presentation.movie_info.model.LikeCustomView
+                        android:id="@+id/likeButton"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@color/transparent"
-                        android:contentDescription="@string/like_content_description"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/like_outline"
-                        android:text="@string/save_button_text"
                         tools:ignore="TouchTargetSizeCheck,ImageContrastCheck,RedundantDescriptionCheck" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>

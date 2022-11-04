@@ -15,6 +15,10 @@ class MovieInfoActivity : AppCompatActivity() {
         ActivityMovieInfoBinding.inflate(this.layoutInflater)
     }
 
+    private val movieId by lazy {
+        intent.getStringExtra(MOVIE_ID)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -24,8 +28,6 @@ class MovieInfoActivity : AppCompatActivity() {
         onAppbarOffsetChange()
 
         binding.tableLayout.setColumnShrinkable(1, true)
-        binding.toolbarLayout.title = "SHiiiiiiititt"
-
 
     }
 
@@ -40,9 +42,16 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun onAppbarOffsetChange() {
         binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            binding.button.alpha =
+            binding.likeButton.alpha =
                 abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
-            binding.button.isEnabled = binding.button.alpha >= 0.7
+            binding.likeButton.isEnabled = binding.likeButton.alpha >= 0.7
+        }
+    }
+
+    private fun onLikeButtonClick() {
+        binding.likeButton.onClick {
+            //send request
         }
     }
 }
+
