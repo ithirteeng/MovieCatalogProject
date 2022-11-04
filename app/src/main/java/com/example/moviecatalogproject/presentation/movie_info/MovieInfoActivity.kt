@@ -156,6 +156,7 @@ class MovieInfoActivity : AppCompatActivity() {
     }
 
     private fun makeStringCorrect(string: String?): String {
+        string?.replace("\n", " ")
         return string ?: "—"
     }
 
