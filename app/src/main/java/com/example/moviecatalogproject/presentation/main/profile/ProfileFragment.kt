@@ -170,7 +170,7 @@ class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit)
             )
             .error(
                 resources.getDrawable(
-                    R.drawable.default_avatar_image, requireContext().theme
+                    R.drawable.default_user_avatar_image, requireContext().theme
                 )
             )
             .into(binding.avatarImageView)

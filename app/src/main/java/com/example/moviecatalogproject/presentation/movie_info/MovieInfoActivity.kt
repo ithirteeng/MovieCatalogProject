@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
+import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.domain.main.movie.model.Genre
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
+import com.example.moviecatalogproject.presentation.movie_info.adapter.ReviewsAdapter
+import com.example.moviecatalogproject.presentation.movie_info.helper.ReviewMapper
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.abs
@@ -33,7 +36,8 @@ class MovieInfoActivity : AppCompatActivity() {
         MovieInfoActivityViewModel(application)
     }
 
-    @SuppressLint("NewApi")
+    private lateinit var reviewsAdapter: ReviewsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -44,14 +48,14 @@ class MovieInfoActivity : AppCompatActivity() {
         setupToolbar()
         onAppbarOffsetChange()
         setupLikeButtonFunctions()
-        getMovieDetails()
+        onGettingMovieDetails()
 
         binding.tableLayout.setColumnShrinkable(1, true)
 
     }
 
     @SuppressLint("SetTextI18n")
-    private fun getMovieDetails() {
+    private fun onGettingMovieDetails() {
         viewModel.getMovieDetails(movieId, completeOnError = {
             onErrorAppearanceFunction(it)
         })
@@ -69,6 +73,8 @@ class MovieInfoActivity : AppCompatActivity() {
             binding.feesTextView.text = makeMoneyStringsCorrect(movieDetails.fees)
             binding.ageTextView.text = makeStringCorrect(movieDetails.age) + "+"
             setGenres(movieDetails.genres!!)
+
+            onGettingUserId(movieDetails.reviews!!)
         }
     }
 
@@ -86,6 +92,31 @@ class MovieInfoActivity : AppCompatActivity() {
         params.bottomMargin = 20
         params.marginEnd = 20
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupReviewsRecyclerView(reviewsList: ArrayList<Review>) {
+        val recyclerView = binding.reviewRecyclerView
+        recyclerView.adapter = reviewsAdapter
+
+        reviewsAdapter.addItemsToReviewsList(
+            ReviewMapper.reviewsArrayListToExpandedReviewsArrayList(
+                reviewsList
+            )
+        )
+
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun onGettingUserId(reviewsList: ArrayList<Review>) {
+        viewModel.getUserId {
+            onErrorAppearanceFunction(it)
+        }
+
+        viewModel.getUserIdLiveData().observe(this) {
+            reviewsAdapter = ReviewsAdapter(it)
+            setupReviewsRecyclerView(reviewsList)
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

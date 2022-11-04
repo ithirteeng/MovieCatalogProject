@@ -75,5 +75,7 @@
     <string name="button_content_description">this is a button</string>
     <string name="my_review">my review</string>
     <string name="like_content_description">like button</string>
+    <string name="anonymous_username">Anonymous user</string>
+
 
 </resources>

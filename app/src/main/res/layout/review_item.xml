@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/review_background"
-    android:layout_marginBottom="@dimen/review_margin">
+    android:layout_marginBottom="@dimen/review_margin"
+    android:background="@drawable/review_background">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageBackgroundView"
@@ -96,6 +96,7 @@
         android:background="@color/transparent"
         android:contentDescription="@string/button_content_description"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reviewTextView"
@@ -112,6 +113,7 @@
         android:background="@color/transparent"
         android:contentDescription="@string/button_content_description"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/removeReviewButton"
         app:layout_constraintTop_toBottomOf="@+id/reviewTextView"

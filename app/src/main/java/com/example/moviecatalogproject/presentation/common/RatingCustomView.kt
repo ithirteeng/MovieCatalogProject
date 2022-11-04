@@ -25,6 +25,15 @@ class RatingCustomView @JvmOverloads constructor(
         changeBackgroundColor(rating, reviewsAmount)
     }
 
+    fun changeRatingView(rating: Int) {
+        setRating(rating)
+        changeBackgroundColor(rating.toDouble(), 1)
+    }
+
+    private fun setRating(rating: Int) {
+        binding.ratingTextView.text = rating.toString()
+    }
+
     private fun setRating(rating: Double, reviewsAmount: Int) {
         if (reviewsAmount == 0) {
             binding.ratingTextView.text = "—"

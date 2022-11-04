@@ -7,6 +7,6 @@ data class UserShort(
     var userId: String,
     @SerializedName("nickName")
     var nickname: String?,
-    @SerializedName("avatat")
+    @SerializedName("avatar")
     var avatar: String?
 )

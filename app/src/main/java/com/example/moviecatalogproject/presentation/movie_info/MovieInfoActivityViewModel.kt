@@ -67,5 +67,18 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
+    private val getUserIdUseCase = GetUserIdUseCase()
+    private val userIdLiveData = MutableLiveData<String>()
+
+    fun getUserId(completeOnError: (errorCode: Int) -> Unit) {
+        viewModelScope.launch {
+            userIdLiveData.value = getUserIdUseCase.execute(bearerToken, completeOnError)
+        }
+    }
+
+    fun getUserIdLiveData(): LiveData<String> {
+        return userIdLiveData
+    }
+
 
 }

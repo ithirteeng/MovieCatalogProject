@@ -279,6 +279,7 @@
             <TextView
                 android:id="@+id/reviewsTextView"
                 style="@style/body_text_style"
+                android:paddingBottom="@dimen/review_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/review"
@@ -299,10 +300,12 @@
                 tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck,DuplicateSpeakableTextCheck" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/common_end_start_margins"
                 android:layout_marginEnd="@dimen/common_end_start_margins"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
