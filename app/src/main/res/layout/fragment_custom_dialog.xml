@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/common_end_start_margins"
+    android:background="@drawable/review_window_background"
+    tools:context=".presentation.movie_info.MovieInfoActivity">
+
+    <TextView
+        android:id="@+id/addReviewTextView"
+        style="@style/header_first_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginTop="@dimen/common_end_start_margins"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:text="@string/add_review"
+        android:textColor="@color/base_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/my_ratingbar_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:numStars="10"
+        android:paddingTop="@dimen/review_margin"
+        android:paddingBottom="@dimen/review_margin"
+        android:progress="0"
+        android:rating="0.0"
+        android:stepSize="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addReviewTextView"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/reviewEditText"
+        style="@style/movie_details_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:background="@drawable/review_text_background"
+        android:gravity="top"
+        android:hint="@string/add_review"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minHeight="150dp"
+        android:padding="@dimen/review_margin"
+        android:textColor="@color/review_dialog_color"
+        android:textColorHint="@color/review_dialog_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <TextView
+        android:id="@+id/anonymousTextView"
+        style="@style/body_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginTop="@dimen/common_end_start_margins"
+        android:layout_marginBottom="@dimen/common_end_start_margins"
+        android:text="@string/anonymous_review"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewEditText" />
+
+    <CheckBox
+        android:background="@color/transparent"
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_end_start_margins"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:button="@drawable/checkbox_selector"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/sign_button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="@string/save_button_text"
+        android:textColor="@color/base_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        style="@style/text_button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_end_start_margins"
+        android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:text="@string/cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

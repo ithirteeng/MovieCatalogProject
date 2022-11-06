@@ -2,11 +2,15 @@ package com.example.moviecatalogproject.presentation.movie_info
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
@@ -14,6 +18,7 @@ import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.domain.main.movie.model.Genre
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.movie_info.adapter.ReviewsAdapter
+import com.example.moviecatalogproject.presentation.movie_info.dialog.CustomDialogFragment
 import com.example.moviecatalogproject.presentation.movie_info.helper.ReviewMapper
 import java.text.NumberFormat
 import java.util.*
@@ -38,6 +43,8 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private lateinit var reviewsAdapter: ReviewsAdapter
 
+    private val dialogFragment = CustomDialogFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -49,9 +56,16 @@ class MovieInfoActivity : AppCompatActivity() {
         onAppbarOffsetChange()
         setupLikeButtonFunctions()
         onGettingMovieDetails()
-
+        setupDialogFragment()
+        onAddReviewButtonClick()
         binding.tableLayout.setColumnShrinkable(1, true)
 
+    }
+
+    private fun setupDialogFragment() {
+        dialogFragment.dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme)
     }
 
     @SuppressLint("SetTextI18n")
@@ -174,6 +188,12 @@ class MovieInfoActivity : AppCompatActivity() {
             } else {
                 deleteFromFavourites()
             }
+        }
+    }
+
+    private fun onAddReviewButtonClick() {
+        binding.addButton.setOnClickListener {
+            dialogFragment.show(supportFragmentManager, "review_dialog")
         }
     }
 
