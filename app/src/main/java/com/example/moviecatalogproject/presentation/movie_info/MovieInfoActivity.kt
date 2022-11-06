@@ -18,10 +18,12 @@ import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
 import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.domain.main.movie.model.Genre
 import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
+import com.example.moviecatalogproject.domain.movie_info.model.ReviewShort
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.movie_info.adapter.ReviewsAdapter
 import com.example.moviecatalogproject.presentation.movie_info.dialog.CustomDialogFragment
 import com.example.moviecatalogproject.presentation.movie_info.helper.ReviewMapper
+import com.example.moviecatalogproject.presentation.movie_info.model.CreatingDialogReason
 import com.example.moviecatalogproject.presentation.movie_info.model.ExpandedReview
 import java.text.NumberFormat
 import java.util.*
@@ -48,8 +50,8 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private val dialogFragment by lazy {
         CustomDialogFragment(movieId, completeOnAddingReview = {
-            changeAddReviewButtonVisibility(true)
             reviewsAdapter.clearReviewsList()
+            binding.flexBox.removeAllViews()
             getMovieDetails()
         })
     }
@@ -210,6 +212,7 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun onAddReviewButtonClick() {
         binding.addButton.setOnClickListener {
+            dialogFragment.setCreatingReason(CreatingDialogReason.ADD_REVIEW)
             dialogFragment.show(supportFragmentManager, "review_dialog")
         }
     }
@@ -224,11 +227,21 @@ class MovieInfoActivity : AppCompatActivity() {
     private fun addOnDeleteReviewFunction(expandedReview: ExpandedReview) {
         expandedReview.onDeleteButtonClick = { reviewId ->
             viewModel.deleteReview(movieId, reviewId)
+            binding.addButton.visibility = View.VISIBLE
         }
     }
 
     private fun addOnChangeReviewFunctions(expandedReview: ExpandedReview) {
-        expandedReview.onRedactButtonClick = {
+        expandedReview.onRedactButtonClick = { reviewId ->
+            dialogFragment.setReviewId(reviewId)
+            dialogFragment.setCreatingReason(CreatingDialogReason.CHANGE_REVIEW)
+            dialogFragment.setReviewShortInfo(
+                ReviewShort(
+                    expandedReview.review.reviewText!!,
+                    expandedReview.review.rating,
+                    expandedReview.review.isAnonymous
+                )
+            )
             dialogFragment.show(supportFragmentManager, "review_dialog")
         }
     }
@@ -255,8 +268,11 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun checkUserReviewExisting(reviewsList: ArrayList<Review>, userId: String): Boolean {
         for (review in reviewsList) {
-            if (!review.isAnonymous && review.author.userId == userId) {
-                return true
+            try {
+                if (review.author.userId == userId) {
+                    return true
+                }
+            } catch (_: Exception) {
             }
         }
         return false

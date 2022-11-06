@@ -88,5 +88,4 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
-
 }

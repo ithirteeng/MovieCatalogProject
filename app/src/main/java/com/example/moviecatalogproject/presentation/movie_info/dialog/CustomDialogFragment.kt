@@ -9,6 +9,7 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentCustomDialogBinding
 import com.example.moviecatalogproject.domain.movie_info.model.ReviewShort
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
+import com.example.moviecatalogproject.presentation.movie_info.model.CreatingDialogReason
 
 class CustomDialogFragment(
     private val movieId: String,
@@ -21,6 +22,12 @@ class CustomDialogFragment(
         CustomDialogFragmentViewModel(activity?.application!!)
     }
 
+    private var creatingReason = CreatingDialogReason.ADD_REVIEW
+
+    private lateinit var reviewId: String
+
+    private lateinit var reviewShortInfo: ReviewShort
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = requireActivity().layoutInflater.inflate(R.layout.fragment_custom_dialog, null)
         binding = FragmentCustomDialogBinding.bind(view)
@@ -28,8 +35,24 @@ class CustomDialogFragment(
         onCancelButtonClick()
         onSaveButtonClick()
 
+        if (creatingReason == CreatingDialogReason.CHANGE_REVIEW) {
+            setReviewInfo()
+        }
+
         val builder = AlertDialog.Builder(requireActivity(), R.style.ProgressDialogTheme)
         return builder.setView(view).create()
+    }
+
+    fun setReviewId(reviewId: String) {
+        this.reviewId = reviewId
+    }
+
+    fun setReviewShortInfo(reviewShort: ReviewShort) {
+        this.reviewShortInfo = reviewShort
+    }
+
+    fun setCreatingReason(creatingDialogReason: CreatingDialogReason) {
+        creatingReason = creatingDialogReason
     }
 
     private fun onCancelButtonClick() {
@@ -40,12 +63,29 @@ class CustomDialogFragment(
 
     private fun onSaveButtonClick() {
         binding.saveButton.setOnClickListener {
-            viewModel.addReview(movieId, setupShortReviewInfo(), completeOnError = {
-                onErrorAppearanceFunction(it)
-            })
+            if (creatingReason == CreatingDialogReason.ADD_REVIEW) {
+                viewModel.addReview(movieId, setupShortReviewInfo(), completeOnError = {
+                    onErrorAppearanceFunction(it)
+                })
+            } else {
+                viewModel.changeReview(
+                    movieId,
+                    reviewId,
+                    setupShortReviewInfo(),
+                    completeOnError = {
+                        onErrorAppearanceFunction(it)
+                    })
+            }
+
             this.dismiss()
             completeOnAddingReview()
         }
+    }
+
+    private fun setReviewInfo() {
+        binding.ratingBar.rating = reviewShortInfo.rating.toFloat()
+        binding.reviewEditText.setText(reviewShortInfo.reviewText)
+        binding.checkBox.isChecked = reviewShortInfo.isAnonymous
     }
 
     private fun setupShortReviewInfo(): ReviewShort {

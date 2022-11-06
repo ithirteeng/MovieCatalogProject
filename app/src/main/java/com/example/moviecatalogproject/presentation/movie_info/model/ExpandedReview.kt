@@ -4,6 +4,6 @@ import com.example.moviecatalogproject.domain.common.model.Review
 
 data class ExpandedReview (
     var review: Review,
-    var onRedactButtonClick: (() -> Unit)?,
+    var onRedactButtonClick: ((reviewId: String) -> Unit)?,
     var onDeleteButtonClick: ((reviewId: String) -> Unit)?
 )

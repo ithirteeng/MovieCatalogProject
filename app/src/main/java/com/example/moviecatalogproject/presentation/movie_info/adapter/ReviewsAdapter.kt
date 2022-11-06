@@ -93,7 +93,7 @@ class ReviewsAdapter(private val userId: String) :
         holder.changeButtonsOnReviewOwnership(userId, item.review)
 
         holder.onRedactButtonClick {
-            item.onRedactButtonClick?.invoke()
+            item.onRedactButtonClick?.invoke(item.review.id)
         }
         holder.onDeleteButtonClick {
             item.onDeleteButtonClick?.invoke(item.review.id)
