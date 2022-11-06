@@ -22,6 +22,7 @@ import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.movie_info.adapter.ReviewsAdapter
 import com.example.moviecatalogproject.presentation.movie_info.dialog.CustomDialogFragment
 import com.example.moviecatalogproject.presentation.movie_info.helper.ReviewMapper
+import com.example.moviecatalogproject.presentation.movie_info.model.ExpandedReview
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.abs
@@ -126,12 +127,12 @@ class MovieInfoActivity : AppCompatActivity() {
     private fun setupReviewsRecyclerView(reviewsList: ArrayList<Review>) {
         val recyclerView = binding.reviewRecyclerView
         recyclerView.adapter = reviewsAdapter
-
-        reviewsAdapter.addItemsToReviewsList(
-            ReviewMapper.reviewsArrayListToExpandedReviewsArrayList(
-                reviewsList
-            )
+        val expandedReviewsList = ReviewMapper.reviewsArrayListToExpandedReviewsArrayList(
+            reviewsList
         )
+        addOnReviewButtonClickFunctions(expandedReviewsList)
+
+        reviewsAdapter.addItemsToReviewsList(expandedReviewsList)
 
         recyclerView.adapter?.notifyDataSetChanged()
     }
@@ -209,6 +210,25 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun onAddReviewButtonClick() {
         binding.addButton.setOnClickListener {
+            dialogFragment.show(supportFragmentManager, "review_dialog")
+        }
+    }
+
+    private fun addOnReviewButtonClickFunctions(expandedReviewsList: ArrayList<ExpandedReview>) {
+        for (review in expandedReviewsList) {
+            addOnDeleteReviewFunction(review)
+            addOnChangeReviewFunctions(review)
+        }
+    }
+
+    private fun addOnDeleteReviewFunction(expandedReview: ExpandedReview) {
+        expandedReview.onDeleteButtonClick = { reviewId ->
+            viewModel.deleteReview(movieId, reviewId)
+        }
+    }
+
+    private fun addOnChangeReviewFunctions(expandedReview: ExpandedReview) {
+        expandedReview.onRedactButtonClick = {
             dialogFragment.show(supportFragmentManager, "review_dialog")
         }
     }

@@ -80,5 +80,13 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         return userIdLiveData
     }
 
+    private val deleteReviewUseCase = DeleteReviewUseCase()
+
+    fun deleteReview(movieId: String, reviewId: String) {
+        viewModelScope.launch {
+            deleteReviewUseCase.execute(bearerToken, movieId, reviewId)
+        }
+    }
+
 
 }

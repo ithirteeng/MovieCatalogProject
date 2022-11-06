@@ -96,13 +96,26 @@ class ReviewsAdapter(private val userId: String) :
             item.onRedactButtonClick?.invoke()
         }
         holder.onDeleteButtonClick {
-            item.onDeleteButtonClick?.invoke()
+            item.onDeleteButtonClick?.invoke(item.review.id)
+            deleteUserReview(userId)
         }
 
     }
 
     override fun getItemCount(): Int {
         return reviewsList.size
+    }
+
+    private fun deleteUserReview(userId: String) {
+        for (index in reviewsList.indices) {
+            try {
+                if (reviewsList[index].review.author.userId == userId) {
+                    reviewsList.removeAt(index)
+                    notifyItemRemoved(index)
+                }
+            } catch (_: Exception) {
+            }
+        }
     }
 
     fun clearReviewsList() {

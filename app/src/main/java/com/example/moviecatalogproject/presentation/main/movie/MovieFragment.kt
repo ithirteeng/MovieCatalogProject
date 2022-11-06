@@ -188,6 +188,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         ).into(binding.bannerImageView)
     }
 
+
     private fun onErrorAppearanceFunction(errorCode: Int) {
         if (errorCode == 401) {
             makeIntentToEntranceActivity()
