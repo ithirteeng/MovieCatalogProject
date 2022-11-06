@@ -10,7 +10,8 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FavouritesItemBinding
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 
-class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
+class FavouritesAdapter(private val changeTextVisibility: () -> Unit) :
+    RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
     class FavouritesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = FavouritesItemBinding.bind(view)
@@ -33,7 +34,9 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
                 .into(binding.filmImageView)
         }
 
-        fun onCloseButtonClick(onCloseButtonClick: () -> Unit) {
+        fun onCloseButtonClick(
+            onCloseButtonClick: () -> Unit,
+        ) {
             binding.closeButton.setOnClickListener {
                 onCloseButtonClick()
             }
@@ -63,6 +66,9 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
         holder.onCloseButtonClick {
             item.removeFromFavourites?.invoke()
             removeItemAt(position)
+            if (favouritesList.size == 0) {
+                changeTextVisibility()
+            }
         }
         holder.onMovieClick {
             item.onMovieClick?.invoke(item.id)

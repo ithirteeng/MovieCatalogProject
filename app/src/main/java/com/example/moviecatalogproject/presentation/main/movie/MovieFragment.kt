@@ -35,7 +35,9 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     }
 
     private val favouritesAdapter by lazy {
-        FavouritesAdapter()
+        FavouritesAdapter {
+            binding.favouritesTextView.visibility = View.GONE
+        }
     }
 
     override fun onCreateView(
@@ -79,6 +81,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         viewModel.getFavouritesLiveData().observe(viewLifecycleOwner) {
             if (it != null) {
                 val favouritesList = it
+                changeFavouritesTextViewVisibility(favouritesList)
                 addOnFavouritesCloseButtonFunction(favouritesList)
                 addOnFavouritesClickFunction(favouritesList)
                 favouritesAdapter.addMovies(favouritesList)
@@ -86,6 +89,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
             favouritesRecyclerView.adapter?.notifyDataSetChanged()
         }
 
+    }
+
+    private fun changeFavouritesTextViewVisibility(favouritesArrayList: ArrayList<FavouriteMovie>) {
+        if (favouritesArrayList.size == 0) {
+            binding.favouritesTextView.visibility = View.GONE
+        } else {
+            binding.favouritesTextView.visibility = View.VISIBLE
+        }
     }
 
     private fun addOnFavouritesCloseButtonFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
