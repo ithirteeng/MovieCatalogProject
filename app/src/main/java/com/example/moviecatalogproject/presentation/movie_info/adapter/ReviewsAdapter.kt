@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ReviewItemBinding
 import com.example.moviecatalogproject.domain.common.model.Review
+import com.example.moviecatalogproject.presentation.common.helper.DateConverter
 import com.example.moviecatalogproject.presentation.movie_info.model.ExpandedReview
 
 class ReviewsAdapter(private val userId: String) :
@@ -31,26 +32,30 @@ class ReviewsAdapter(private val userId: String) :
 
         fun bind(review: Review) {
             if (!review.isAnonymous) {
-                binding.userOwnReviewTextView.visibility = View.GONE
                 binding.usernameTextView.text = review.author.nickname
                 setAvatarImage(review.author.avatar)
             } else {
                 setAvatarImage("")
-                binding.userOwnReviewTextView.visibility = View.GONE
                 binding.usernameTextView.text =
                     binding.root.resources.getString(R.string.anonymous_username)
             }
-
-            binding.reviewDateTextView.text = review.createDateTime
+            binding.userOwnReviewTextView.visibility = View.GONE
             binding.ratingCustomView.changeRatingView(review.rating)
             binding.reviewTextView.text = review.reviewText
+            binding.reviewDateTextView.text =
+                DateConverter.convertToNormalForm(review.createDateTime)
         }
 
         fun changeButtonsOnReviewOwnership(userId: String, review: Review) {
-            if (!review.isAnonymous && userId == review.author.userId) {
-                binding.removeReviewButton.visibility = View.VISIBLE
-                binding.redactReviewButton.visibility = View.VISIBLE
+            try {
+                if (userId == review.author.userId) {
+                    binding.userOwnReviewTextView.visibility = View.VISIBLE
+                    binding.removeReviewButton.visibility = View.VISIBLE
+                    binding.redactReviewButton.visibility = View.VISIBLE
+                }
+            } catch (_: Exception) {
             }
+
         }
 
         @SuppressLint("UseCompatLoadingForDrawables")
@@ -98,6 +103,10 @@ class ReviewsAdapter(private val userId: String) :
 
     override fun getItemCount(): Int {
         return reviewsList.size
+    }
+
+    fun clearReviewsList() {
+        reviewsList.clear()
     }
 
     fun addItemsToReviewsList(newReviewsList: ArrayList<ExpandedReview>) {

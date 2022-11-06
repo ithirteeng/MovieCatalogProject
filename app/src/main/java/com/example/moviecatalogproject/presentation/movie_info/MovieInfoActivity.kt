@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ContextThemeWrapper
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivityMovieInfoBinding
 import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.domain.main.movie.model.Genre
+import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.movie_info.adapter.ReviewsAdapter
 import com.example.moviecatalogproject.presentation.movie_info.dialog.CustomDialogFragment
@@ -43,7 +45,13 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private lateinit var reviewsAdapter: ReviewsAdapter
 
-    private val dialogFragment = CustomDialogFragment()
+    private val dialogFragment by lazy {
+        CustomDialogFragment(movieId, completeOnAddingReview = {
+            changeAddReviewButtonVisibility(true)
+            reviewsAdapter.clearReviewsList()
+            getMovieDetails()
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,28 +76,34 @@ class MovieInfoActivity : AppCompatActivity() {
         dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun onGettingMovieDetails() {
+        getMovieDetails()
+        viewModel.getMovieDetailsLiveData().observe(this) { movieDetails ->
+            setMovieDetails(movieDetails)
+            onGettingUserId(movieDetails.reviews!!)
+        }
+    }
+
+    private fun getMovieDetails() {
         viewModel.getMovieDetails(movieId, completeOnError = {
             onErrorAppearanceFunction(it)
         })
+    }
 
-        viewModel.getMovieDetailsLiveData().observe(this) { movieDetails ->
-            setBannerImage(movieDetails.poster!!)
-            binding.toolbarLayout.title = movieDetails.name
-            binding.descriptionTextView.text = movieDetails.description
-            binding.yearTextView.text = makeStringCorrect(movieDetails.year)
-            binding.countryTextView.text = makeStringCorrect(movieDetails.country)
-            binding.timeTextView.text = makeStringCorrect(movieDetails.time)
-            binding.sloganTextView.text = makeStringCorrect(movieDetails.slogan)
-            binding.directorTextView.text = makeStringCorrect(movieDetails.director)
-            binding.budgetTextView.text = makeMoneyStringsCorrect(movieDetails.budget)
-            binding.feesTextView.text = makeMoneyStringsCorrect(movieDetails.fees)
-            binding.ageTextView.text = makeStringCorrect(movieDetails.age) + "+"
-            setGenres(movieDetails.genres!!)
-
-            onGettingUserId(movieDetails.reviews!!)
-        }
+    @SuppressLint("SetTextI18n")
+    private fun setMovieDetails(movieDetails: MovieDetails) {
+        setBannerImage(movieDetails.poster!!)
+        binding.toolbarLayout.title = movieDetails.name
+        binding.descriptionTextView.text = movieDetails.description
+        binding.yearTextView.text = makeStringCorrect(movieDetails.year)
+        binding.countryTextView.text = makeStringCorrect(movieDetails.country)
+        binding.timeTextView.text = makeStringCorrect(movieDetails.time)
+        binding.sloganTextView.text = makeStringCorrect(movieDetails.slogan)
+        binding.directorTextView.text = makeStringCorrect(movieDetails.director)
+        binding.budgetTextView.text = makeMoneyStringsCorrect(movieDetails.budget)
+        binding.feesTextView.text = makeMoneyStringsCorrect(movieDetails.fees)
+        binding.ageTextView.text = makeStringCorrect(movieDetails.age) + "+"
+        setGenres(movieDetails.genres!!)
     }
 
     private fun setGenres(genresList: ArrayList<Genre>) {
@@ -128,6 +142,8 @@ class MovieInfoActivity : AppCompatActivity() {
         }
 
         viewModel.getUserIdLiveData().observe(this) {
+            val ifUserReviewExists = checkUserReviewExisting(reviewsList, it)
+            changeAddReviewButtonVisibility(ifUserReviewExists)
             reviewsAdapter = ReviewsAdapter(it)
             setupReviewsRecyclerView(reviewsList)
         }
@@ -207,6 +223,23 @@ class MovieInfoActivity : AppCompatActivity() {
         viewModel.addToFavourites(movieId, completeOnError = {
             onErrorAppearanceFunction(it)
         })
+    }
+
+    private fun changeAddReviewButtonVisibility(ifUserReviewExists: Boolean) {
+        if (!ifUserReviewExists) {
+            binding.addButton.visibility = View.VISIBLE
+        } else {
+            binding.addButton.visibility = View.GONE
+        }
+    }
+
+    private fun checkUserReviewExisting(reviewsList: ArrayList<Review>, userId: String): Boolean {
+        for (review in reviewsList) {
+            if (!review.isAnonymous && review.author.userId == userId) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun onErrorAppearanceFunction(errorCode: Int) {
