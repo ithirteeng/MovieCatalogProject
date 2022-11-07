@@ -3,7 +3,7 @@ package com.example.moviecatalogproject.data.repository
 import android.content.Context
 import com.example.moviecatalogproject.data.service.NetworkService
 import com.example.moviecatalogproject.data.storage.SharedPreferencesStorage
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 
 class TokenRepository(context: Context) {
 
@@ -19,9 +19,9 @@ class TokenRepository(context: Context) {
         return sharedPreferencesStorage.getToken()
     }
 
-//    fun deleteTokenFromLocalStorage() {
-//        sharedPreferencesStorage.deleteToken()
-//    }
+    fun deleteTokenFromLocalStorage() {
+        sharedPreferencesStorage.deleteToken()
+    }
 
     suspend fun checkTokenExpiration(token: Token): Boolean {
         val response =

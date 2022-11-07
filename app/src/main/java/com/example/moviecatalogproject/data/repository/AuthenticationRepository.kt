@@ -3,7 +3,7 @@ package com.example.moviecatalogproject.data.repository
 import com.example.moviecatalogproject.data.service.NetworkService
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
-import com.example.moviecatalogproject.domain.model.Token
+import com.example.moviecatalogproject.domain.common.model.Token
 import retrofit2.Response
 
 class AuthenticationRepository {
@@ -16,8 +16,8 @@ class AuthenticationRepository {
         return NetworkService.authenticationApiService.postRegistrationData(registrationData)
     }
 
-    suspend fun postLogoutData() {
-        TODO("Not yet implemented")
+    suspend fun postLogoutData(token: Token) {
+        NetworkService.authenticationApiService.postLogoutData(token.token)
     }
 
 }
