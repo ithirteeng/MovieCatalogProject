@@ -49,7 +49,7 @@ class MovieInfoActivity : AppCompatActivity() {
     private val reviewsAdapter = ReviewsAdapter()
 
     private val dialogFragment by lazy {
-        CustomDialogFragment(movieId, completeOnAddingReview = {
+        CustomDialogFragment(movieId, completeOnSavingReview = {
             reviewsAdapter.clearReviewsList()
             binding.flexBox.removeAllViews()
             binding.progressBar.visibility = View.VISIBLE

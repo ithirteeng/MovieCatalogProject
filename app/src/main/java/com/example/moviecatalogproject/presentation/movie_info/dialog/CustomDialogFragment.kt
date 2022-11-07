@@ -13,7 +13,7 @@ import com.example.moviecatalogproject.presentation.movie_info.model.CreatingDia
 
 class CustomDialogFragment(
     private val movieId: String,
-    private val completeOnAddingReview: () -> Unit
+    private val completeOnSavingReview: () -> Unit
 ) : DialogFragment() {
 
     private lateinit var binding: FragmentCustomDialogBinding
@@ -69,6 +69,10 @@ class CustomDialogFragment(
                 viewModel.addReview(movieId, setupShortReviewInfo(), completeOnError = {
                     onErrorAppearanceFunction(it)
                 })
+                viewModel.getOnCompleteAddingLiveData().observe(this) {
+                    completeOnSavingReview()
+                    this.dismiss()
+                }
             } else {
                 viewModel.changeReview(
                     movieId,
@@ -77,10 +81,13 @@ class CustomDialogFragment(
                     completeOnError = {
                         onErrorAppearanceFunction(it)
                     })
+
+                viewModel.getOnCompleteChangingLiveData().observe(this) {
+                    completeOnSavingReview()
+                    this.dismiss()
+                }
             }
 
-            this.dismiss()
-            completeOnAddingReview()
         }
     }
 

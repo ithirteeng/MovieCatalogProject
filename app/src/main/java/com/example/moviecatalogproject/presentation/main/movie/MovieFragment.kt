@@ -20,7 +20,7 @@ import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovi
 import com.example.moviecatalogproject.presentation.movie_info.MovieInfoActivity
 
 
-class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
+class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
 

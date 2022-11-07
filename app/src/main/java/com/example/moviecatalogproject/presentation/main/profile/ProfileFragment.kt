@@ -22,7 +22,7 @@ import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
+class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 

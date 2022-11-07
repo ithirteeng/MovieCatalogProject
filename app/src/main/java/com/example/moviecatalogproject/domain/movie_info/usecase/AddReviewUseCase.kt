@@ -16,11 +16,12 @@ class AddReviewUseCase {
         movieId: String,
         reviewShort: ReviewShort,
         completeOnError: (errorCode: Int) -> Unit
-    ) {
+    ): Boolean {
         val response = reviewRepository.addReview(token, movieId, reviewShort)
         if (!response.isSuccessful) {
             Log.d("REVIEW", "review post error: ${response.code()}")
             completeOnError(response.code())
         }
+        return response.isSuccessful
     }
 }
