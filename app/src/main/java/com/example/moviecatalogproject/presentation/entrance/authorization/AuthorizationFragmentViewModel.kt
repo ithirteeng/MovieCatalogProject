@@ -13,16 +13,13 @@ import kotlinx.coroutines.launch
 
 class AuthorizationFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val postAuthorizationDataUseCase by lazy {
-        PostAuthorizationDataUseCase()
+    private val saveTokenUseCase = SaveTokenUseCase(application.applicationContext)
+    fun saveTokenToLocalStorage(token: Token) {
+        saveTokenUseCase.execute(token)
     }
 
-    private val saveTokenUseCase by lazy {
-        SaveTokenUseCase(application.applicationContext)
-    }
-
+    private val postAuthorizationDataUseCase = PostAuthorizationDataUseCase()
     private val tokenLiveData = MutableLiveData<Token?>()
-
     fun postAuthorizationData(
         authorizationData: AuthorizationData, completeOnError: (errorCode: Int) -> Unit
     ) {
@@ -31,10 +28,6 @@ class AuthorizationFragmentViewModel(application: Application) : AndroidViewMode
                 authorizationData, completeOnError
             )
         }
-    }
-
-    fun saveTokenToLocalStorage(token: Token) {
-        saveTokenUseCase.execute(token)
     }
 
     fun getTokenLiveData(): LiveData<Token?> {

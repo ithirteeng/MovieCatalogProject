@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentCustomDialogBinding
@@ -39,7 +40,7 @@ class CustomDialogFragment(
         onSaveButtonClick()
 
         if (creatingReason == CreatingDialogReason.CHANGE_REVIEW) {
-            setReviewInfo()
+            bindReviewInfo()
         }
 
         val builder = AlertDialog.Builder(requireActivity(), R.style.ProgressDialogTheme)
@@ -66,35 +67,49 @@ class CustomDialogFragment(
 
     private fun onSaveButtonClick() {
         binding.saveButton.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             if (creatingReason == CreatingDialogReason.ADD_REVIEW) {
-                viewModel.addReview(movieId, setupShortReviewInfo(), completeOnError = {
-                    onErrorAppearanceFunction(it)
-                })
-                viewModel.getOnCompleteAddingLiveData().observe(this) {
-                    completeOnSavingReview()
-                    this.dismiss()
-                }
+                addReview()
+                onAddingReview()
             } else {
-                viewModel.changeReview(
-                    movieId,
-                    reviewId,
-                    setupShortReviewInfo(),
-                    completeOnError = {
-                        onErrorAppearanceFunction(it)
-                    })
-                binding.progressBar.visibility = View.VISIBLE
-
-                viewModel.getOnCompleteChangingLiveData().observe(this) {
-                    completeOnSavingReview()
-                    binding.progressBar.visibility = View.GONE
-                    this.dismiss()
-                }
+                changeReview()
+                onChangingReview()
             }
-
         }
     }
 
-    private fun setReviewInfo() {
+    private fun addReview() {
+        viewModel.addReview(movieId, setupShortReviewInfo(), completeOnError = {
+            onErrorAppearanceFunction(it)
+        })
+    }
+
+    private fun onAddingReview() {
+        viewModel.getOnCompleteAddingLiveData().observe(this) {
+            completeOnSavingReview()
+            this.dismiss()
+        }
+    }
+
+    private fun changeReview() {
+        viewModel.changeReview(
+            movieId,
+            reviewId,
+            setupShortReviewInfo(),
+            completeOnError = {
+                onErrorAppearanceFunction(it)
+            })
+    }
+
+    private fun onChangingReview() {
+        viewModel.getOnCompleteChangingLiveData().observe(this) {
+            completeOnSavingReview()
+            binding.progressBar.visibility = View.GONE
+            this.dismiss()
+        }
+    }
+
+    private fun bindReviewInfo() {
         binding.ratingBar.rating = reviewShortInfo.rating.toFloat()
         binding.reviewEditText.setText(reviewShortInfo.reviewText)
         binding.checkBox.isChecked = reviewShortInfo.isAnonymous
@@ -104,17 +119,19 @@ class CustomDialogFragment(
         return ReviewShort(
             binding.reviewEditText.text.toString(),
             binding.ratingBar.rating.toInt(),
-            checkIsAnonymous()
+            binding.checkBox.isChecked
         )
-    }
-
-    private fun checkIsAnonymous(): Boolean {
-        return binding.checkBox.isChecked
     }
 
     private fun onErrorAppearanceFunction(errorCode: Int) {
         if (errorCode == 401) {
             makeIntentToEntranceActivity()
+        } else {
+            Toast.makeText(
+                this.context,
+                resources.getString(R.string.review_error),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

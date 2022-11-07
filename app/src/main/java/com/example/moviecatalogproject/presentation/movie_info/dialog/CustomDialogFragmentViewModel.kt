@@ -24,9 +24,9 @@ class CustomDialogFragmentViewModel(application: Application) : AndroidViewModel
         Token("Bearer ${token.token}")
     }
 
+
     private val addReviewUseCase = AddReviewUseCase()
     private val onCompleteAddingLiveData = SingleEventLiveData<Boolean>()
-
     fun addReview(
         movieId: String,
         reviewShort: ReviewShort,
@@ -42,9 +42,9 @@ class CustomDialogFragmentViewModel(application: Application) : AndroidViewModel
         return onCompleteAddingLiveData
     }
 
+
     private val changeReviewUseCase = ChangeReviewUseCase()
     private val onCompleteChangingLiveData = SingleEventLiveData<Boolean>()
-
     fun changeReview(
         movieId: String,
         reviewId: String,

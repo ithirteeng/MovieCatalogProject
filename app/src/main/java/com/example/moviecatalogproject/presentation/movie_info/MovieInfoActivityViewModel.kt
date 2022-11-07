@@ -24,9 +24,9 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         Token("Bearer ${token.token}")
     }
 
+
     private val checkIfMovieIsFavouriteUseCase = CheckIfMovieIsFavouriteUseCase()
     private val checkIsFavouriteResultLiveData = MutableLiveData<Boolean>()
-
     fun checkIsMovieFavourite(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             checkIsFavouriteResultLiveData.value =
@@ -38,9 +38,9 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         return checkIsFavouriteResultLiveData
     }
 
+
     private val getMovieDetailsUseCase = GetMovieDetailsUseCase()
     private val movieDetailsLivedata = MutableLiveData<MovieDetails>()
-
     fun getMovieDetails(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             movieDetailsLivedata.value =
@@ -52,25 +52,25 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         return movieDetailsLivedata
     }
 
-    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
 
+    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             deleteFromFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
         }
     }
 
-    private val addToFavouritesUseCase = AddToFavouritesUseCase()
 
+    private val addToFavouritesUseCase = AddToFavouritesUseCase()
     fun addToFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             addToFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
         }
     }
 
+
     private val getUserIdUseCase = GetUserIdUseCase()
     private val userIdLiveData = SingleEventLiveData<String>()
-
     fun getUserId(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             userIdLiveData.value = getUserIdUseCase.execute(bearerToken, completeOnError)
@@ -81,8 +81,8 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
         return userIdLiveData
     }
 
-    private val deleteReviewUseCase = DeleteReviewUseCase()
 
+    private val deleteReviewUseCase = DeleteReviewUseCase()
     fun deleteReview(movieId: String, reviewId: String) {
         viewModelScope.launch {
             deleteReviewUseCase.execute(bearerToken, movieId, reviewId)

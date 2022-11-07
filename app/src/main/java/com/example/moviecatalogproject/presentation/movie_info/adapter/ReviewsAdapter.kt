@@ -12,8 +12,7 @@ import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.presentation.common.helper.DateConverter
 import com.example.moviecatalogproject.presentation.movie_info.model.ExpandedReview
 
-class ReviewsAdapter() :
-    RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>() {
+class ReviewsAdapter : RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>() {
 
     private lateinit var userId: String
 
