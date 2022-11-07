@@ -48,31 +48,6 @@
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="header_first_style">
-        <item name="android:textColor">@color/accent</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/header_first_text_size</item>
-        <item name="android:layout_marginTop">@dimen/header_first_text_margin</item>
-        <item name="android:layout_marginBottom">@dimen/header_first_text_margin</item>
-        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
-        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
-        <item name="android:fontFamily">@font/ibm_plex_sans</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="header_second_style">
-        <item name="android:textColor">@color/bright_white</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/header_second_text_size</item>
-        <item name="android:layout_marginBottom">@dimen/header_second_text_margin</item>
-        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
-        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
-        <item name="android:fontFamily">@font/ibm_plex_sans</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="profile_text_style">
         <item name="android:textColor">@color/gray</item>
         <item name="android:layout_width">wrap_content</item>
@@ -146,4 +121,76 @@
         <item name="android:textSize">@dimen/main_module_button_text_size</item>
     </style>
 
+    <style name="title_text_style">
+        <item name="android:singleLine">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/title_text_top_bottom_padding</item>
+        <item name="android:paddingBottom">@dimen/title_text_top_bottom_padding</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@color/bright_white</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header_first_style">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/header_first_text_size</item>
+        <item name="android:paddingTop">@dimen/header_first_top_bottom_padding</item>
+        <item name="android:paddingBottom">@dimen/header_first_top_bottom_padding</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header_second_style">
+        <item name="android:textColor">@color/bright_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/header_second_text_size</item>
+        <item name="android:layout_marginBottom">@dimen/header_second_text_margin</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="body_text_style">
+        <item name="android:textColor">@color/bright_white</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginStart">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/common_end_start_margins</item>
+        <item name="android:paddingTop">@dimen/body_text_top_bottom_padding</item>
+        <item name="android:paddingBottom">@dimen/body_text_top_bottom_padding</item>
+    </style>
+
+    <style name="genre_style">
+        <item name="android:background">@drawable/genre_background</item>
+        <item name="android:paddingStart">@dimen/common_end_start_margins</item>
+        <item name="android:paddingEnd">@dimen/common_end_start_margins</item>
+        <item name="android:layout_marginEnd">@dimen/genre_margin</item>
+        <item name="android:layout_marginBottom">@dimen/genre_margin</item>
+        <item name="android:paddingTop">6sp</item>
+        <item name="android:paddingBottom">6sp</item>
+        <item name="android:textColor">@color/base_white</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="ProgressDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="my_ratingbar_style" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">12dp</item>
+        <item name="android:maxHeight">50dp</item>
+
+    </style>
 </resources>

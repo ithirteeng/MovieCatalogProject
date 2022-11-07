@@ -27,10 +27,9 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
         Token("Bearer ${token.token}")
     }
 
+
     private val getMoviesListUseCase = GetMoviesListUseCase()
     private val galleryMoviesLiveData = SingleEventLiveData<ArrayList<GalleryMovie>?>()
-
-
     fun getMoviesList(page: Int, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             galleryMoviesLiveData.value =
@@ -42,9 +41,9 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
         return galleryMoviesLiveData
     }
 
+
     private val getFavouritesListUseCase = GetFavouritesListUseCase()
     private val favouritesListLiveData = SingleEventLiveData<ArrayList<FavouriteMovie>?>()
-
     fun getFavouritesList(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             favouritesListLiveData.value =
@@ -56,8 +55,8 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
         return favouritesListLiveData
     }
 
-    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
 
+    private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteMovieFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             deleteFromFavouritesUseCase.execute(movieId, bearerToken, completeOnError)

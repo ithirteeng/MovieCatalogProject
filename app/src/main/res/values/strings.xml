@@ -58,5 +58,30 @@
     <string name="avatar_link_text">Link</string>
 
     <string name="saved_data_text">Saved!</string>
+    <string name="default_text">text</string>
+
+    <string name="year">Year</string>
+    <string name="country">Country</string>
+    <string name="time">Time</string>
+    <string name="slogan">Slogan</string>
+    <string name="director">Director</string>
+    <string name="budget">Budget</string>
+    <string name="fees">Fees</string>
+    <string name="age">Age</string>
+    <string name="about_movie">About movie</string>
+    <string name="genres">Genres</string>
+    <string name="review">Reviews</string>
+
+    <string name="button_content_description">this is a button</string>
+    <string name="my_review">my review</string>
+    <string name="like_content_description">like button</string>
+    <string name="anonymous_username">Anonymous user</string>
+
+    <string name="add_review">Add review</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="anonymous_review">Anonymous review</string>
+
+    <string name="review_error">you can\'t do it</string>
+
 
 </resources>

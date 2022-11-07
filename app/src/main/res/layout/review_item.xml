@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/review_margin"
+    android:background="@drawable/review_background">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imageBackgroundView"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="@dimen/review_margin"
+        app:cardCornerRadius="1000dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/profile_content_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_avatar_image" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        style="@style/body_text_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/review_margin"
+        android:layout_marginTop="@dimen/review_margin"
+        android:text="@string/default_text"
+        app:layout_constraintEnd_toStartOf="@+id/ratingCustomView"
+        app:layout_constraintStart_toEndOf="@+id/imageBackgroundView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userOwnReviewTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/review_margin"
+        android:text="@string/my_review"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/usernameTextView"
+        app:layout_constraintStart_toEndOf="@+id/imageBackgroundView"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
+
+    <com.example.moviecatalogproject.presentation.common.RatingCustomView
+        android:id="@+id/ratingCustomView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/review_margin"
+        android:layout_marginEnd="@dimen/review_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/imageBackgroundView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reviewTextView"
+        style="@style/movie_details_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/review_margin"
+        android:text="@string/default_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageBackgroundView" />
+
+    <TextView
+        android:id="@+id/reviewDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/review_margin"
+        android:layout_marginTop="@dimen/review_margin"
+        android:layout_marginBottom="@dimen/review_margin"
+        android:gravity="center"
+        android:text="@string/default_text"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewTextView" />
+
+    <ImageButton
+        android:id="@+id/removeReviewButton"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="@dimen/review_margin"
+        android:layout_marginEnd="@dimen/review_margin"
+        android:layout_marginBottom="@dimen/review_margin"
+        android:background="@color/transparent"
+        android:contentDescription="@string/button_content_description"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewTextView"
+        app:srcCompat="@drawable/remove_review_button_image"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,RedundantDescriptionCheck,DuplicateSpeakableTextCheck" />
+
+    <ImageButton
+        android:id="@+id/redactReviewButton"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="@dimen/review_margin"
+        android:layout_marginEnd="@dimen/review_margin"
+        android:layout_marginBottom="@dimen/review_margin"
+        android:background="@color/transparent"
+        android:contentDescription="@string/button_content_description"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/removeReviewButton"
+        app:layout_constraintTop_toBottomOf="@+id/reviewTextView"
+        app:srcCompat="@drawable/redact_review_button_image"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,RedundantDescriptionCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

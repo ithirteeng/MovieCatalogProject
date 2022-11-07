@@ -13,16 +13,8 @@ import kotlinx.coroutines.launch
 
 class RegistrationFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val saveTokenUseCase by lazy {
-        SaveTokenUseCase(application.applicationContext)
-    }
-
-    private val postRegistrationDataUseCase by lazy {
-        PostRegistrationDataUseCase()
-    }
-
+    private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
     private var tokenLiveData = MutableLiveData<Token?>()
-
     fun postRegistrationData(
         registrationData: RegistrationData,
         completeOnError: (errorCode: Int) -> Unit
@@ -35,37 +27,42 @@ class RegistrationFragmentViewModel(application: Application) : AndroidViewModel
         }
     }
 
-    fun saveTokenToLocalStorage(token: Token) {
-        saveTokenUseCase.execute(token)
-    }
-
     fun getTokenLiveData(): MutableLiveData<Token?> {
         return tokenLiveData
     }
 
+
+    private val saveTokenUseCase = SaveTokenUseCase(application.applicationContext)
+    fun saveTokenToLocalStorage(token: Token) {
+        saveTokenUseCase.execute(token)
+    }
+
+
     private val validatePasswordUseCase = ValidatePasswordUseCase(PasswordValidator())
-    private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
-    private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())
-    private val validateNameUseCase = ValidateNameUseCase(NameValidator())
-    private val validateDateUseCase = ValidateDateUseCase(DateValidator())
-
-
     fun getPasswordErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validatePasswordUseCase.execute(string))
     }
 
+
+    private val validateEmailUseCase = ValidateEmailUseCase(EmailValidator())
     fun getEmailErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateEmailUseCase.execute(string))
     }
 
+
+    private val validateNameUseCase = ValidateNameUseCase(NameValidator())
     fun getNameErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateNameUseCase.execute(string))
     }
 
+
+    private val validateLoginUseCase = ValidateLoginUseCase(LoginValidator())
     fun getLoginErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateLoginUseCase.execute(string))
     }
 
+
+    private val validateDateUseCase = ValidateDateUseCase(DateValidator())
     fun getDateErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateDateUseCase.execute(string))
     }

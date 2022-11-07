@@ -42,7 +42,7 @@
                 app:layout_constraintGuide_begin="300dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/watchMovieButton"
                 style="@style/main_module_button_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/favouritesRecyclerView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_end_start_margins"
                 android:layout_marginEnd="@dimen/common_end_start_margins"
