@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
                 tools:ignore="ImageContrastCheck"
-                tools:src="@drawable/default_avatar_image" />
+                tools:src="@drawable/default_movie_poster" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/bannerBottomGuideline"
