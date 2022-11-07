@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentCustomDialogBinding
@@ -81,9 +82,11 @@ class CustomDialogFragment(
                     completeOnError = {
                         onErrorAppearanceFunction(it)
                     })
+                binding.progressBar.visibility = View.VISIBLE
 
                 viewModel.getOnCompleteChangingLiveData().observe(this) {
                     completeOnSavingReview()
+                    binding.progressBar.visibility = View.GONE
                     this.dismiss()
                 }
             }

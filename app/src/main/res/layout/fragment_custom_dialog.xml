@@ -8,6 +8,20 @@
     android:background="@drawable/review_window_background"
     tools:context=".presentation.movie_info.MovieInfoActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/accent"
+        android:visibility="gone"
+        android:translationZ="@dimen/second_layer_translation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"/>
+
     <TextView
         android:id="@+id/addReviewTextView"
         style="@style/header_first_style"
