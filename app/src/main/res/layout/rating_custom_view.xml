@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ratingBackgroundView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/header_second_text_size"
+        app:cardBackgroundColor="@color/accent"
+        android:outlineSpotShadowColor="@color/transparent">
+        <TextView
+            android:id="@+id/ratingTextView"
+            android:fontFamily="@font/ibm_plex_sans"
+            android:textColor="@color/bright_white"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gallery_rating_default_text"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp" />
+    </androidx.cardview.widget.CardView>
+
+
+
+</merge>

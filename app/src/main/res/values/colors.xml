@@ -21,6 +21,11 @@
     <color name="launch_background">#150D0B</color>
     <color name="error_color">#FFC107</color>
 
+    <color name="start_rating_color">#EF3A01</color>
+    <color name="end_rating_color">#77BF23</color>
+
+    <color name="review_dialog_color">#282828</color>
+
 
 
 </resources>
