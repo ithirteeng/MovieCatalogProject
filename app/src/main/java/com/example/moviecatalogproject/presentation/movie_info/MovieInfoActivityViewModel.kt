@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.model.Token
 import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 import com.example.moviecatalogproject.domain.movie_info.usecase.*
+import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
 class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -68,7 +69,7 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     }
 
     private val getUserIdUseCase = GetUserIdUseCase()
-    private val userIdLiveData = MutableLiveData<String>()
+    private val userIdLiveData = SingleEventLiveData<String>()
 
     fun getUserId(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {

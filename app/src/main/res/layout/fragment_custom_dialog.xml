@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addReviewTextView"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <EditText
+    <com.example.moviecatalogproject.presentation.common.MyEditText
         android:id="@+id/reviewEditText"
         style="@style/movie_details_style"
         android:layout_width="match_parent"
@@ -50,11 +50,13 @@
         android:gravity="top"
         android:hint="@string/add_review"
         android:importantForAutofill="no"
+        android:singleLine="false"
         android:inputType="text"
         android:minHeight="150dp"
         android:padding="@dimen/review_margin"
         android:textColor="@color/review_dialog_color"
         android:textColorHint="@color/review_dialog_color"
+        android:textCursorDrawable="@drawable/edit_text_cursor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar"
@@ -74,12 +76,12 @@
         app:layout_constraintTop_toBottomOf="@+id/reviewEditText" />
 
     <CheckBox
-        android:background="@color/transparent"
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_end_start_margins"
         android:layout_marginEnd="@dimen/common_end_start_margins"
+        android:background="@color/transparent"
         android:button="@drawable/checkbox_selector"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"

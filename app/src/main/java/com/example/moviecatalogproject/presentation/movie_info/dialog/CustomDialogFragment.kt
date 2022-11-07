@@ -32,6 +32,8 @@ class CustomDialogFragment(
         val view = requireActivity().layoutInflater.inflate(R.layout.fragment_custom_dialog, null)
         binding = FragmentCustomDialogBinding.bind(view)
 
+        binding.reviewEditText.onEditTextEditorAction()
+
         onCancelButtonClick()
         onSaveButtonClick()
 

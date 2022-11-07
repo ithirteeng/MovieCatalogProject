@@ -46,15 +46,18 @@ class MovieInfoActivity : AppCompatActivity() {
         MovieInfoActivityViewModel(application)
     }
 
-    private lateinit var reviewsAdapter: ReviewsAdapter
+    private val reviewsAdapter = ReviewsAdapter()
 
     private val dialogFragment by lazy {
         CustomDialogFragment(movieId, completeOnAddingReview = {
             reviewsAdapter.clearReviewsList()
             binding.flexBox.removeAllViews()
+            binding.progressBar.visibility = View.VISIBLE
             getMovieDetails()
         })
     }
+
+    private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +65,19 @@ class MovieInfoActivity : AppCompatActivity() {
 
         movieId = intent.getStringExtra(MOVIE_ID)!!
 
+        binding.progressBar.visibility = View.VISIBLE
+
         setSupportActionBar(binding.toolbar)
         setupToolbar()
-        onAppbarOffsetChange()
         setupLikeButtonFunctions()
-        onGettingMovieDetails()
         setupDialogFragment()
+
         onAddReviewButtonClick()
+        onAppbarOffsetChange()
+
+        getUserId()
+        onGettingMovieDetails()
+
         binding.tableLayout.setColumnShrinkable(1, true)
 
     }
@@ -83,6 +92,7 @@ class MovieInfoActivity : AppCompatActivity() {
         getMovieDetails()
         viewModel.getMovieDetailsLiveData().observe(this) { movieDetails ->
             setMovieDetails(movieDetails)
+            binding.progressBar.visibility = View.GONE
             onGettingUserId(movieDetails.reviews!!)
         }
     }
@@ -107,6 +117,14 @@ class MovieInfoActivity : AppCompatActivity() {
         binding.feesTextView.text = makeMoneyStringsCorrect(movieDetails.fees)
         binding.ageTextView.text = makeStringCorrect(movieDetails.age) + "+"
         setGenres(movieDetails.genres!!)
+        if (this.userId != null) {
+            setupReviewsRecyclerView(movieDetails.reviews!!)
+            val ifUserReviewExists = checkUserReviewExisting(movieDetails.reviews!!, this.userId!!)
+            changeAddReviewButtonVisibility(ifUserReviewExists)
+        } else {
+            onGettingUserId(movieDetails.reviews!!)
+        }
+
     }
 
     private fun setGenres(genresList: ArrayList<Genre>) {
@@ -123,33 +141,6 @@ class MovieInfoActivity : AppCompatActivity() {
         params.bottomMargin = 20
         params.marginEnd = 20
 
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setupReviewsRecyclerView(reviewsList: ArrayList<Review>) {
-        val recyclerView = binding.reviewRecyclerView
-        recyclerView.adapter = reviewsAdapter
-        val expandedReviewsList = ReviewMapper.reviewsArrayListToExpandedReviewsArrayList(
-            reviewsList
-        )
-        addOnReviewButtonClickFunctions(expandedReviewsList)
-
-        reviewsAdapter.addItemsToReviewsList(expandedReviewsList)
-
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    private fun onGettingUserId(reviewsList: ArrayList<Review>) {
-        viewModel.getUserId {
-            onErrorAppearanceFunction(it)
-        }
-
-        viewModel.getUserIdLiveData().observe(this) {
-            val ifUserReviewExists = checkUserReviewExisting(reviewsList, it)
-            changeAddReviewButtonVisibility(ifUserReviewExists)
-            reviewsAdapter = ReviewsAdapter(it)
-            setupReviewsRecyclerView(reviewsList)
-        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -184,36 +175,41 @@ class MovieInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupLikeButtonFunctions() {
-        setLikeButtonState()
-        onLikeButtonClick()
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupReviewsRecyclerView(reviewsList: ArrayList<Review>) {
+        val recyclerView = binding.reviewRecyclerView
+        recyclerView.adapter = reviewsAdapter
+        val expandedReviewsList = ReviewMapper.reviewsArrayListToExpandedReviewsArrayList(
+            reviewsList
+        )
+        addOnReviewButtonClickFunctions(expandedReviewsList)
+
+        reviewsAdapter.addItemsToReviewsList(expandedReviewsList)
+
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    private fun setLikeButtonState() {
-        viewModel.checkIsMovieFavourite(movieId, completeOnError = {
+    private fun onGettingUserId(reviewsList: ArrayList<Review>) {
+        viewModel.getUserIdLiveData().observe(this) {
+            val ifUserReviewExists = checkUserReviewExisting(reviewsList, it)
+            changeAddReviewButtonVisibility(ifUserReviewExists)
+            reviewsAdapter.setUserId(it)
+            setupReviewsRecyclerView(reviewsList)
+            this.userId = it
+        }
+    }
+
+    private fun getUserId() {
+        viewModel.getUserId {
             onErrorAppearanceFunction(it)
-        })
-
-        viewModel.getCheckingIsMovieFavouriteResultLiveData().observe(this) {
-            binding.likeButton.setButtonFavouriteState(it)
-            binding.likeButton.setCorrectBackground()
         }
     }
 
-    private fun onLikeButtonClick() {
-        binding.likeButton.onClick {
-            if (binding.likeButton.isButtonFilled()) {
-                addToFavourites()
-            } else {
-                deleteFromFavourites()
-            }
-        }
-    }
-
-    private fun onAddReviewButtonClick() {
-        binding.addButton.setOnClickListener {
-            dialogFragment.setCreatingReason(CreatingDialogReason.ADD_REVIEW)
-            dialogFragment.show(supportFragmentManager, "review_dialog")
+    private fun changeAddReviewButtonVisibility(ifUserReviewExists: Boolean) {
+        if (!ifUserReviewExists) {
+            binding.addButton.visibility = View.VISIBLE
+        } else {
+            binding.addButton.visibility = View.GONE
         }
     }
 
@@ -246,6 +242,32 @@ class MovieInfoActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupLikeButtonFunctions() {
+        setLikeButtonState()
+        onLikeButtonClick()
+    }
+
+    private fun setLikeButtonState() {
+        viewModel.checkIsMovieFavourite(movieId, completeOnError = {
+            onErrorAppearanceFunction(it)
+        })
+
+        viewModel.getCheckingIsMovieFavouriteResultLiveData().observe(this) {
+            binding.likeButton.setButtonFavouriteState(it)
+            binding.likeButton.setCorrectBackground()
+        }
+    }
+
+    private fun onLikeButtonClick() {
+        binding.likeButton.onClick {
+            if (binding.likeButton.isButtonFilled()) {
+                addToFavourites()
+            } else {
+                deleteFromFavourites()
+            }
+        }
+    }
+
     private fun deleteFromFavourites() {
         viewModel.deleteFromFavourites(movieId, completeOnError = {
             onErrorAppearanceFunction(it)
@@ -258,11 +280,11 @@ class MovieInfoActivity : AppCompatActivity() {
         })
     }
 
-    private fun changeAddReviewButtonVisibility(ifUserReviewExists: Boolean) {
-        if (!ifUserReviewExists) {
-            binding.addButton.visibility = View.VISIBLE
-        } else {
-            binding.addButton.visibility = View.GONE
+
+    private fun onAddReviewButtonClick() {
+        binding.addButton.setOnClickListener {
+            dialogFragment.setCreatingReason(CreatingDialogReason.ADD_REVIEW)
+            dialogFragment.show(supportFragmentManager, "review_dialog")
         }
     }
 

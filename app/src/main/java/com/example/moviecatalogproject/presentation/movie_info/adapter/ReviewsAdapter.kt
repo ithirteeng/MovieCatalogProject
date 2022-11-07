@@ -12,8 +12,14 @@ import com.example.moviecatalogproject.domain.common.model.Review
 import com.example.moviecatalogproject.presentation.common.helper.DateConverter
 import com.example.moviecatalogproject.presentation.movie_info.model.ExpandedReview
 
-class ReviewsAdapter(private val userId: String) :
+class ReviewsAdapter() :
     RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>() {
+
+    private lateinit var userId: String
+
+    fun setUserId(userId: String) {
+        this.userId = userId
+    }
 
     class ReviewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ReviewItemBinding.bind(view)
