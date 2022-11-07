@@ -53,12 +53,18 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
 
 
     private val putProfileDataUseCase = PutProfileDataUseCase()
+    private val onSavingProfileChangesLiveData = SingleEventLiveData<Boolean>()
     fun putProfileData(profile: Profile, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            putProfileDataUseCase.execute(bearerToken, profile) {
-                completeOnError(it)
-            }
+            onSavingProfileChangesLiveData.value =
+                putProfileDataUseCase.execute(bearerToken, profile) {
+                    completeOnError(it)
+                }
         }
+    }
+
+    fun getOnSavingProfileChangesLiveData(): LiveData<Boolean> {
+        return onSavingProfileChangesLiveData
     }
 
 

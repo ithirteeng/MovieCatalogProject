@@ -100,7 +100,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
             changeProgressBarVisibility(true)
             validateFields()
             if (checkFieldsValidity()) {
-                putData()
+                saveChangedData()
             } else {
                 changeRegistrationButtonState(checkFullnessOfFields())
             }
@@ -115,7 +115,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
         }
     }
 
-    private fun putData() {
+    private fun saveChangedData() {
         val changedProfile = Profile(
             id = profile.id,
             nickName = profile.nickName,
@@ -129,12 +129,22 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
         viewModel.putProfileData(changedProfile, completeOnError = {
             onErrorAppearanceFunction(it)
         })
-        changeProgressBarVisibility(false)
-        Toast.makeText(
-            requireContext(),
-            requireContext().resources.getString(R.string.saved_data_text),
-            Toast.LENGTH_SHORT
-        ).show()
+
+        onCompleteSavingProfileChanges()
+
+    }
+
+    private fun onCompleteSavingProfileChanges() {
+        viewModel.getOnSavingProfileChangesLiveData().observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    requireContext().resources.getString(R.string.saved_data_text),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            changeProgressBarVisibility(false)
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -328,6 +338,12 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
     private fun onErrorAppearanceFunction(errorCode: Int) {
         if (errorCode == 401) {
             makeIntentToEntranceActivity()
+        } else if (errorCode == 400) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.error_profile_400),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

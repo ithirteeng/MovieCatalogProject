@@ -59,4 +59,5 @@
     <string name="sign_in_text">Авторизация</string>
     <string name="sign_up_text">Регистрация</string>
     <string name="authorization_text">Авторизация</string>
+    <string name="error_profile_400">Такой e-mail уже существует!</string>
 </resources>

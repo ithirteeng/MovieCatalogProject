@@ -33,6 +33,7 @@
 
     <string name="error_registration_400">Username exists!</string>
     <string name="error_authorization_400">Username or password is invalid!</string>
+    <string name="error_profile_400">E-mail already exists</string>
     <string name="error_401" translatable="false">Access token expired!</string>
 
 
