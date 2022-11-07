@@ -56,7 +56,7 @@
     <string name="avatar_link_text">Link</string>
 
     <string name="saved_data_text">Saved!</string>
-    <string name="default_text">text</string>
+    <string name="default_text"> </string>
 
     <string name="year">Year</string>
     <string name="country">Country</string>

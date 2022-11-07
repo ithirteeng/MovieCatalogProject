@@ -36,7 +36,7 @@
     <string name="logout_button_text">Выйти</string>
     <string name="avatar_link_text">Ссылка</string>
     <string name="saved_data_text">Сохранено!</string>
-    <string name="default_text">текст</string>
+    <string name="default_text"> </string>
     <string name="year">Год</string>
     <string name="country">Страна</string>
     <string name="time">Время</string>
