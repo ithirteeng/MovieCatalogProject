@@ -20,8 +20,9 @@
 
         <ImageView
             android:id="@+id/filmImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
             android:contentDescription="@string/favourites_content_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

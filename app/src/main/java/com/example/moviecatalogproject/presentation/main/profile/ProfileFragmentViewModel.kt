@@ -13,19 +13,6 @@ import kotlinx.coroutines.launch
 
 class ProfileFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val validateDateUseCase = ValidateDateUseCase()
-    private val validateEmailUseCase = ValidateEmailUseCase()
-
-
-    fun getEmailErrorLiveData(string: String): LiveData<Int> {
-        return MutableLiveData(validateEmailUseCase.execute(string))
-    }
-
-    fun getDateErrorLiveData(string: String): LiveData<Int> {
-        return MutableLiveData(validateDateUseCase.execute(string))
-    }
-
-
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
 
@@ -38,10 +25,20 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
     }
 
 
-    private val getProfileDataUseCase = GetProfileDataUseCase()
-    private val putProfileDataUseCase = PutProfileDataUseCase()
-    private val profileLiveData = SingleEventLiveData<Profile?>()
+    private val validateEmailUseCase = ValidateEmailUseCase()
+    fun getEmailErrorLiveData(string: String): LiveData<Int> {
+        return MutableLiveData(validateEmailUseCase.execute(string))
+    }
 
+
+    private val validateDateUseCase = ValidateDateUseCase()
+    fun getDateErrorLiveData(string: String): LiveData<Int> {
+        return MutableLiveData(validateDateUseCase.execute(string))
+    }
+
+
+    private val getProfileDataUseCase = GetProfileDataUseCase()
+    private val profileLiveData = SingleEventLiveData<Profile?>()
     fun getProfileData(completeOnError: () -> Unit) {
         viewModelScope.launch {
             profileLiveData.value = getProfileDataUseCase.execute(bearerToken) {
@@ -54,6 +51,8 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
         return profileLiveData
     }
 
+
+    private val putProfileDataUseCase = PutProfileDataUseCase()
     fun putProfileData(profile: Profile, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
             putProfileDataUseCase.execute(bearerToken, profile) {
@@ -62,8 +61,8 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-    private val logoutUseCase = LogoutUseCase(application.applicationContext)
 
+    private val logoutUseCase = LogoutUseCase(application.applicationContext)
     fun logout(onLogout: () -> Unit) {
         viewModelScope.launch {
             logoutUseCase.execute(bearerToken) {

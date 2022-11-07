@@ -16,9 +16,11 @@ import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoo
 import com.example.moviecatalogproject.presentation.main.movie.adapter.FavouritesAdapter
 import com.example.moviecatalogproject.presentation.main.movie.adapter.GalleryAdapter
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
+import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
+import com.example.moviecatalogproject.presentation.movie_info.MovieInfoActivity
 
 
-class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
+class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
 
@@ -32,14 +34,17 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         }
     }
 
+    private val favouritesAdapter by lazy {
+        FavouritesAdapter {
+            binding.favouritesTextView.visibility = View.GONE
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val mainView = inflater.inflate(R.layout.fragment_movie, container, false)
         binding = FragmentMovieBinding.bind(mainView)
-
-        setupFavouritesRecyclerView()
-        setupGalleryRecyclerView()
 
         return mainView
     }
@@ -47,11 +52,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     override fun onStart() {
         super.onStart()
         changeProgressBarVisibility(true)
+        setupFavouritesRecyclerView()
+        setupGalleryRecyclerView()
     }
 
     override fun onStop() {
         super.onStop()
         changeProgressBarVisibility(true)
+        favouritesAdapter.clearMovieList()
         galleryAdapter.clearMovieList()
     }
 
@@ -59,11 +67,11 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
     @SuppressLint("NotifyDataSetChanged")
     private fun setupFavouritesRecyclerView() {
         val favouritesRecyclerView = binding.favouritesRecyclerView
+
         favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
             requireContext(), 1.3f, 0.3f
         )
 
-        val favouritesAdapter = FavouritesAdapter()
         favouritesRecyclerView.adapter = favouritesAdapter
 
         viewModel.getFavouritesList {
@@ -71,16 +79,24 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         }
 
         viewModel.getFavouritesLiveData().observe(viewLifecycleOwner) {
-            var favouritesList = arrayListOf<FavouriteMovie>()
             if (it != null) {
-                favouritesList = it
+                val favouritesList = it
+                changeFavouritesTextViewVisibility(favouritesList)
                 addOnFavouritesCloseButtonFunction(favouritesList)
+                addOnFavouritesClickFunction(favouritesList)
+                favouritesAdapter.addMovies(favouritesList)
             }
-
-            favouritesAdapter.setFavouritesList(favouritesList)
             favouritesRecyclerView.adapter?.notifyDataSetChanged()
         }
 
+    }
+
+    private fun changeFavouritesTextViewVisibility(favouritesArrayList: ArrayList<FavouriteMovie>) {
+        if (favouritesArrayList.size == 0) {
+            binding.favouritesTextView.visibility = View.GONE
+        } else {
+            binding.favouritesTextView.visibility = View.VISIBLE
+        }
     }
 
     private fun addOnFavouritesCloseButtonFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
@@ -89,6 +105,14 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
                 viewModel.deleteMovieFromFavourites(movie.id) {
                     onErrorAppearanceFunction(it)
                 }
+            }
+        }
+    }
+
+    private fun addOnFavouritesClickFunction(favouritesArrayList: ArrayList<FavouriteMovie>) {
+        for (movie in favouritesArrayList) {
+            movie.onMovieClick = { movieId ->
+                makeIntentToMovieInfoActivity(movieId)
             }
         }
     }
@@ -107,13 +131,18 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
 
         viewModel.getGalleryMoviesLiveData().observe(viewLifecycleOwner) {
             if (it != null) {
-                val galleryList = it
-
+                val galleryList = copyArray(it)
                 if (galleryList[0].page == 1) {
+
+                    binding.watchMovieButton.setOnClickListener { _ ->
+                        makeIntentToMovieInfoActivity(it[0].movie.id)
+                    }
+
                     setBannerImage(galleryList[0].movie.poster!!)
                     galleryList.removeFirst()
                 }
 
+                addOnGalleryMovieClickFunction(galleryList)
                 galleryAdapter.addMovies(galleryList)
             }
             galleryRecyclerView.adapter?.notifyDataSetChanged()
@@ -121,9 +150,25 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         }
     }
 
+    private fun copyArray(movieArray: ArrayList<GalleryMovie>): ArrayList<GalleryMovie> {
+        val array = arrayListOf<GalleryMovie>()
+        for (movie in movieArray) {
+            array.add(movie)
+        }
+        return array
+    }
+
     private fun getNextMoviesList(page: Int) {
         viewModel.getMoviesList(page) {
             onErrorAppearanceFunction(it)
+        }
+    }
+
+    private fun addOnGalleryMovieClickFunction(galleryMoviesList: ArrayList<GalleryMovie>) {
+        for (movie in galleryMoviesList) {
+            movie.onMovieClick = { movieId ->
+                makeIntentToMovieInfoActivity(movieId)
+            }
         }
     }
 
@@ -143,6 +188,7 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         ).into(binding.bannerImageView)
     }
 
+
     private fun onErrorAppearanceFunction(errorCode: Int) {
         if (errorCode == 401) {
             makeIntentToEntranceActivity()
@@ -153,6 +199,13 @@ class MovieFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) :
         startActivity(Intent(activity, EntranceActivity::class.java))
         activity?.overridePendingTransition(0, 0)
         activity?.finish()
+    }
+
+    private fun makeIntentToMovieInfoActivity(movieId: String) {
+        val intent = Intent(activity, MovieInfoActivity::class.java)
+        activity?.overridePendingTransition(0, 0)
+        intent.putExtra(MovieInfoActivity.MOVIE_ID, movieId)
+        startActivity(intent)
     }
 }
 

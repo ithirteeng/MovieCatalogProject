@@ -22,7 +22,7 @@ import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
+class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -170,7 +170,7 @@ class ProfileFragment(val changeProgressBarVisibility: (state: Boolean) -> Unit)
             )
             .error(
                 resources.getDrawable(
-                    R.drawable.default_avatar_image, requireContext().theme
+                    R.drawable.default_user_avatar_image, requireContext().theme
                 )
             )
             .into(binding.avatarImageView)

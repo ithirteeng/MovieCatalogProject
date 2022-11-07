@@ -37,4 +37,8 @@ object NetworkService {
         retrofit.create(MoviesApiService::class.java)
     }
 
+    val reviewApiService: ReviewApiService by lazy {
+        retrofit.create(ReviewApiService::class.java)
+    }
+
 }

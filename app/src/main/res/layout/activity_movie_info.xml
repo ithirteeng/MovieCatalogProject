@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/accent"
+        android:translationZ="@dimen/second_layer_translation"
+        android:visibility="gone" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/header_first_style"
+            app:collapsedTitleTextColor="@color/white"
+            app:contentScrim="@color/background_color"
+            app:expandedTitleTextAppearance="@style/title_text_style"
+            app:expandedTitleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+            app:toolbarId="@+id/toolbar">
+
+
+            <ImageView
+                android:id="@+id/app_bar_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/banner_content_description"
+                android:foreground="@drawable/banner_image_tint"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_movie_poster" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetEnd="@dimen/common_end_start_margins"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center|end"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_end_start_margins"
+                    app:layout_collapseMode="parallax"
+                    tools:ignore="RtlSymmetry">
+
+                    <com.example.moviecatalogproject.presentation.movie_info.model.LikeCustomView
+                        android:id="@+id/likeButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        tools:ignore="TouchTargetSizeCheck,ImageContrastCheck,RedundantDescriptionCheck" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                style="@style/movie_details_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_end_start_margins"
+                android:text="@string/default_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/aboutTextView"
+                style="@style/body_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_movie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_end_start_margins"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/aboutTextView">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/yearHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/year"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/yearTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="false"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/countryHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/country"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/countryTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/timeHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/timeTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/sloganHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/slogan"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/sloganTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/directorHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/director"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/directorTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/budgetHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/budget"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/budgetTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/feesHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fees"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/feesTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/ageHintTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/ageTextView"
+                        style="@style/movie_details_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_text"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/genresTextView"
+                style="@style/body_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/genres"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/flexBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_end_start_margins"
+                android:layout_marginEnd="@dimen/common_end_start_margins"
+                android:layout_marginBottom="@dimen/common_end_start_margins"
+                app:alignContent="stretch"
+                app:alignItems="stretch"
+                app:flexWrap="wrap"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genresTextView">
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:id="@+id/reviewsTextView"
+                style="@style/body_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/review_margin"
+                android:text="@string/review"
+                android:textColor="@color/base_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flexBox" />
+
+            <ImageButton
+                android:id="@+id/addButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_end_start_margins"
+                android:background="@drawable/add_button_background"
+                android:contentDescription="@string/button_content_description"
+                app:layout_constraintBottom_toBottomOf="@+id/reviewsTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flexBox"
+                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck,DuplicateSpeakableTextCheck" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/common_end_start_margins"
+                android:layout_marginEnd="@dimen/common_end_start_margins"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewsTextView"
+                app:layout_constraintVertical_bias="1.0"
+                tools:listitem="@layout/review_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

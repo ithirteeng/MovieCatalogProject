@@ -1,22 +1,28 @@
-package com.example.moviecatalogproject.domain.main.movie.usecase
+package com.example.moviecatalogproject.domain.movie_info.usecase
 
 import android.util.Log
 import com.example.moviecatalogproject.data.repository.MoviesRepository
-import com.example.moviecatalogproject.domain.main.movie.model.Movie
 import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 
 class GetMovieDetailsUseCase {
+
     private val moviesRepository by lazy {
         MoviesRepository()
     }
 
-    suspend fun execute(movieId: String, token: Token): Movie? {
+    suspend fun execute(
+        token: Token,
+        movieId: String,
+        completeOnError: (errorCode: Int) -> Unit
+    ): MovieDetails? {
         val response = moviesRepository.getMovieDetails(movieId, token)
         return if (response.isSuccessful) {
-            Log.d("MOVIEREP", "getDetails success")
+            Log.d("MOVIEREP", "get details success")
             response.body()
         } else {
-            Log.d("MOVIEREP", "getDetails error: ${response.code()}")
+            completeOnError(response.code())
+            Log.d("MOVIEREP", "get details error : ${response.code()}")
             null
         }
     }
