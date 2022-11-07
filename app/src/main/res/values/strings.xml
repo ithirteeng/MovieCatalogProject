@@ -1,22 +1,20 @@
 <resources>
     <string name="app_name">MovieCatalogProject</string>
-    <string name="empty_string"> </string>
-    <!--  launch screen strings  -->
+    <string name="empty_string" translatable="false"> </string>
+
+    <string name="sign_in_text">Sign in</string>
+    <string name="sign_up_text">Sign up</string>
+    <string name="registration_text">Registration</string>
+    <string name="authorization_text">Authorization</string>
+    <string name="already_have_account_text">I already have account</string>
+
     <string name="logo_content_description">this is a logo</string>
-    <!--  sing up screen strings  -->
-    <string name="sign_up_login_edit_text">Login</string>
-    <string name="sign_up_password_edit_text">Password</string>
-    <string name="sign_up_entry_button_text">Sign Up</string>
-    <string name="sign_up_registration_button_text">Registration</string>
-    <string name="layout_description">logo decreasing layout</string>
+    <string name="entrance_layout_description" translatable="false">logo decreasing layout</string>
 
     <string name="date_picker_content_description">date picker</string>
-    <string name="sign_in_registration_text">Registration</string>
-    <string name="sign_in_registration_button_text">Registration</string>
-    <string name="sign_in_sign_up_button_text">I already have account</string>
 
     <string name="name_text">Name</string>
-    <string name="email_text">E-mail</string>
+    <string name="email_text" translatable="false">E-mail</string>
     <string name="login_text">Login</string>
     <string name="password_text">Password</string>
     <string name="repeat_password_text">Repeat password</string>
@@ -35,7 +33,7 @@
 
     <string name="error_registration_400">Username exists!</string>
     <string name="error_authorization_400">Username or password is invalid!</string>
-    <string name="error_401">Access token expired!</string>
+    <string name="error_401" translatable="false">Access token expired!</string>
 
 
     <string name="main_tab_name">Main</string>
@@ -49,8 +47,8 @@
 
     <string name="gallery_text">Gallery</string>
     <string name="gallery_content_description">this is a film from gallery</string>
-    <string name="gallery_start_text">some text</string>
-    <string name="gallery_rating_default_text">0.0</string>
+    <string name="gallery_start_text" translatable="false">some text</string>
+    <string name="gallery_rating_default_text" translatable="false">0.0</string>
 
     <string name="profile_content_description">this is your avatar</string>
     <string name="save_button_text">Save</string>

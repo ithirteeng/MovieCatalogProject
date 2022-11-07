@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/registrationHeaderTextView"
         style="@style/header_first_style"
-        android:text="@string/sign_in_registration_text"
+        android:text="@string/registration_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,9 +167,9 @@
                 android:id="@+id/genderPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_end_start_margins"
+                android:layout_marginStart="@dimen/common_big_margin"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="@dimen/common_end_start_margins" />
+                android:layout_marginEnd="@dimen/common_big_margin" />
 
             <TextView
                 android:id="@+id/genderPickerErrorTextView"
@@ -184,7 +184,7 @@
         android:id="@+id/registrationButton"
         style="@style/sign_button_style"
         android:layout_marginTop="12dp"
-        android:text="@string/sign_in_registration_button_text"
+        android:text="@string/registration_text"
         app:layout_constraintBottom_toTopOf="@id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +196,7 @@
         style="@style/text_button_style"
 
         android:padding="@dimen/edit_texts_margin"
-        android:text="@string/sign_in_sign_up_button_text"
+        android:text="@string/already_have_account_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

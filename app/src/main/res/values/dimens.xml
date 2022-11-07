@@ -5,7 +5,10 @@
     <dimen name="error_text_top_bottom_margins">2sp</dimen>
     <dimen name="edit_texts_padding">10dp</dimen>
     <dimen name="buttons_margin">12dp</dimen>
-    <dimen name="common_end_start_margins">15dp</dimen>
+
+    <dimen name="common_big_margin">15dp</dimen>
+    <dimen name="common_small_margin">10dp</dimen>
+
     <dimen name="edit_texts_text_size">18sp</dimen>
     <dimen name="button_text_size">20sp</dimen>
 
@@ -48,7 +51,7 @@
     <dimen name="profile_image_top_margin">30dp</dimen>
 
     <dimen name="genre_margin">8dp</dimen>
-    <dimen name="review_margin">10dp</dimen>
+
 
 
 </resources>

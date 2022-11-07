@@ -16,8 +16,8 @@
             android:id="@+id/avatarBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_end_start_margins"
-            android:layout_marginBottom="@dimen/common_end_start_margins"
+            android:layout_marginStart="@dimen/common_big_margin"
+            android:layout_marginBottom="@dimen/common_big_margin"
             app:cardCornerRadius="1000dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/avatarTopGuideline">
@@ -183,9 +183,9 @@
                 android:id="@+id/genderPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_end_start_margins"
+                android:layout_marginStart="@dimen/common_big_margin"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="@dimen/common_end_start_margins" />
+                android:layout_marginEnd="@dimen/common_big_margin" />
 
             <TextView
                 android:id="@+id/genderPickerErrorTextView"

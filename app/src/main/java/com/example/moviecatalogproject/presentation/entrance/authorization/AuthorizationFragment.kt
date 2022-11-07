@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentAuthorizationBinding
@@ -56,6 +57,14 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
         viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
             binding.loginEditText.text?.clear()
             binding.passwordEditText.text?.clear()
+            if (it == 400) {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.error_authorization_400),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             binding.progressBar.visibility = View.GONE
             changeRegistrationButtonState()
         })
