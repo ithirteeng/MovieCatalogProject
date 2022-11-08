@@ -56,7 +56,7 @@
     <string name="cancel_button">Отменить</string>
     <string name="anonymous_review">Анонимный отзыв</string>
     <string name="review_error">Вы не можете этого сделать!</string>
-    <string name="sign_in_text">Авторизация</string>
+    <string name="sign_in_text">Войти</string>
     <string name="sign_up_text">Регистрация</string>
     <string name="authorization_text">Авторизация</string>
     <string name="error_profile_400">Такой e-mail уже существует!</string>
