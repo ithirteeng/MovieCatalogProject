@@ -46,7 +46,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     }
 
     private fun onSignUpButtonClick() {
-        binding.signUpButton.setOnClickListener {
+        binding.authorizationButton.setOnClickListener {
             postAuthorizationData()
             binding.progressBar.visibility = View.VISIBLE
             observeTokenLiveData()
@@ -108,16 +108,21 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     private fun changeRegistrationButtonState() {
         if (checkFullnessOfFields()) {
-            binding.signUpButton.isEnabled = true
+            binding.authorizationButton.isEnabled = true
             setSignUpButtonTextColor(R.color.bright_white)
         } else {
-            binding.signUpButton.isEnabled = false
+            binding.authorizationButton.isEnabled = false
             setSignUpButtonTextColor(R.color.accent)
         }
     }
 
     private fun setSignUpButtonTextColor(colorId: Int) {
-        binding.signUpButton.setTextColor(resources.getColor(colorId, requireContext().theme))
+        binding.authorizationButton.setTextColor(
+            resources.getColor(
+                colorId,
+                requireContext().theme
+            )
+        )
     }
 
     private fun checkFullnessOfFields(): Boolean {

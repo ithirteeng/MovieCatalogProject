@@ -295,7 +295,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
 
 
     private fun onSignUpButtonClick() {
-        binding.signUpButton.setOnClickListener {
+        binding.authorizationButton.setOnClickListener {
             bottomButtonCallback?.invoke()
         }
     }
