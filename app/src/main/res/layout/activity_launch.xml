@@ -7,9 +7,44 @@
     android:background="@color/launch_background"
     tools:context=".presentation.launch.LaunchActivity">
 
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/refresh_button_background"
+        android:fontFamily="@font/ibm_plex_sans"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/refresh_text"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:textColor="@drawable/refresh_button_text_color"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/connection_text_view"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/connection_text"
+        android:textColor="@color/accent"
+        android:visibility="gone"
+        android:textSize="@dimen/body_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.79" />
+
     <ImageView
         android:id="@+id/launchLogoImageView"
         android:layout_width="0dp"
+        android:visibility="visible"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/launch_logo_margin"
         android:contentDescription="@string/logo_content_description"
@@ -18,7 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ImageContrastCheck" />
 
     <ProgressBar
         android:id="@+id/progressBar"

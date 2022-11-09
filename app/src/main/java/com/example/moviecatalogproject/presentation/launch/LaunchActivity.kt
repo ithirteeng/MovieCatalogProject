@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 class LaunchActivity : AppCompatActivity() {
 
     private val viewModel by lazy {
-        LaunchActivityViewModel(application)
+        LaunchActivityViewModel(application) {
+            onInternetConnectionFailure()
+        }
     }
 
     private val binding by lazy {
@@ -26,14 +28,19 @@ class LaunchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         lifecycleScope.launch {
-            delay(1500)
+            delay(1000)
+            checkTokenExisting()
             binding.progressBar.visibility = View.VISIBLE
         }
 
-        makeIntent()
+        onCheckingTokenExistingComplete()
     }
 
-    private fun makeIntent() {
+    private fun checkTokenExisting() {
+        viewModel.checkTokenExisting()
+    }
+
+    private fun onCheckingTokenExistingComplete() {
         viewModel.getTokenExistingLiveData().observe(this) {
             val intent = if (it) {
                 Intent(this, MainActivity::class.java)
@@ -45,4 +52,21 @@ class LaunchActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun onInternetConnectionFailure() {
+        binding.launchLogoImageView.visibility = View.GONE
+        binding.refreshButton.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        binding.connectionTextView.visibility = View.VISIBLE
+
+        binding.refreshButton.setOnClickListener {
+            checkTokenExisting()
+            onCheckingTokenExistingComplete()
+
+            binding.refreshButton.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+            binding.connectionTextView.visibility = View.GONE
+        }
+    }
+
 }

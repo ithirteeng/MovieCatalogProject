@@ -1,7 +1,6 @@
 package com.example.moviecatalogproject.presentation.launch
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +9,10 @@ import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExpiratio
 import com.example.moviecatalogproject.domain.launch.usecase.GetTokenFromLocalStorageUseCase
 import kotlinx.coroutines.launch
 
-class LaunchActivityViewModel(application: Application) : AndroidViewModel(application) {
+class LaunchActivityViewModel(
+    application: Application,
+    private val onConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
 
     private val checkTokenExpirationUseCase by lazy {
         CheckTokenExpirationUseCase(application.applicationContext)
@@ -19,9 +21,6 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
 
-    init {
-        checkTokenExisting()
-    }
 
     private val tokenExistingLiveData = MutableLiveData<Boolean>()
 
@@ -30,7 +29,7 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
         return tokenExistingLiveData
     }
 
-    private fun checkTokenExisting() {
+    fun checkTokenExisting() {
         viewModelScope.launch {
             val token = getTokenFromLocalStorageUseCase.execute()
             token.token = "Bearer ${token.token}"
@@ -38,7 +37,7 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
             checkTokenExpirationUseCase.execute(token).onSuccess {
                 tokenExistingLiveData.value = it
             }.onFailure {
-                Log.d("CONNECTION", "failed")
+                onConnectionFailure()
             }
 
         }
