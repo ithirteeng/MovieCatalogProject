@@ -2,7 +2,6 @@ package com.example.moviecatalogproject.presentation.launch
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -30,15 +29,8 @@ class LaunchActivity : AppCompatActivity() {
             delay(1500)
             binding.progressBar.visibility = View.VISIBLE
         }
-        try {
-            makeIntent()
-        }catch (e: Exception) {
-            Log.d("CONNECTION", "shits")
-        }
 
-
-
-
+        makeIntent()
     }
 
     private fun makeIntent() {

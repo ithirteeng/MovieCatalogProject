@@ -10,7 +10,12 @@ class CheckTokenExpirationUseCase(private val context: Context) {
         TokenRepository(context)
     }
 
-    suspend fun execute(token: Token): Boolean {
-        return tokenRepositoryImpl.checkTokenExpiration(token)
+    suspend fun execute(token: Token): Result<Boolean> {
+        return try {
+            Result.success(tokenRepositoryImpl.checkTokenExpiration(token))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
     }
 }

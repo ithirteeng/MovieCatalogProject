@@ -11,24 +11,21 @@ class NetworkConnectionInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        var response: Response? = null
+        Log.d("CONNECTION", "test")
 
         return try {
-            response = chain.proceed(request)
-            response
-        } catch (e: IOException) {
-            response?.close()
-            handleError(e)
             chain.proceed(request)
+        } catch (e: IOException) {
+            handleError(e)
         }
     }
 
-    private fun handleError(error: IOException) {
+    private fun handleError(error: IOException): Nothing {
         when (error) {
             is UnknownHostException ->
                 Log.d("CONNECTION", "trouble")
         }
-        //throw NoConnectivityException()
+        throw NoConnectivityException()
     }
 
 

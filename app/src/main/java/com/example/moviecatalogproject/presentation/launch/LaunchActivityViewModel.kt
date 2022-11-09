@@ -1,6 +1,7 @@
 package com.example.moviecatalogproject.presentation.launch
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,9 +34,13 @@ class LaunchActivityViewModel(application: Application) : AndroidViewModel(appli
         viewModelScope.launch {
             val token = getTokenFromLocalStorageUseCase.execute()
             token.token = "Bearer ${token.token}"
-            val result = checkTokenExpirationUseCase.execute(token)
-            tokenExistingLiveData.value = result
+
+            checkTokenExpirationUseCase.execute(token).onSuccess {
+                tokenExistingLiveData.value = it
+            }.onFailure {
+                Log.d("CONNECTION", "failed")
+            }
+
         }
     }
-
 }
