@@ -1,5 +1,6 @@
 package com.example.moviecatalogproject.data.service
 
+import com.example.moviecatalogproject.data.service.interceptor.NetworkConnectionInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,6 +12,7 @@ object NetworkService {
     private const val BASE_URL = "https://react-midterm.kreosoft.space/"
 
     private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(NetworkConnectionInterceptor())
         .connectTimeout(20, TimeUnit.SECONDS)
         .readTimeout(20, TimeUnit.SECONDS)
         .writeTimeout(20, TimeUnit.SECONDS)
