@@ -2,9 +2,11 @@ package com.example.moviecatalogproject.presentation.launch
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.moviecatalogproject.data.ConnectionObserver
 import com.example.moviecatalogproject.databinding.ActivityLaunchBinding
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.MainActivity
@@ -25,12 +27,25 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
-            delay(1500)
-            binding.progressBar.visibility = View.VISIBLE
-        }
 
-        makeIntent()
+        ConnectionObserver.observeConnection(
+            context = this,
+            onConnectionLost = {
+                Log.d("CONNECTIONTIP", "lost")
+            },
+            onConnectionAvailable = {
+                Log.d("CONNECTIONTIP", "available")
+                lifecycleScope.launch {
+                    makeIntent()
+                    delay(1500)
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+
+            }
+        )
+
+
     }
 
     private fun makeIntent() {
@@ -44,6 +59,5 @@ class LaunchActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
             finish()
         }
-
     }
 }
