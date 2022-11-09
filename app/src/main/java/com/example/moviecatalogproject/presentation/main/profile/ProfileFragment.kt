@@ -22,8 +22,10 @@ import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) :
-    Fragment() {
+class ProfileFragment(
+    private val changeProgressBarVisibility: (state: Boolean) -> Unit,
+    private val setTableLayoutClickability: (state: Boolean) -> Unit
+) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -49,6 +51,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
     override fun onStart() {
         super.onStart()
         changeProgressBarVisibility(true)
+        setTableLayoutClickability(false)
         getProfileData()
         onObserveProfileLiveData()
     }
@@ -73,6 +76,8 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
                     loadAvatar(profile.avatarLink!!)
                 } else {
                     setDefaultImage()
+                    setTableLayoutClickability(true)
+                    changeProgressBarVisibility(false)
                 }
                 changeRegistrationButtonState(checkFullnessOfFields())
             }
@@ -100,6 +105,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
             changeProgressBarVisibility(true)
             validateFields()
             if (checkFieldsValidity()) {
+                setTableLayoutClickability(false)
                 saveChangedData()
             } else {
                 changeRegistrationButtonState(checkFullnessOfFields())
@@ -143,6 +149,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            setTableLayoutClickability(true)
             changeProgressBarVisibility(false)
         }
     }
@@ -157,6 +164,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
+        setTableLayoutClickability(false)
         changeProgressBarVisibility(true)
         changeRegistrationButtonState(false)
         Glide.with(requireContext())
@@ -164,6 +172,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
             .listener(
                 MyGlideRequestListener(
                     onReadyFunction = {
+                        setTableLayoutClickability(true)
                         changeRegistrationButtonState(true)
                         changeProgressBarVisibility(false)
                     },
@@ -171,6 +180,8 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
                         changeRegistrationButtonState(true)
                         binding.avatarLinkEditText.text?.clear()
                         setDefaultImage()
+                        setTableLayoutClickability(true)
+                        changeProgressBarVisibility(false)
                     }
                 )
             )
@@ -194,7 +205,6 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
                 R.drawable.default_user_avatar_image, requireContext().theme
             )
         )
-        changeProgressBarVisibility(false)
     }
 
     private fun checkFieldsValidity(): Boolean {

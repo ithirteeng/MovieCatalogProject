@@ -33,13 +33,13 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/authorizationButton"
         style="@style/sign_button_style"
-        android:layout_marginTop="@dimen/edit_texts_margin"
         android:background="@drawable/sign_button_selector"
         android:text="@string/sign_in_text"
-        app:layout_constraintBottom_toTopOf="@id/signUpButton"
+        app:layout_constraintBottom_toTopOf="@id/authorizationButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+        app:layout_constraintTop_toBottomOf="@+id/authorizationButton"
         app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/accent"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
+        app:layout_constraintBottom_toTopOf="@+id/authorizationButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />

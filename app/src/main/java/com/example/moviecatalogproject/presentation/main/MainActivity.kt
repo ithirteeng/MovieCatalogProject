@@ -1,9 +1,11 @@
 package com.example.moviecatalogproject.presentation.main
 
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.moviecatalogproject.R
@@ -12,6 +14,7 @@ import com.example.moviecatalogproject.presentation.main.movie.MovieFragment
 import com.example.moviecatalogproject.presentation.main.profile.ProfileFragment
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +27,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private val profileFragment = ProfileFragment {
-        changeProgressBarVisibility(it)
-    }
+    private val profileFragment = ProfileFragment(
+        setTableLayoutClickability = {
+            setTableLayoutClickability(it)
+        },
+        changeProgressBarVisibility = {
+            changeProgressBarVisibility(it)
+        }
+    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +46,8 @@ class MainActivity : AppCompatActivity() {
             setReorderingAllowed(true)
             add(R.id.fragmentContainerView, movieFragment)
         }
+
+        setTableLayoutClickability(true)
 
     }
 
@@ -79,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceToProfileFragment() {
         supportFragmentManager.commit {
+
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, profileFragment)
 
@@ -90,6 +101,30 @@ class MainActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setTableLayoutClickability(state: Boolean) {
+        if (state) {
+            enableTabLayout()
+        } else {
+            disableTabLayout()
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun disableTabLayout() {
+        val tabStrip = binding.tabLayout.getChildAt(0) as LinearLayout
+        for (i in 0 until tabStrip.childCount) {
+            tabStrip.getChildAt(i).setOnTouchListener { _, _ -> true }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun enableTabLayout() {
+        val tabStrip = binding.tabLayout.getChildAt(0) as LinearLayout
+        for (i in 0 until tabStrip.childCount) {
+            tabStrip.getChildAt(i).setOnTouchListener { _, _ -> false }
         }
     }
 }
