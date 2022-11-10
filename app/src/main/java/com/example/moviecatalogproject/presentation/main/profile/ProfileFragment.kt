@@ -25,6 +25,7 @@ import java.util.*
 
 class ProfileFragment(
     private val changeProgressBarVisibility: (state: Boolean) -> Unit,
+    private val changeSwipeToRefreshState: (state: Boolean) -> Unit,
     private val changeSwipeToRefreshRefreshingState: (state: Boolean) -> Unit
 ) : Fragment(), RefreshableFragment {
 
@@ -53,6 +54,7 @@ class ProfileFragment(
         setEditTextsInputSpaceFilter()
         setupButtonOnClickFunctions()
         onFieldsFocusChange()
+        onScroll()
 
         return mainView
     }
@@ -69,6 +71,16 @@ class ProfileFragment(
         super.onStop()
         changeSwipeToRefreshRefreshingState(false)
         changeProgressBarVisibility(true)
+    }
+
+    private fun onScroll() {
+        binding.root.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY == 0) {
+                changeSwipeToRefreshState(true)
+            } else {
+                changeSwipeToRefreshState(false)
+            }
+        }
     }
 
     private fun getProfileData() {

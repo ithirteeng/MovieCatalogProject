@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         changeProgressBarVisibility = {
             changeProgressBarVisibility(it)
         },
+        changeSwipeToRefreshState = {
+            changeSwipeToRefreshState(it)
+        },
         changeSwipeToRefreshRefreshingState = {
             changeSwipeToRefreshRefreshingState(it)
         }
