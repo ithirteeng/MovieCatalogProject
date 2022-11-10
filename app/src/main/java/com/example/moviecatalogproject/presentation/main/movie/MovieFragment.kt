@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
@@ -88,7 +89,18 @@ class MovieFragment(
         val favouritesRecyclerView = binding.favouritesRecyclerView
 
         favouritesRecyclerView.layoutManager = CenterZoomLinearLayoutManager(
-            requireContext(), 1.3f, 0.3f
+            requireContext(),
+            1.3f,
+            0.3f,
+            doOnScrollStateChange = { state ->
+                swipeToRefreshState = if (state == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    changeSwipeToRefreshState(false)
+                    false
+                } else {
+                    changeSwipeToRefreshState(true)
+                    true
+                }
+            }
         )
 
         favouritesRecyclerView.adapter = favouritesAdapter

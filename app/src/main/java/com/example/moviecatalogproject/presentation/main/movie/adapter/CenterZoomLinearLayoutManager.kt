@@ -10,8 +10,18 @@ import kotlin.math.min
 class CenterZoomLinearLayoutManager(
     context: Context,
     private val mShrinkDistance: Float = 1f,
-    private val mShrinkAmount: Float = 0.2f
+    private val mShrinkAmount: Float = 0.2f,
+    private val doOnScrollStateChange: (state: Int) -> Unit
 ) : LinearLayoutManager(context, HORIZONTAL, false) {
+
+    override fun onScrollStateChanged(state: Int) {
+        super.onScrollStateChanged(state)
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            doOnScrollStateChange(RecyclerView.SCROLL_STATE_IDLE)
+        } else if (state == RecyclerView.SCROLL_STATE_DRAGGING) {
+            doOnScrollStateChange(RecyclerView.SCROLL_STATE_DRAGGING)
+        }
+    }
 
     override fun onLayoutCompleted(state: RecyclerView.State?) {
         super.onLayoutCompleted(state)
