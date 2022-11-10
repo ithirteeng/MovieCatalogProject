@@ -87,7 +87,6 @@ class ProfileFragment(
         viewModel.getProfileData(completeOnError = {
             makeIntentToEntranceActivity()
         })
-        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun onObserveProfileLiveData() {
@@ -102,7 +101,7 @@ class ProfileFragment(
                 }
                 changeRegistrationButtonState(checkFullnessOfFields())
             }
-
+            changeSwipeToRefreshRefreshingState(false)
         }
     }
 

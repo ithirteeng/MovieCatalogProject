@@ -103,10 +103,9 @@ class MovieFragment(
                 addOnFavouritesClickFunction(favouritesList)
                 favouritesAdapter.addMovies(favouritesList)
             }
-            favouritesRecyclerView.adapter?.notifyDataSetChanged()
+            binding.favouritesRecyclerView.adapter?.notifyDataSetChanged()
+            changeSwipeToRefreshRefreshingState(false)
         }
-
-        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun changeFavouritesTextViewVisibility(favouritesArrayList: ArrayList<FavouriteMovie>) {
@@ -165,9 +164,9 @@ class MovieFragment(
             }
             galleryRecyclerView.adapter?.notifyDataSetChanged()
             changeProgressBarVisibility(false)
+            changeSwipeToRefreshRefreshingState(false)
         }
 
-        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun copyArray(movieArray: ArrayList<GalleryMovie>): ArrayList<GalleryMovie> {
