@@ -396,7 +396,7 @@ class ProfileFragment(
     }
 
     private fun refreshConnection() {
-        setTableLayoutClickability(true)
+        //setTableLayoutClickability(true)
         changeProgressBarVisibility(false)
         changeSwipeToRefreshRefreshingState(false)
         Toast.makeText(
@@ -407,7 +407,7 @@ class ProfileFragment(
     }
 
     private fun refreshConnectionAfterSaveButtonCLick() {
-        setTableLayoutClickability(true)
+        //setTableLayoutClickability(true)
         changeProgressBarVisibility(false)
         changeSwipeToRefreshRefreshingState(false)
         Toast.makeText(
