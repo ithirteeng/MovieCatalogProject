@@ -30,6 +30,8 @@ class MovieFragment(
 
     private lateinit var binding: FragmentMovieBinding
 
+    private var swipeToRefreshState = true
+
     private val viewModel by lazy {
         MovieFragmentViewModel(activity?.application!!) {
             changeProgressBarVisibility(false)
@@ -186,9 +188,17 @@ class MovieFragment(
     private fun onAppbarOffsetChange() {
         binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
             if (verticalOffset == 0) {
-                changeSwipeToRefreshState(true)
+                if (!swipeToRefreshState) {
+                    changeSwipeToRefreshState(true)
+                    swipeToRefreshState = true
+                }
+
             } else {
-                changeSwipeToRefreshState(false)
+                if (swipeToRefreshState) {
+                    changeSwipeToRefreshState(false)
+                    swipeToRefreshState = false
+                }
+
             }
         }
     }
