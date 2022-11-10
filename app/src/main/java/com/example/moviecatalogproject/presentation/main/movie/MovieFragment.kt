@@ -67,7 +67,7 @@ class MovieFragment(
 
     override fun onStart() {
         super.onStart()
-
+        viewModel.setCanOnFailureBeCalled(true)
         changeProgressBarVisibility(true)
         setupFavouritesRecyclerView()
         setupGalleryRecyclerView()

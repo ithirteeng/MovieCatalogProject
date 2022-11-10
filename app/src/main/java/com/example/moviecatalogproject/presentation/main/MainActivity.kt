@@ -32,9 +32,14 @@ class MainActivity : AppCompatActivity() {
     )
 
 
-    private val profileFragment = ProfileFragment {
-        changeProgressBarVisibility(it)
-    }
+    private val profileFragment = ProfileFragment(
+        changeProgressBarVisibility = {
+            changeProgressBarVisibility(it)
+        },
+        changeSwipeToRefreshRefreshingState = {
+            changeSwipeToRefreshRefreshingState(it)
+        }
+    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             if (movieFragment.isVisible) {
                 movieFragment.refresh()
             } else {
-                // profileFragment.refresh()
+                profileFragment.refresh()
             }
         }
     }

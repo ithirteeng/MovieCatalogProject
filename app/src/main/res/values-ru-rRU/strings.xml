@@ -62,6 +62,6 @@
     <string name="error_profile_400">Такой e-mail уже существует!</string>
     <string name="connection_swipe_text">Нет соединения с интернетом.\nПроведите вниз, чтобы отправить запрос снова</string>
     <string name="connection_text">Пожалуйста проверьте ваше интернет-соединение</string>
-    <string name="refresh_entrance_text">Нет соединения с интернетом.\nПопробуйте позже</string>
+    <string name="refresh_repeat_text">Нет соединения с интернетом.\nПопробуйте позже</string>
     <string name="refresh_button_text">обновить</string>
 </resources>

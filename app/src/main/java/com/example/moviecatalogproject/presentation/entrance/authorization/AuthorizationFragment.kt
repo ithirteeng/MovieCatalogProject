@@ -23,7 +23,7 @@ class AuthorizationFragment(private val bottomButtonCallback: () -> Unit) : Frag
             binding.registrationButton.isEnabled = true
             Toast.makeText(
                 requireContext(),
-                resources.getString(R.string.refresh_entrance_text),
+                resources.getString(R.string.refresh_repeat_text),
                 Toast.LENGTH_SHORT
             ).show()
         }

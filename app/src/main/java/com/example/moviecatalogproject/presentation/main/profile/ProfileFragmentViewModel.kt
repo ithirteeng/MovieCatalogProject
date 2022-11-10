@@ -11,7 +11,17 @@ import com.example.moviecatalogproject.domain.main.profile.usecase.*
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
-class ProfileFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class ProfileFragmentViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit,
+    private val onButtonInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
+
+    private var canOnFailureBeCalled = true
+
+    fun setCanOnFailureBeCalled(state: Boolean) {
+        canOnFailureBeCalled = state
+    }
 
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
@@ -41,8 +51,14 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val profileLiveData = SingleEventLiveData<Profile?>()
     fun getProfileData(completeOnError: () -> Unit) {
         viewModelScope.launch {
-            profileLiveData.value = getProfileDataUseCase.execute(bearerToken) {
-                completeOnError()
+            getProfileDataUseCase.execute(bearerToken, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+                profileLiveData.value = it
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
             }
         }
     }
@@ -56,10 +72,17 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val onSavingProfileChangesLiveData = SingleEventLiveData<Boolean>()
     fun putProfileData(profile: Profile, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            onSavingProfileChangesLiveData.value =
-                putProfileDataUseCase.execute(bearerToken, profile) {
-                    completeOnError(it)
+            putProfileDataUseCase.execute(bearerToken, profile, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+                onSavingProfileChangesLiveData.value = it
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onButtonInternetConnectionFailure()
                 }
+            }
+
+
         }
     }
 
@@ -71,8 +94,13 @@ class ProfileFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val logoutUseCase = LogoutUseCase(application.applicationContext)
     fun logout(onLogout: () -> Unit) {
         viewModelScope.launch {
-            logoutUseCase.execute(bearerToken) {
-                onLogout()
+            logoutUseCase.execute(bearerToken, onLogout).onSuccess {
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onButtonInternetConnectionFailure()
+                }
             }
         }
     }

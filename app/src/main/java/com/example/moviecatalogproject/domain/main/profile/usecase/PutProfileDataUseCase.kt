@@ -15,12 +15,18 @@ class PutProfileDataUseCase {
         token: Token,
         profileData: Profile,
         completeOnFailure: (code: Int) -> Unit
-    ): Boolean {
-        val response = profileRepository.putProfileData(token, profileData)
-        Log.d("PROFILE", "put: ${response.code()}")
-        if (!response.isSuccessful) {
-            completeOnFailure(response.code())
+    ): Result<Boolean> {
+        return try {
+            val response = profileRepository.putProfileData(token, profileData)
+            Log.d("PROFILE", "put: ${response.code()}")
+            if (!response.isSuccessful) {
+                completeOnFailure(response.code())
+            }
+            Result.success(response.isSuccessful)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        return response.isSuccessful
+
+
     }
 }

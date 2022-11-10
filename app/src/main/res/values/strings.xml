@@ -68,6 +68,6 @@
     <string name="refresh_button_text">refresh</string>
     <string name="connection_swipe_text">No internet connection.\nSwipe down to repeat the request</string>
     <string name="connection_text">Please, check your internet connection</string>
-    <string name="refresh_entrance_text">No internet connection.\nTry to repeat request later</string>
+    <string name="refresh_repeat_text">No internet connection.\nTry to repeat request later</string>
 
 </resources>

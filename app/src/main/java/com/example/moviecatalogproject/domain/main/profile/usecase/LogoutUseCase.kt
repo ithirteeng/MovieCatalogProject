@@ -14,9 +14,15 @@ class LogoutUseCase(private val context: Context) {
         TokenRepository(context)
     }
 
-    suspend fun execute(token: Token, logoutFunction: () -> Unit) {
-        tokenRepository.deleteTokenFromLocalStorage()
-        authenticationRepository.postLogoutData(token)
-        logoutFunction()
+    suspend fun execute(token: Token, logoutFunction: () -> Unit): Result<Boolean> {
+        return try {
+            authenticationRepository.postLogoutData(token)
+            tokenRepository.deleteTokenFromLocalStorage()
+            logoutFunction()
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
     }
 }

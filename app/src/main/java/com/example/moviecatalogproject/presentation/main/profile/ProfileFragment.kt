@@ -17,18 +17,29 @@ import com.example.moviecatalogproject.databinding.FragmentProfileBinding
 import com.example.moviecatalogproject.domain.common.model.ErrorType
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
 import com.example.moviecatalogproject.presentation.common.MyEditText
+import com.example.moviecatalogproject.presentation.common.RefreshableFragment
 import com.example.moviecatalogproject.presentation.common.helper.DateConverter
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.profile.model.MyGlideRequestListener
 import java.util.*
 
-class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) :
-    Fragment() {
+class ProfileFragment(
+    private val changeProgressBarVisibility: (state: Boolean) -> Unit,
+    private val changeSwipeToRefreshRefreshingState: (state: Boolean) -> Unit
+) : Fragment(), RefreshableFragment {
 
     private lateinit var binding: FragmentProfileBinding
 
     private val viewModel by lazy {
-        ProfileFragmentViewModel(activity?.application!!)
+        ProfileFragmentViewModel(
+            activity?.application!!,
+            onInternetConnectionFailure = {
+                refreshConnection()
+            },
+            onButtonInternetConnectionFailure = {
+                refreshConnectionAfterSaveButtonCLick()
+            }
+        )
     }
 
     private lateinit var profile: Profile
@@ -48,6 +59,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
 
     override fun onStart() {
         super.onStart()
+        viewModel.setCanOnFailureBeCalled(true)
         changeProgressBarVisibility(true)
         getProfileData()
         onObserveProfileLiveData()
@@ -55,6 +67,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
 
     override fun onStop() {
         super.onStop()
+        changeSwipeToRefreshRefreshingState(false)
         changeProgressBarVisibility(true)
     }
 
@@ -62,6 +75,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
         viewModel.getProfileData(completeOnError = {
             makeIntentToEntranceActivity()
         })
+        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun onObserveProfileLiveData() {
@@ -97,10 +111,11 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
 
     private fun onSaveButtonClick() {
         binding.saveProfileChangesButton.setOnClickListener {
-            changeProgressBarVisibility(true)
+            viewModel.setCanOnFailureBeCalled(true)
             validateFields()
             if (checkFieldsValidity()) {
                 saveChangedData()
+                onCompleteSavingProfileChanges()
             } else {
                 changeRegistrationButtonState(checkFullnessOfFields())
             }
@@ -109,6 +124,7 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
 
     private fun onLogoutButtonClick() {
         binding.logoutButton.setOnClickListener {
+            viewModel.setCanOnFailureBeCalled(true)
             viewModel.logout(onLogout = {
                 makeIntentToEntranceActivity()
             })
@@ -129,12 +145,12 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
         viewModel.putProfileData(changedProfile, completeOnError = {
             onErrorAppearanceFunction(it)
         })
-
-        onCompleteSavingProfileChanges()
-
+        changeProgressBarVisibility(false)
+        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun onCompleteSavingProfileChanges() {
+        changeProgressBarVisibility(true)
         viewModel.getOnSavingProfileChangesLiveData().observe(viewLifecycleOwner) {
             if (it) {
                 Toast.makeText(
@@ -351,6 +367,32 @@ class ProfileFragment(private val changeProgressBarVisibility: (state: Boolean) 
         startActivity(Intent(activity, EntranceActivity::class.java))
         activity?.overridePendingTransition(0, 0)
         activity?.finish()
+    }
+
+    override fun refresh() {
+        viewModel.setCanOnFailureBeCalled(true)
+        getProfileData()
+        onObserveProfileLiveData()
+    }
+
+    private fun refreshConnection() {
+        changeProgressBarVisibility(false)
+        changeSwipeToRefreshRefreshingState(false)
+        Toast.makeText(
+            requireContext(),
+            resources.getString(R.string.connection_swipe_text),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun refreshConnectionAfterSaveButtonCLick() {
+        changeProgressBarVisibility(false)
+        changeSwipeToRefreshRefreshingState(false)
+        Toast.makeText(
+            requireContext(),
+            resources.getString(R.string.refresh_repeat_text),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 }
