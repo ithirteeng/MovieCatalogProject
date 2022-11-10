@@ -17,12 +17,17 @@ class ChangeReviewUseCase {
         reviewId: String,
         reviewShort: ReviewShort,
         completeOnError: (errorCode: Int) -> Unit
-    ): Boolean {
-        val response = reviewRepository.changeReview(token, movieId, reviewId, reviewShort)
-        if (!response.isSuccessful) {
-            Log.d("REVIEW", "review change error: ${response.code()}")
-            completeOnError(response.code())
+    ): Result<Boolean> {
+        return try {
+            val response = reviewRepository.changeReview(token, movieId, reviewId, reviewShort)
+            if (!response.isSuccessful) {
+                Log.d("REVIEW", "review change error: ${response.code()}")
+                completeOnError(response.code())
+            }
+            Result.success(response.isSuccessful)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        return response.isSuccessful
+
     }
 }

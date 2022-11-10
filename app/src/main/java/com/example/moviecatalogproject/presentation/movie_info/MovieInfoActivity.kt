@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -40,16 +41,31 @@ class MovieInfoActivity : AppCompatActivity() {
     }
 
     private val viewModel by lazy {
-        MovieInfoActivityViewModel(application)
+        MovieInfoActivityViewModel(application) {
+            binding.progressBar.visibility = View.GONE
+            binding.swipeToRefresh.isRefreshing = false
+            binding.addButton.visibility = View.GONE
+            Toast.makeText(
+                this,
+                resources.getString(R.string.connection_error_swipe_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private val dialogFragment by lazy {
-        CustomDialogFragment(movieId, completeOnSavingReview = {
-            reviewsAdapter.clearReviewsList()
-            binding.flexBox.removeAllViews()
-            binding.progressBar.visibility = View.VISIBLE
-            getMovieDetails()
-        })
+        CustomDialogFragment(
+            movieId,
+            completeOnSavingReview = {
+                reviewsAdapter.clearReviewsList()
+                binding.flexBox.removeAllViews()
+                binding.progressBar.visibility = View.VISIBLE
+                getMovieDetails()
+            },
+            completeOninternetConnectionFailure = {
+                binding.addButton.visibility = View.GONE
+            }
+        )
     }
 
     private lateinit var movieId: String
@@ -71,6 +87,7 @@ class MovieInfoActivity : AppCompatActivity() {
 
         getUserId()
         onGettingMovieDetails()
+        onSwipeToRefresh()
     }
 
     private fun setupMainView() {
@@ -79,7 +96,17 @@ class MovieInfoActivity : AppCompatActivity() {
         onAppbarOffsetChange()
         setupLikeButtonFunctions()
         onAddReviewButtonClick()
+        setupSwipeToRefresh()
         binding.tableLayout.setColumnShrinkable(1, true)
+    }
+
+    private fun setupSwipeToRefresh() {
+        binding.swipeToRefresh.setColorSchemeColors(
+            resources.getColor(R.color.accent, theme)
+        )
+        binding.swipeToRefresh.setProgressBackgroundColorSchemeColor(
+            resources.getColor(R.color.background_color, theme)
+        )
     }
 
     private fun setupDialogFragment() {
@@ -88,12 +115,22 @@ class MovieInfoActivity : AppCompatActivity() {
         dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme)
     }
 
+    private fun onSwipeToRefresh() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.setCanOnFailureBeCalled(true)
+            setupLikeButtonFunctions()
+            getUserId()
+            onGettingMovieDetails()
+        }
+    }
+
     private fun onGettingMovieDetails() {
         getMovieDetails()
         viewModel.getMovieDetailsLiveData().observe(this) { movieDetails ->
             setMovieDetails(movieDetails)
             binding.progressBar.visibility = View.GONE
             onGettingUserId(movieDetails.reviews!!)
+            binding.swipeToRefresh.isRefreshing = false
         }
     }
 
@@ -107,9 +144,12 @@ class MovieInfoActivity : AppCompatActivity() {
         viewModel.getUserIdLiveData().observe(this) {
             val ifUserReviewExists = checkUserReviewExisting(reviewsList, it)
             changeAddReviewButtonVisibility(ifUserReviewExists)
+
             reviewsAdapter.setUserId(it)
             setupReviewsRecyclerView(reviewsList)
             this.userId = it
+
+            binding.swipeToRefresh.isRefreshing = false
         }
     }
 
@@ -143,6 +183,7 @@ class MovieInfoActivity : AppCompatActivity() {
     }
 
     private fun setGenres(genresList: ArrayList<Genre>) {
+        binding.flexBox.removeAllViews()
         for (genre in genresList) {
             val textView = TextView(ContextThemeWrapper(this, R.style.genre_style))
             textView.text = genre.name
@@ -181,6 +222,7 @@ class MovieInfoActivity : AppCompatActivity() {
             reviewsList
         )
         addOnReviewButtonsClickFunctions(expandedReviewsList)
+        reviewsAdapter.clearReviewsList()
 
         reviewsAdapter.addItemsToReviewsList(expandedReviewsList)
 
@@ -230,6 +272,8 @@ class MovieInfoActivity : AppCompatActivity() {
             val alfa = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
             binding.likeButton.alpha = alfa
             binding.likeButton.isEnabled = binding.likeButton.alpha >= 0.7
+
+            binding.swipeToRefresh.isEnabled = verticalOffset == 0
         }
     }
 

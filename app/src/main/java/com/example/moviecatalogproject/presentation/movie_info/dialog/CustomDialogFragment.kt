@@ -15,13 +15,22 @@ import com.example.moviecatalogproject.presentation.movie_info.model.CreatingDia
 
 class CustomDialogFragment(
     private val movieId: String,
-    private val completeOnSavingReview: () -> Unit
+    private val completeOnSavingReview: () -> Unit,
+    private val completeOninternetConnectionFailure: () -> Unit
 ) : DialogFragment() {
 
     private lateinit var binding: FragmentCustomDialogBinding
 
     private val viewModel by lazy {
-        CustomDialogFragmentViewModel(activity?.application!!)
+        CustomDialogFragmentViewModel(activity?.application!!) {
+            Toast.makeText(
+                this.context,
+                resources.getString(R.string.connection_error_repeat_text),
+                Toast.LENGTH_SHORT
+            ).show()
+            completeOninternetConnectionFailure()
+            this.dismiss()
+        }
     }
 
     private var creatingReason = CreatingDialogReason.ADD_REVIEW
@@ -38,6 +47,8 @@ class CustomDialogFragment(
 
         onCancelButtonClick()
         onSaveButtonClick()
+
+        viewModel.setCanOnFailureBeCalled(true)
 
         if (creatingReason == CreatingDialogReason.CHANGE_REVIEW) {
             bindReviewInfo()

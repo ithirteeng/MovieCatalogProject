@@ -11,7 +11,16 @@ import com.example.moviecatalogproject.domain.movie_info.usecase.*
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
-class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(application) {
+class MovieInfoActivityViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
+
+    private var canOnFailureBeCalled = true
+
+    fun setCanOnFailureBeCalled(state: Boolean) {
+        canOnFailureBeCalled = state
+    }
 
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
@@ -29,8 +38,17 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     private val checkIsFavouriteResultLiveData = MutableLiveData<Boolean>()
     fun checkIsMovieFavourite(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            checkIsFavouriteResultLiveData.value =
-                checkIfMovieIsFavouriteUseCase.execute(bearerToken, movieId, completeOnError)
+            checkIfMovieIsFavouriteUseCase.execute(bearerToken, movieId, completeOnError)
+                .onSuccess {
+                    checkIsFavouriteResultLiveData.value = it
+                    canOnFailureBeCalled = true
+                }
+                .onFailure {
+                    if (canOnFailureBeCalled) {
+                        canOnFailureBeCalled = false
+                        onInternetConnectionFailure()
+                    }
+                }
         }
     }
 
@@ -43,8 +61,15 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     private val movieDetailsLivedata = MutableLiveData<MovieDetails>()
     fun getMovieDetails(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            movieDetailsLivedata.value =
-                getMovieDetailsUseCase.execute(bearerToken, movieId, completeOnError)
+            getMovieDetailsUseCase.execute(bearerToken, movieId, completeOnError).onSuccess {
+                movieDetailsLivedata.value = it
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -56,7 +81,14 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            deleteFromFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
+            deleteFromFavouritesUseCase.execute(bearerToken, movieId, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -73,7 +105,15 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     private val userIdLiveData = SingleEventLiveData<String>()
     fun getUserId(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            userIdLiveData.value = getUserIdUseCase.execute(bearerToken, completeOnError)
+            getUserIdUseCase.execute(bearerToken, completeOnError).onSuccess {
+                userIdLiveData.value = it
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -85,7 +125,14 @@ class MovieInfoActivityViewModel(application: Application) : AndroidViewModel(ap
     private val deleteReviewUseCase = DeleteReviewUseCase()
     fun deleteReview(movieId: String, reviewId: String) {
         viewModelScope.launch {
-            deleteReviewUseCase.execute(bearerToken, movieId, reviewId)
+            deleteReviewUseCase.execute(bearerToken, movieId, reviewId).onSuccess {
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 

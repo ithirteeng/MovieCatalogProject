@@ -12,7 +12,17 @@ import com.example.moviecatalogproject.domain.movie_info.usecase.ChangeReviewUse
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 
-class CustomDialogFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class CustomDialogFragmentViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
+
+    private var canOnFailureBeCalled = true
+
+    fun setCanOnFailureBeCalled(state: Boolean) {
+        canOnFailureBeCalled = state
+    }
+
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
 
@@ -33,8 +43,15 @@ class CustomDialogFragmentViewModel(application: Application) : AndroidViewModel
         completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
-            onCompleteAddingLiveData.value =
-                addReviewUseCase.execute(bearerToken, movieId, reviewShort, completeOnError)
+            addReviewUseCase.execute(bearerToken, movieId, reviewShort, completeOnError).onSuccess {
+                onCompleteAddingLiveData.value = it
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -52,13 +69,21 @@ class CustomDialogFragmentViewModel(application: Application) : AndroidViewModel
         completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
-            onCompleteChangingLiveData.value = changeReviewUseCase.execute(
+            changeReviewUseCase.execute(
                 bearerToken,
                 movieId,
                 reviewId,
                 reviewShort,
                 completeOnError
-            )
+            ).onSuccess {
+                onCompleteChangingLiveData.value = it
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 

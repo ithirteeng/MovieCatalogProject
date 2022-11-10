@@ -15,16 +15,21 @@ class GetMovieDetailsUseCase {
         token: Token,
         movieId: String,
         completeOnError: (errorCode: Int) -> Unit
-    ): MovieDetails? {
-        val response = moviesRepository.getMovieDetails(movieId, token)
-        return if (response.isSuccessful) {
-            Log.d("MOVIEREP", "get details success")
-            response.body()
-        } else {
-            completeOnError(response.code())
-            Log.d("MOVIEREP", "get details error : ${response.code()}")
-            null
+    ): Result<MovieDetails?> {
+        return try {
+            val response = moviesRepository.getMovieDetails(movieId, token)
+            if (response.isSuccessful) {
+                Log.d("MOVIEREP", "get details success")
+                Result.success(response.body())
+            } else {
+                completeOnError(response.code())
+                Log.d("MOVIEREP", "get details error : ${response.code()}")
+                Result.success(null)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+
     }
 
 }

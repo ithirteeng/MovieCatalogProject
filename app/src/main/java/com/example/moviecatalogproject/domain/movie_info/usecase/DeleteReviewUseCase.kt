@@ -8,7 +8,13 @@ class DeleteReviewUseCase {
         ReviewRepository()
     }
 
-    suspend fun execute(token: Token, movieId: String, reviewId: String) {
-        reviewRepository.deleteReview(token, movieId, reviewId)
+    suspend fun execute(token: Token, movieId: String, reviewId: String): Result<Boolean> {
+        return try {
+            reviewRepository.deleteReview(token, movieId, reviewId)
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
     }
 }

@@ -15,17 +15,22 @@ class CheckIfMovieIsFavouriteUseCase {
         token: Token,
         movieId: String,
         completeOnError: (errorCode: Int) -> Unit
-    ): Boolean {
-        val response = moviesRepository.getFavouritesList(token)
-        return if (response.isSuccessful) {
-            Log.d("REVIEW", "getFavourites success")
-            val list = MovieMapper.favouritesResponseToFavouritesList(response.body()!!)
-            list.contains(movieId)
-        } else {
-            Log.d("REVIEW", "getFavourites error: ${response.code()}")
-            completeOnError(response.code())
-            false
+    ): Result<Boolean> {
+        return try {
+            val response = moviesRepository.getFavouritesList(token)
+            if (response.isSuccessful) {
+                Log.d("REVIEW", "getFavourites success")
+                val list = MovieMapper.favouritesResponseToFavouritesList(response.body()!!)
+                Result.success(list.contains(movieId))
+            } else {
+                Log.d("REVIEW", "getFavourites error: ${response.code()}")
+                completeOnError(response.code())
+                Result.success(false)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+
     }
 
     private fun ArrayList<FavouriteMovie>.contains(movieId: String): Boolean {

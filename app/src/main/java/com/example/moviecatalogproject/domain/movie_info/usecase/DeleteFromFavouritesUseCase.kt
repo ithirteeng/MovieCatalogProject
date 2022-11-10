@@ -13,13 +13,20 @@ class DeleteFromFavouritesUseCase {
         token: Token,
         movieId: String,
         completeOnError: (errorCode: Int) -> Unit
-    ) {
-        val response = moviesRepository.deleteFromFavourites(movieId, token)
-        if (response.isSuccessful) {
-            Log.d("REVIEW", "delete favourites success")
-        } else {
-            Log.d("REVIEW", "delete favourites error: ${response.code()}")
-            completeOnError(response.code())
+    ): Result<Boolean> {
+        return try {
+            val response = moviesRepository.deleteFromFavourites(movieId, token)
+            if (response.isSuccessful) {
+                Log.d("REVIEW", "delete favourites success")
+                Result.success(true)
+            } else {
+                Log.d("REVIEW", "delete favourites error: ${response.code()}")
+                completeOnError(response.code())
+                Result.success(false)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+
     }
 }

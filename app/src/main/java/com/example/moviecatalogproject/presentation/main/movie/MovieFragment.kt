@@ -39,7 +39,7 @@ class MovieFragment(
             changeSwipeToRefreshRefreshingState(false)
             Toast.makeText(
                 requireContext(),
-                resources.getString(R.string.connection_swipe_text),
+                resources.getString(R.string.connection_error_swipe_text),
                 Toast.LENGTH_SHORT
             ).show()
         }

@@ -30,7 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/connection_text"
+        android:text="@string/connection_error_text"
         android:textColor="@color/accent"
         android:textSize="@dimen/body_text_size"
         android:visibility="gone"

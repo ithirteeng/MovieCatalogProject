@@ -13,14 +13,20 @@ class AddToFavouritesUseCase {
         token: Token,
         movieId: String,
         completeOnError: (errorCode: Int) -> Unit
-    ) {
-        val response = moviesRepository.addToFavourites(movieId, token)
-        if (response.isSuccessful) {
-            Log.d("REVIEW", "add favourites success")
-        } else {
-            Log.d("REVIEW", "add favourites error: ${response.code()}")
-            completeOnError(response.code())
+    ): Result<Boolean> {
+        return try {
+            val response = moviesRepository.addToFavourites(movieId, token)
+            if (response.isSuccessful) {
+                Log.d("REVIEW", "add favourites success")
+            } else {
+                Log.d("REVIEW", "add favourites error: ${response.code()}")
+                completeOnError(response.code())
+            }
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+
     }
 
 }
