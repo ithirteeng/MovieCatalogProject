@@ -19,9 +19,17 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(this.layoutInflater)
     }
 
-    private val movieFragment = MovieFragment {
-        changeProgressBarVisibility(it)
-    }
+    private val movieFragment = MovieFragment(
+        changeProgressBarVisibility = {
+            changeProgressBarVisibility(it)
+        },
+        changeSwipeToRefreshState = {
+            changeSwipeToRefreshState(it)
+        },
+        changeSwipeToRefreshRefreshingState = {
+            changeSwipeToRefreshRefreshingState(it)
+        }
+    )
 
 
     private val profileFragment = ProfileFragment {
@@ -39,6 +47,36 @@ class MainActivity : AppCompatActivity() {
             add(R.id.fragmentContainerView, movieFragment)
         }
 
+        setupSwipeToRefresh()
+        onSwipeToRefresh()
+
+    }
+
+    private fun onSwipeToRefresh() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            if (movieFragment.isVisible) {
+                movieFragment.refresh()
+            } else {
+                // profileFragment.refresh()
+            }
+        }
+    }
+
+    private fun setupSwipeToRefresh() {
+        binding.swipeToRefresh.setColorSchemeColors(
+            resources.getColor(R.color.accent, theme)
+        )
+        binding.swipeToRefresh.setProgressBackgroundColorSchemeColor(
+            resources.getColor(R.color.background_color, theme)
+        )
+    }
+
+    private fun changeSwipeToRefreshState(state: Boolean) {
+        binding.swipeToRefresh.isEnabled = state
+    }
+
+    private fun changeSwipeToRefreshRefreshingState(state: Boolean) {
+        binding.swipeToRefresh.isRefreshing = state
     }
 
 

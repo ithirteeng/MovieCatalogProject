@@ -60,7 +60,8 @@
     <string name="sign_up_text">Регистрация</string>
     <string name="authorization_text">Авторизация</string>
     <string name="error_profile_400">Такой e-mail уже существует!</string>
-    <string name="refresh_text">обновить</string>
+    <string name="connection_swipe_text">Нет соединения с интернетом.\nПроведите вниз, чтобы отправить запрос снова</string>
     <string name="connection_text">Пожалуйста проверьте ваше интернет-соединение</string>
     <string name="refresh_entrance_text">Нет соединения с интернетом.\nПопробуйте позже</string>
+    <string name="refresh_button_text">обновить</string>
 </resources>

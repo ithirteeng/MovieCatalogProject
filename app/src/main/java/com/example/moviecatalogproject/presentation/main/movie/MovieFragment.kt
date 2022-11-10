@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.FragmentMovieBinding
+import com.example.moviecatalogproject.presentation.common.RefreshableFragment
 import com.example.moviecatalogproject.presentation.entrance.EntranceActivity
 import com.example.moviecatalogproject.presentation.main.movie.adapter.CenterZoomLinearLayoutManager
 import com.example.moviecatalogproject.presentation.main.movie.adapter.FavouritesAdapter
@@ -20,12 +22,25 @@ import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovi
 import com.example.moviecatalogproject.presentation.movie_info.MovieInfoActivity
 
 
-class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) -> Unit) : Fragment() {
+class MovieFragment(
+    private val changeProgressBarVisibility: (state: Boolean) -> Unit,
+    private val changeSwipeToRefreshState: (state: Boolean) -> Unit,
+    private val changeSwipeToRefreshRefreshingState: (state: Boolean) -> Unit
+) : Fragment(), RefreshableFragment {
 
     private lateinit var binding: FragmentMovieBinding
 
     private val viewModel by lazy {
-        MovieFragmentViewModel(activity?.application!!)
+        MovieFragmentViewModel(activity?.application!!) {
+            changeProgressBarVisibility(false)
+            changeSwipeToRefreshRefreshingState(false)
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.connection_swipe_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
 
     private val galleryAdapter by lazy {
@@ -45,12 +60,14 @@ class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) ->
     ): View? {
         val mainView = inflater.inflate(R.layout.fragment_movie, container, false)
         binding = FragmentMovieBinding.bind(mainView)
+        onAppbarOffsetChange()
 
         return mainView
     }
 
     override fun onStart() {
         super.onStart()
+
         changeProgressBarVisibility(true)
         setupFavouritesRecyclerView()
         setupGalleryRecyclerView()
@@ -89,6 +106,7 @@ class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) ->
             favouritesRecyclerView.adapter?.notifyDataSetChanged()
         }
 
+        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun changeFavouritesTextViewVisibility(favouritesArrayList: ArrayList<FavouriteMovie>) {
@@ -148,6 +166,8 @@ class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) ->
             galleryRecyclerView.adapter?.notifyDataSetChanged()
             changeProgressBarVisibility(false)
         }
+
+        changeSwipeToRefreshRefreshingState(false)
     }
 
     private fun copyArray(movieArray: ArrayList<GalleryMovie>): ArrayList<GalleryMovie> {
@@ -161,6 +181,16 @@ class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) ->
     private fun getNextMoviesList(page: Int) {
         viewModel.getMoviesList(page) {
             onErrorAppearanceFunction(it)
+        }
+    }
+
+    private fun onAppbarOffsetChange() {
+        binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
+            if (verticalOffset == 0) {
+                changeSwipeToRefreshState(true)
+            } else {
+                changeSwipeToRefreshState(false)
+            }
         }
     }
 
@@ -206,6 +236,15 @@ class MovieFragment(private val changeProgressBarVisibility: (state: Boolean) ->
         activity?.overridePendingTransition(0, 0)
         intent.putExtra(MovieInfoActivity.MOVIE_ID, movieId)
         startActivity(intent)
+    }
+
+    override fun refresh() {
+        viewModel.setCanOnFailureBeCalled(true)
+        favouritesAdapter.clearMovieList()
+        galleryAdapter.clearMovieList()
+        setupFavouritesRecyclerView()
+        setupGalleryRecyclerView()
+
     }
 }
 

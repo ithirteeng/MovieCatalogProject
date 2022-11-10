@@ -14,7 +14,17 @@ import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMo
 import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie
 import kotlinx.coroutines.launch
 
-class MovieFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class MovieFragmentViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
+
+    private var canOnFailureBeCalled = true
+
+    fun setCanOnFailureBeCalled(state: Boolean) {
+        canOnFailureBeCalled = state
+    }
+
 
     private val getTokenFromLocalStorageUseCase =
         GetTokenFromLocalStorageUseCase(application.applicationContext)
@@ -32,8 +42,15 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
     private val galleryMoviesLiveData = SingleEventLiveData<ArrayList<GalleryMovie>?>()
     fun getMoviesList(page: Int, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            galleryMoviesLiveData.value =
-                getMoviesListUseCase.execute(page, bearerToken, completeOnError)
+            getMoviesListUseCase.execute(page, bearerToken, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+                galleryMoviesLiveData.value = it
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -46,8 +63,15 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
     private val favouritesListLiveData = SingleEventLiveData<ArrayList<FavouriteMovie>?>()
     fun getFavouritesList(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            favouritesListLiveData.value =
-                getFavouritesListUseCase.execute(bearerToken, completeOnError)
+            getFavouritesListUseCase.execute(bearerToken, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+                favouritesListLiveData.value = it
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
@@ -59,7 +83,14 @@ class MovieFragmentViewModel(application: Application) : AndroidViewModel(applic
     private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteMovieFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            deleteFromFavouritesUseCase.execute(movieId, bearerToken, completeOnError)
+            deleteFromFavouritesUseCase.execute(movieId, bearerToken, completeOnError).onSuccess {
+                canOnFailureBeCalled = true
+            }.onFailure {
+                if (canOnFailureBeCalled) {
+                    canOnFailureBeCalled = false
+                    onInternetConnectionFailure()
+                }
+            }
         }
     }
 
