@@ -11,7 +11,10 @@ import com.example.moviecatalogproject.domain.entrance.authorization.usecase.Pos
 import com.example.moviecatalogproject.domain.entrance.authorization.usecase.SaveTokenUseCase
 import kotlinx.coroutines.launch
 
-class AuthorizationFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class AuthorizationFragmentViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
 
     private val saveTokenUseCase = SaveTokenUseCase(application.applicationContext)
     fun saveTokenToLocalStorage(token: Token) {
@@ -24,9 +27,11 @@ class AuthorizationFragmentViewModel(application: Application) : AndroidViewMode
         authorizationData: AuthorizationData, completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
-            tokenLiveData.value = postAuthorizationDataUseCase.execute(
-                authorizationData, completeOnError
-            )
+            postAuthorizationDataUseCase.execute(authorizationData, completeOnError).onSuccess {
+                tokenLiveData.value = it
+            }.onFailure {
+                onInternetConnectionFailure()
+            }
         }
     }
 

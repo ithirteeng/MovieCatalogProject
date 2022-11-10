@@ -62,4 +62,5 @@
     <string name="error_profile_400">Такой e-mail уже существует!</string>
     <string name="refresh_text">обновить</string>
     <string name="connection_text">Пожалуйста проверьте ваше интернет-соединение</string>
+    <string name="refresh_entrance_text">Нет соединения с интернетом.\nПопробуйте позже</string>
 </resources>

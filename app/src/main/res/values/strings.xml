@@ -67,6 +67,6 @@
     <string name="review_error">you can\'t do it</string>
     <string name="refresh_text">refresh</string>
     <string name="connection_text">Please, check your internet connection</string>
-
+    <string name="refresh_entrance_text">No internet connection.\nTry to repeat request later</string>
 
 </resources>

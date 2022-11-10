@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.moviecatalogproject.R
 import com.example.moviecatalogproject.databinding.ActivityEntranceBinding
-import com.example.moviecatalogproject.presentation.entrance.registration.RegistrationFragment
 import com.example.moviecatalogproject.presentation.entrance.authorization.AuthorizationFragment
+import com.example.moviecatalogproject.presentation.entrance.registration.RegistrationFragment
 
 class EntranceActivity : AppCompatActivity() {
 
@@ -15,14 +15,18 @@ class EntranceActivity : AppCompatActivity() {
     }
 
     private val registrationFragment by lazy {
-        RegistrationFragment{
-            replaceSignUpFragment()
-        }
+        RegistrationFragment(
+            bottomButtonCallback = {
+                replaceSignUpFragment()
+            }
+        )
     }
     private val authorizationFragment by lazy {
-        AuthorizationFragment {
-            replaceSignInFragment()
-        }
+        AuthorizationFragment(
+            bottomButtonCallback = {
+                replaceSignInFragment()
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,30 +34,14 @@ class EntranceActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         replaceSignUpFragment()
-        setupButtonsFunctions()
     }
-
-
-    private fun setupButtonsFunctions() {
-        setupAuthorizationFragmentOnClickFunctions()
-        setupRegistrationFragmentOnClickFunctions()
-    }
-
-    private fun setupRegistrationFragmentOnClickFunctions() {
-
-    }
-
-    private fun setupAuthorizationFragmentOnClickFunctions() {
-
-    }
-
 
     private fun replaceSignInFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, registrationFragment)
 
-            binding.root.transitionToState(R.id.collapsed)
+            binding.motionLayout.transitionToState(R.id.collapsed)
         }
     }
 
@@ -62,7 +50,7 @@ class EntranceActivity : AppCompatActivity() {
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, authorizationFragment)
 
-            binding.root.transitionToState(R.id.expanded)
+            binding.motionLayout.transitionToState(R.id.expanded)
         }
     }
 

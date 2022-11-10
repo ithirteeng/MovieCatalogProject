@@ -185,20 +185,21 @@
         style="@style/sign_button_style"
         android:layout_marginTop="12dp"
         android:text="@string/registration_text"
-        app:layout_constraintBottom_toTopOf="@id/signUpButton"
+        app:layout_constraintBottom_toTopOf="@id/authorizationButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/authorizationButton"
         style="@style/text_button_style"
 
         android:padding="@dimen/edit_texts_margin"
         android:text="@string/already_have_account_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
 

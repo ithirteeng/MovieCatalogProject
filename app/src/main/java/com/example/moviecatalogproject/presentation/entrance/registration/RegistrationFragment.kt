@@ -25,7 +25,15 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     private lateinit var binding: FragmentRegistrationBinding
 
     private val viewModel by lazy {
-        RegistrationFragmentViewModel(activity?.application!!)
+        RegistrationFragmentViewModel(activity?.application!!, onInternetConnectionFailure = {
+            binding.progressBar.visibility = View.GONE
+            binding.authorizationButton.isEnabled = true
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.refresh_entrance_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        })
     }
 
     override fun onCreateView(
@@ -50,7 +58,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     private fun setupButtonsOnClickFunctions() {
         onRegistrationButtonClick()
         dateButtonTouchListener()
-        onSignUpButtonClick()
+        onAuthorizationButtonClick()
     }
 
 
@@ -68,6 +76,7 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
     }
 
     private fun postRegistrationData() {
+        binding.authorizationButton.isEnabled = false
         viewModel.postRegistrationData(createRegistrationData(), completeOnError = {
             binding.loginEditText.text?.clear()
             binding.progressBar.visibility = View.GONE
@@ -78,6 +87,8 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.authorizationButton.isEnabled = true
+            binding.progressBar.visibility = View.GONE
             changeRegistrationButtonState()
         })
     }
@@ -293,9 +304,8 @@ class RegistrationFragment(private val bottomButtonCallback: (() -> Unit)? = nul
         ).show()
     }
 
-
-    private fun onSignUpButtonClick() {
-        binding.signUpButton.setOnClickListener {
+    private fun onAuthorizationButtonClick() {
+        binding.authorizationButton.setOnClickListener {
             bottomButtonCallback?.invoke()
         }
     }

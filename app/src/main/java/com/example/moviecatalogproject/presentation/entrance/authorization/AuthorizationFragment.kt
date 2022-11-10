@@ -13,12 +13,20 @@ import com.example.moviecatalogproject.domain.entrance.authorization.model.Autho
 import com.example.moviecatalogproject.presentation.main.MainActivity
 
 
-class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fragment() {
+class AuthorizationFragment(private val bottomButtonCallback: () -> Unit) : Fragment() {
 
     private lateinit var binding: FragmentAuthorizationBinding
 
     private val viewModel by lazy {
-        AuthorizationFragmentViewModel(activity?.application!!)
+        AuthorizationFragmentViewModel(activity?.application!!) {
+            binding.progressBar.visibility = View.GONE
+            binding.registrationButton.isEnabled = true
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.refresh_entrance_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onCreateView(
@@ -37,16 +45,16 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
     override fun onStart() {
         super.onStart()
-        changeRegistrationButtonState()
+        changeAuthorizationButtonState()
     }
 
     private fun setupButtonOnClickFunctions() {
-        onSignUpButtonClick()
+        onAuthorizationButtonClick()
         onRegistrationButtonClick()
     }
 
-    private fun onSignUpButtonClick() {
-        binding.signUpButton.setOnClickListener {
+    private fun onAuthorizationButtonClick() {
+        binding.authorizationButton.setOnClickListener {
             postAuthorizationData()
             binding.progressBar.visibility = View.VISIBLE
             observeTokenLiveData()
@@ -54,6 +62,7 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     }
 
     private fun postAuthorizationData() {
+        binding.registrationButton.isEnabled = false
         viewModel.postAuthorizationData(createAuthorizationData(), completeOnError = {
             binding.loginEditText.text?.clear()
             binding.passwordEditText.text?.clear()
@@ -64,9 +73,9 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
+            binding.registrationButton.isEnabled = true
             binding.progressBar.visibility = View.GONE
-            changeRegistrationButtonState()
+            changeAuthorizationButtonState()
         })
     }
 
@@ -97,27 +106,32 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
     private fun onFieldsFocusChange() {
         binding.loginEditText.onEditTextEditorAction()
         binding.loginEditText.setOnFocusChangeListener { _, _ ->
-            changeRegistrationButtonState()
+            changeAuthorizationButtonState()
         }
         binding.passwordEditText.onEditTextEditorAction()
         binding.passwordEditText.setOnFocusChangeListener { _, _ ->
-            changeRegistrationButtonState()
+            changeAuthorizationButtonState()
         }
     }
 
 
-    private fun changeRegistrationButtonState() {
+    private fun changeAuthorizationButtonState() {
         if (checkFullnessOfFields()) {
-            binding.signUpButton.isEnabled = true
-            setSignUpButtonTextColor(R.color.bright_white)
+            binding.authorizationButton.isEnabled = true
+            setAuthorizationButtonTextColor(R.color.bright_white)
         } else {
-            binding.signUpButton.isEnabled = false
-            setSignUpButtonTextColor(R.color.accent)
+            binding.authorizationButton.isEnabled = false
+            setAuthorizationButtonTextColor(R.color.accent)
         }
     }
 
-    private fun setSignUpButtonTextColor(colorId: Int) {
-        binding.signUpButton.setTextColor(resources.getColor(colorId, requireContext().theme))
+    private fun setAuthorizationButtonTextColor(colorId: Int) {
+        binding.authorizationButton.setTextColor(
+            resources.getColor(
+                colorId,
+                requireContext().theme
+            )
+        )
     }
 
     private fun checkFullnessOfFields(): Boolean {
@@ -130,7 +144,6 @@ class AuthorizationFragment(private val bottomButtonCallback: (() -> Unit)) : Fr
 
         return true
     }
-
 
     private fun setEditTextsInputSpaceFilter() {
         binding.loginEditText.setEditTextsInputSpaceFilter()

@@ -11,7 +11,10 @@ import com.example.moviecatalogproject.domain.entrance.registration.model.Regist
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.*
 import kotlinx.coroutines.launch
 
-class RegistrationFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class RegistrationFragmentViewModel(
+    application: Application,
+    private val onInternetConnectionFailure: () -> Unit
+) : AndroidViewModel(application) {
 
     private val postRegistrationDataUseCase = PostRegistrationDataUseCase()
     private var tokenLiveData = MutableLiveData<Token?>()
@@ -20,10 +23,11 @@ class RegistrationFragmentViewModel(application: Application) : AndroidViewModel
         completeOnError: (errorCode: Int) -> Unit
     ) {
         viewModelScope.launch {
-            tokenLiveData.value = postRegistrationDataUseCase.execute(
-                registrationData,
-                completeOnError
-            )
+            postRegistrationDataUseCase.execute(registrationData, completeOnError).onSuccess {
+                tokenLiveData.value = it
+            }.onFailure {
+                onInternetConnectionFailure()
+            }
         }
     }
 
