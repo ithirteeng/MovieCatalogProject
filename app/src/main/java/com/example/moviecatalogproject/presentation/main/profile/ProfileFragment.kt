@@ -26,8 +26,9 @@ import java.util.*
 class ProfileFragment(
     private val changeProgressBarVisibility: (state: Boolean) -> Unit,
     private val changeSwipeToRefreshState: (state: Boolean) -> Unit,
-    private val changeSwipeToRefreshRefreshingState: (state: Boolean) -> Unit
-) : Fragment(), RefreshableFragment {
+    private val changeSwipeToRefreshRefreshingState: (state: Boolean) -> Unit,
+    private val setTableLayoutClickability: (state: Boolean) -> Unit
+): Fragment(), RefreshableFragment {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -63,6 +64,7 @@ class ProfileFragment(
         super.onStart()
         viewModel.setCanOnFailureBeCalled(true)
         changeProgressBarVisibility(true)
+        setTableLayoutClickability(false)
         getProfileData()
         onObserveProfileLiveData()
     }
@@ -98,6 +100,8 @@ class ProfileFragment(
                     loadAvatar(profile.avatarLink!!)
                 } else {
                     setDefaultImage()
+                    setTableLayoutClickability(true)
+                    changeProgressBarVisibility(false)
                 }
                 changeRegistrationButtonState(checkFullnessOfFields())
             }
@@ -125,6 +129,7 @@ class ProfileFragment(
             viewModel.setCanOnFailureBeCalled(true)
             validateFields()
             if (checkFieldsValidity()) {
+                setTableLayoutClickability(false)
                 saveChangedData()
                 onCompleteSavingProfileChanges()
             } else {
@@ -170,6 +175,7 @@ class ProfileFragment(
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            setTableLayoutClickability(true)
             changeProgressBarVisibility(false)
         }
     }
@@ -184,6 +190,7 @@ class ProfileFragment(
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadAvatar(link: String) {
+        setTableLayoutClickability(false)
         changeProgressBarVisibility(true)
         changeRegistrationButtonState(false)
         Glide.with(requireContext())
@@ -191,6 +198,7 @@ class ProfileFragment(
             .listener(
                 MyGlideRequestListener(
                     onReadyFunction = {
+                        setTableLayoutClickability(true)
                         changeRegistrationButtonState(true)
                         changeProgressBarVisibility(false)
                     },
@@ -198,6 +206,8 @@ class ProfileFragment(
                         changeRegistrationButtonState(true)
                         binding.avatarLinkEditText.text?.clear()
                         setDefaultImage()
+                        setTableLayoutClickability(true)
+                        changeProgressBarVisibility(false)
                     }
                 )
             )
@@ -221,7 +231,6 @@ class ProfileFragment(
                 R.drawable.default_user_avatar_image, requireContext().theme
             )
         )
-        changeProgressBarVisibility(false)
     }
 
     private fun checkFieldsValidity(): Boolean {

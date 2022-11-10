@@ -28,9 +28,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/registrationScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="none"
         android:overScrollMode="never"
         android:paddingTop="@dimen/edit_texts_padding"
         android:paddingBottom="@dimen/buttons_margin"
@@ -188,7 +189,7 @@
         app:layout_constraintBottom_toTopOf="@id/authorizationButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintTop_toBottomOf="@+id/registrationScrollView"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button

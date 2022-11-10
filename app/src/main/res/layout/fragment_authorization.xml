@@ -35,11 +35,11 @@
     <Button
         android:id="@+id/authorizationButton"
         style="@style/sign_button_style"
-        android:layout_marginTop="@dimen/edit_texts_margin"
         android:background="@drawable/sign_button_selector"
         android:text="@string/sign_in_text"
         app:layout_constraintBottom_toTopOf="@id/authorizationButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
