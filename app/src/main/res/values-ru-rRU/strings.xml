@@ -10,8 +10,8 @@
     <string name="password_text">Пароль</string>
     <string name="repeat_password_text">Повторите пароль</string>
     <string name="birth_date_text">Дата рождения</string>
-    <string name="male_text">Мужской</string>
-    <string name="female_text">Женский</string>
+    <string name="male_text">Мужчина</string>
+    <string name="female_text">Женщина</string>
     <string name="gender_text">Пол</string>
     <string name="emptiness_error">Поле не должно быть пустым</string>
     <string name="email_error">E-mail должен содержать \'@\'</string>

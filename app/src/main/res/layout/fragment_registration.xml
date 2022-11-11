@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/accent"
-        android:translationZ="5dp"
+        android:translationZ="@dimen/second_layer_translation"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +23,7 @@
     <TextView
         android:id="@+id/registrationHeaderTextView"
         style="@style/header_first_style"
+        android:layout_marginTop="5dp"
         android:text="@string/registration_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -202,7 +203,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationButton" />
+        app:layout_constraintTop_toBottomOf="@+id/registrationButton"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/errorTextViewsGroup"
