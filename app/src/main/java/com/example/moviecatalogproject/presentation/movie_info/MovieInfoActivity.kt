@@ -166,7 +166,7 @@ class MovieInfoActivity : AppCompatActivity() {
         binding.descriptionTextView.text = movieDetails.description
         binding.yearTextView.text = makeStringCorrect(movieDetails.year)
         binding.countryTextView.text = makeStringCorrect(movieDetails.country)
-        binding.timeTextView.text = makeStringCorrect(movieDetails.time)
+        binding.timeTextView.text = makeTimeStringCorrect(movieDetails.time)
         binding.sloganTextView.text = makeStringCorrect(movieDetails.slogan)
         binding.directorTextView.text = makeStringCorrect(movieDetails.director)
         binding.budgetTextView.text = makeMoneyStringsCorrect(movieDetails.budget)
@@ -355,11 +355,19 @@ class MovieInfoActivity : AppCompatActivity() {
 
     private fun makeStringCorrect(string: String?): String {
         string?.replace("\n", " ")
-        return string ?: "—"
+        return if (string == null || string == "-") {
+            "—"
+        } else {
+            string
+        }
     }
 
     private fun makeStringCorrect(number: Int?): String {
         return number?.toString() ?: "—"
+    }
+
+    private fun makeTimeStringCorrect(time: Int): String {
+        return time.toString() + " " + resources.getString(R.string.min_text)
     }
 
     private fun makeMoneyStringsCorrect(money: Int?): String {

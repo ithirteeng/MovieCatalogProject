@@ -62,7 +62,7 @@
         android:layout_marginEnd="@dimen/common_big_margin"
         android:background="@drawable/review_text_background"
         android:gravity="top"
-        android:hint="@string/add_review"
+        android:hint="@string/review"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:minHeight="150dp"
