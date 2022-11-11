@@ -92,6 +92,7 @@
                     style="@style/movie_details_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_small_margin"
                     android:layout_marginEnd="@dimen/common_big_margin"
                     android:text="@string/default_text"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -103,6 +104,7 @@
                     style="@style/body_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_small_margin"
                     android:text="@string/about_movie"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
@@ -275,6 +277,7 @@
                     style="@style/body_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_small_margin"
                     android:text="@string/genres"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
@@ -300,7 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/common_small_margin"
-                    android:text="@string/review"
+                    android:text="@string/reviews"
                     android:textColor="@color/base_white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/flexBox" />

@@ -10,8 +10,8 @@
     <string name="password_text">Пароль</string>
     <string name="repeat_password_text">Повторите пароль</string>
     <string name="birth_date_text">Дата рождения</string>
-    <string name="male_text">Мужской</string>
-    <string name="female_text">Женский</string>
+    <string name="male_text">Мужчина</string>
+    <string name="female_text">Женщина</string>
     <string name="gender_text">Пол</string>
     <string name="emptiness_error">Поле не должно быть пустым</string>
     <string name="email_error">E-mail должен содержать \'@\'</string>
@@ -47,12 +47,13 @@
     <string name="age">Возраст</string>
     <string name="about_movie">О фильме</string>
     <string name="genres">Жанры</string>
-    <string name="review">Отзывы</string>
+    <string name="reviews">Отзывы</string>
+    <string name="review">Отзыв</string>
     <string name="button_content_description">Это кнопка</string>
     <string name="my_review">мой отзыв</string>
     <string name="like_content_description">это кнопка добавления в избранное</string>
     <string name="anonymous_username">Анонимный пользователь</string>
-    <string name="add_review">Добавить отзыв</string>
+    <string name="add_review">Оставить отзыв</string>
     <string name="cancel_button">Отменить</string>
     <string name="anonymous_review">Анонимный отзыв</string>
     <string name="review_error">Вы не можете этого сделать!</string>
@@ -64,4 +65,5 @@
     <string name="connection_error_text">Пожалуйста проверьте ваше интернет-соединение</string>
     <string name="connection_error_repeat_text">Нет соединения с интернетом.\nПопробуйте позже</string>
     <string name="refresh_button_text">обновить</string>
+    <string name="min_text">мин.</string>
 </resources>

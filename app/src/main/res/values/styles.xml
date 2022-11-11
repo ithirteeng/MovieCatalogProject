@@ -93,7 +93,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/edit_texts_margin</item>
         <item name="android:fontFamily">@font/ibm_plex_sans</item>
-        <item name="android:textSize">@dimen/male_picker_text_size</item>
+        <item name="android:textSize">@dimen/edit_texts_text_size</item>
     </style>
 
     <style name="date_picker_style" parent="ThemeOverlay.AppCompat.Dialog">

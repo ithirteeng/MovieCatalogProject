@@ -3,14 +3,14 @@
 <!-- common dimens -->
     <dimen  name="edit_texts_margin">16sp</dimen>
     <dimen name="error_text_top_bottom_margins">2sp</dimen>
-    <dimen name="edit_texts_padding">10dp</dimen>
+    <dimen name="edit_texts_padding">13dp</dimen>
     <dimen name="buttons_margin">12dp</dimen>
 
     <dimen name="common_big_margin">15dp</dimen>
     <dimen name="common_small_margin">10dp</dimen>
 
-    <dimen name="edit_texts_text_size">18sp</dimen>
-    <dimen name="button_text_size">20sp</dimen>
+    <dimen name="edit_texts_text_size">15sp</dimen>
+    <dimen name="button_text_size">17sp</dimen>
 
     <dimen name="header_first_text_size">24sp</dimen>
     <dimen name="header_first_top_bottom_padding">6sp</dimen>
