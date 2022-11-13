@@ -13,7 +13,7 @@ It's an application, where you can sign up, watch movies and choose the ones you
 - MVVM
 - Clean Architecture
 - Retrofit2
-- OkHhtp
+- OkHhttp
 - Kotlin coroutines
 - RecyclerView
 - Android ViewModel
