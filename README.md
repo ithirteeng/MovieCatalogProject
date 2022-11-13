@@ -1,7 +1,7 @@
 # MovieCatalogProject
 *HITS project*<br/>
 
-It's an application, where you can sign up, watch movies and choose the ones you like.<br/>
+It's an application, where you can watch list of movies and choose the ones you like.<br/>
 ## Features
 - Ability of adding, redacting and deleting reviews of the movie
 - Possibility of adding and removing movies from Favourites
