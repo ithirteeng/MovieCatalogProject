@@ -21,4 +21,8 @@ class DateValidator : Validator {
             ErrorType.DATE_ERROR
         }
     }
+
+    fun testFun() {
+
+    }
 }
