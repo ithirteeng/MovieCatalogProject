@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 class ValidateEmailUseCaseTest {
 
+    // тест на моки (неполное тестирование)
     @Test
     fun `WHEN usecase invoked THEN invoke validateTextField of EmailValidator`() {
         //arrange
@@ -23,6 +24,7 @@ class ValidateEmailUseCaseTest {
         Mockito.verify(emailValidator).validateTextField("")
     }
 
+    // Структурированное базисное тестирование, классы хороших данных
     @Test
     fun `GIVEN correct email WHEN usecase invoked THEN return ErrorType OK`() {
         //arrange
@@ -36,6 +38,7 @@ class ValidateEmailUseCaseTest {
         assertEquals(ErrorType.OK, result)
     }
 
+    // Структурированное базисное тестирование, классы плохих данных
     @Test
     fun `GIVEN empty email WHEN usecase invoked THEN return ErrorType EMPTINESS_ERROR`() {
         //arrange
@@ -49,6 +52,7 @@ class ValidateEmailUseCaseTest {
         assertEquals(ErrorType.EMPTINESS_ERROR, result)
     }
 
+    // Структурированное базисное тестирование, классы плохих данных
     @Test
     fun `GIVEN incorrect email without @ WHEN usecase invoked THEN return ErrorType EMAIL_ERROR`() {
         //arrange

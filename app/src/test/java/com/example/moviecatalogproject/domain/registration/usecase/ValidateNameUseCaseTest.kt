@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 class ValidateNameUseCaseTest {
 
+    //тест на моки (неполное тестирование)
     @Test
     fun `WHEN usecase invoked THEN invoke validateTextField of NameValidator`() {
         //arrange
@@ -23,6 +24,7 @@ class ValidateNameUseCaseTest {
         Mockito.verify(nameValidator).validateTextField("")
     }
 
+    // Структурированное базисное тестирование, классы хороших данных
     @Test
     fun `GIVEN correct login WHEN usecase invoked THEN return ErrorType OK`() {
         //arrange
@@ -35,6 +37,7 @@ class ValidateNameUseCaseTest {
         assertEquals(ErrorType.OK, result)
     }
 
+    // Структурированное базисное тестирование, классы плохих данных
     @Test
     fun `GIVEN empty login WHEN usecase invoked THEN return ErrorType EMPTINESS_ERROR`() {
         //arrange

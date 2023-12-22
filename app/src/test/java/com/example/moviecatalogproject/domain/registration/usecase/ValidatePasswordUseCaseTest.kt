@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 class ValidatePasswordUseCaseTest {
 
+    //тест на моки (неполное)
     @Test
     fun `WHEN usecase invoked THEN invoke validateTextField of PasswordValidator`() {
         //arrange
@@ -23,6 +24,7 @@ class ValidatePasswordUseCaseTest {
         Mockito.verify(passwordValidator).validateTextField("")
     }
 
+    // Структурированное базисное тестирование, классы хороших данных
     @Test
     fun `GIVEN correct password WHEN usecase invoked THEN return ErrorType OK`() {
         //arrange
@@ -35,6 +37,7 @@ class ValidatePasswordUseCaseTest {
         assertEquals(ErrorType.OK, result)
     }
 
+    // Структурированное базисное тестирование, классы плохих данных, граничных значений
     @Test
     fun `GIVEN empty password WHEN usecase invoked THEN return ErrorType EMPTINESS_ERROR`() {
         //arrange
@@ -47,6 +50,7 @@ class ValidatePasswordUseCaseTest {
         assertEquals(ErrorType.EMPTINESS_ERROR, result)
     }
 
+    // Структурированное базисное тестирование, классы хороших данных
     @Test
     fun `GIVEN two equal passwords WHEN usecase invoked THEN return ErrorType OK`() {
         //arrange
@@ -59,6 +63,7 @@ class ValidatePasswordUseCaseTest {
         assertEquals(ErrorType.OK, result)
     }
 
+    // Структурированное базисное тестирование, классы плохих данных
     @Test
     fun `GIVEN two unequal passwords WHEN usecase invoked THEN return ErrorType PASSWORDS_EQUALITY_ERROR`() {
         //arrange
