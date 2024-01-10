@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
+import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.DeleteFromFavouritesUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetFavouritesListUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetMoviesListUseCase
-import com.example.moviecatalogproject.domain.main.movie.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 import com.example.moviecatalogproject.presentation.main.movie.model.GalleryMovie

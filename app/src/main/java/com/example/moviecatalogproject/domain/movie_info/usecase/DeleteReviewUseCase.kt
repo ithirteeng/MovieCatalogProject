@@ -1,7 +1,7 @@
 package com.example.moviecatalogproject.domain.movie_info.usecase
 
 import com.example.moviecatalogproject.data.repository.ReviewRepository
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 
 class DeleteReviewUseCase {
     private val reviewRepository by lazy {

@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
+import com.example.moviecatalogproject.domain.common.token.usecase.SaveTokenUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.PostRegistrationDataUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.SaveTokenUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateDateUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateEmailUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateLoginUseCase

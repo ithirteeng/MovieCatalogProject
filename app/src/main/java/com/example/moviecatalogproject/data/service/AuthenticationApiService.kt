@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.data.service
 
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.domain.main.movie.usecase
 
 import android.util.Log
 import com.example.moviecatalogproject.data.repository.MoviesRepository
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.main.movie.helper.MovieMapper
 import com.example.moviecatalogproject.presentation.main.movie.model.FavouriteMovie
 

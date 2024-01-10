@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
+import com.example.moviecatalogproject.domain.common.token.usecase.SaveTokenUseCase
 import com.example.moviecatalogproject.domain.entrance.authorization.model.AuthorizationData
 import com.example.moviecatalogproject.domain.entrance.authorization.usecase.PostAuthorizationDataUseCase
-import com.example.moviecatalogproject.domain.entrance.authorization.usecase.SaveTokenUseCase
 import kotlinx.coroutines.launch
 
 class AuthorizationFragmentViewModel(

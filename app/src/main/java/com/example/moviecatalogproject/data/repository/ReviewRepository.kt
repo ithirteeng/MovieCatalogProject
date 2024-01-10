@@ -1,7 +1,7 @@
 package com.example.moviecatalogproject.data.repository
 
 import com.example.moviecatalogproject.data.service.NetworkService
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.movie_info.model.ReviewShort
 import retrofit2.Response
 

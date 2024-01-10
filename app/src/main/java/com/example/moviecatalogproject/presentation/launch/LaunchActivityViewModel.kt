@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.launch.usecase.CheckTokenExpirationUseCase
-import com.example.moviecatalogproject.domain.launch.usecase.GetTokenFromLocalStorageUseCase
+import com.example.moviecatalogproject.domain.common.token.usecase.CheckTokenExpirationUseCase
+import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import kotlinx.coroutines.launch
 
 class LaunchActivityViewModel(

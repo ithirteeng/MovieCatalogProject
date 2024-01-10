@@ -3,7 +3,7 @@ package com.example.moviecatalogproject.domain.main.profile.usecase
 import android.content.Context
 import com.example.moviecatalogproject.data.repository.AuthenticationRepository
 import com.example.moviecatalogproject.data.repository.TokenRepository
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 
 class LogoutUseCase(private val context: Context) {
     private val authenticationRepository by lazy {

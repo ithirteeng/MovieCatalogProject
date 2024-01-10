@@ -3,7 +3,7 @@ package com.example.moviecatalogproject.data.storage
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 
 class SharedPreferencesStorage(context: Context) : TokenStorage {
 

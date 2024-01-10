@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.model.Token
-import com.example.moviecatalogproject.domain.main.movie.usecase.GetTokenFromLocalStorageUseCase
+import com.example.moviecatalogproject.domain.common.token.model.Token
+import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.movie_info.model.ReviewShort
 import com.example.moviecatalogproject.domain.movie_info.usecase.AddReviewUseCase
 import com.example.moviecatalogproject.domain.movie_info.usecase.ChangeReviewUseCase

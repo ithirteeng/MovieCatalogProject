@@ -5,9 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
+import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.main.profile.model.Profile
-import com.example.moviecatalogproject.domain.main.profile.usecase.*
+import com.example.moviecatalogproject.domain.main.profile.usecase.GetProfileDataUseCase
+import com.example.moviecatalogproject.domain.main.profile.usecase.LogoutUseCase
+import com.example.moviecatalogproject.domain.main.profile.usecase.PutProfileDataUseCase
+import com.example.moviecatalogproject.domain.main.profile.usecase.ValidateDateUseCase
+import com.example.moviecatalogproject.domain.main.profile.usecase.ValidateEmailUseCase
 import com.example.moviecatalogproject.presentation.common.SingleEventLiveData
 import kotlinx.coroutines.launch
 

@@ -1,8 +1,8 @@
-package com.example.moviecatalogproject.domain.launch.usecase
+package com.example.moviecatalogproject.domain.common.token.usecase
 
 import android.content.Context
 import com.example.moviecatalogproject.data.repository.TokenRepository
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 
 class CheckTokenExpirationUseCase(private val context: Context) {
 

@@ -2,7 +2,7 @@ package com.example.moviecatalogproject.domain.movie_info.usecase
 
 import android.util.Log
 import com.example.moviecatalogproject.data.repository.ReviewRepository
-import com.example.moviecatalogproject.domain.common.model.Token
+import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.movie_info.model.ReviewShort
 
 class AddReviewUseCase {
