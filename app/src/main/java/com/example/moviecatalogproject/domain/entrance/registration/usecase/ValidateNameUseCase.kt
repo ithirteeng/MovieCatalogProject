@@ -1,9 +1,13 @@
 package com.example.moviecatalogproject.domain.entrance.registration.usecase
 
-import com.example.moviecatalogproject.domain.common.validator.NameValidator
+import com.example.moviecatalogproject.domain.common.model.ErrorType
 
-class ValidateNameUseCase(private val nameValidator: NameValidator) {
+class ValidateNameUseCase {
     fun execute(string: String): Int {
-        return nameValidator.validateTextField(string)
+        return if (string.isNotEmpty()) {
+            ErrorType.OK
+        } else {
+            ErrorType.EMPTINESS_ERROR
+        }
     }
 }

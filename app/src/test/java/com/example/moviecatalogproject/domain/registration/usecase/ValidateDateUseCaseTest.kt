@@ -1,7 +1,6 @@
 package com.example.moviecatalogproject.domain.registration.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
-import com.example.moviecatalogproject.domain.common.validator.DateValidator
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateDateUseCase
 import org.junit.Test
 import org.mockito.Mockito
