@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.common.token.usecase.SaveTokenUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateDateUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateEmailUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateLoginUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateNameUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidatePasswordUseCase
 import com.example.moviecatalogproject.domain.entrance.registration.model.RegistrationData
 import com.example.moviecatalogproject.domain.entrance.registration.usecase.PostRegistrationDataUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateDateUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateEmailUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateLoginUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateNameUseCase
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidatePasswordUseCase
 import kotlinx.coroutines.launch
 
 class RegistrationFragmentViewModel(

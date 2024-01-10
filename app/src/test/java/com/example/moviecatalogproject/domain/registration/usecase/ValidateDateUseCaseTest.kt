@@ -1,10 +1,9 @@
 package com.example.moviecatalogproject.domain.registration.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateDateUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateDateUseCase
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.mock
 import kotlin.test.assertEquals
 
 class ValidateDateUseCaseTest {
@@ -13,14 +12,13 @@ class ValidateDateUseCaseTest {
     @Test
     fun `WHEN usecase invoked THEN invoke validateTextField of DateValidator`() {
         //arrange
-        val dateValidator: DateValidator = mock()
-        val validateDateUseCase = ValidateDateUseCase(dateValidator)
+        val validateDateUseCase = ValidateDateUseCase()
 
         //act
         validateDateUseCase.execute("")
 
         //assert
-        Mockito.verify(dateValidator).validateTextField("")
+        Mockito.verify().validateTextField("")
     }
 
     // Структурированное базисное тестирование, классы хороших данных

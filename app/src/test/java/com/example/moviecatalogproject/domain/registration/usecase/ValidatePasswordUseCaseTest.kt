@@ -1,8 +1,8 @@
 package com.example.moviecatalogproject.domain.registration.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidatePasswordUseCase
 import com.example.moviecatalogproject.domain.common.validator.PasswordValidator
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidatePasswordUseCase
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

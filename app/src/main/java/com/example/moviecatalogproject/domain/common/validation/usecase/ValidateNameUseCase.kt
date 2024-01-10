@@ -1,4 +1,4 @@
-package com.example.moviecatalogproject.domain.entrance.registration.usecase
+package com.example.moviecatalogproject.domain.common.validation.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
 

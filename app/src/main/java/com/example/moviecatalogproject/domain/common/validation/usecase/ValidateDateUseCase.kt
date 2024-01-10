@@ -1,7 +1,6 @@
-package com.example.moviecatalogproject.domain.main.profile.usecase
+package com.example.moviecatalogproject.domain.common.validation.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
-
 
 class ValidateDateUseCase {
     fun execute(string: String): Int {

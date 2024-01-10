@@ -1,8 +1,8 @@
 package com.example.moviecatalogproject.domain.registration.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateNameUseCase
 import com.example.moviecatalogproject.domain.common.validator.NameValidator
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateNameUseCase
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

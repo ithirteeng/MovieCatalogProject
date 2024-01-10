@@ -1,7 +1,7 @@
 package com.example.moviecatalogproject.domain.registration.usecase
 
 import com.example.moviecatalogproject.domain.common.model.ErrorType
-import com.example.moviecatalogproject.domain.entrance.registration.usecase.ValidateEmailUseCase
+import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateEmailUseCase
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
