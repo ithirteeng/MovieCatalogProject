@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.DeleteFromFavouritesUseCase
 import com.example.moviecatalogproject.domain.main.movie.usecase.GetFavouritesListUseCase
@@ -33,16 +32,12 @@ class MovieFragmentViewModel(
         getTokenFromLocalStorageUseCase.execute()
     }
 
-    private val bearerToken by lazy {
-        Token("Bearer ${token.token}")
-    }
-
 
     private val getMoviesListUseCase = GetMoviesListUseCase()
     private val galleryMoviesLiveData = SingleEventLiveData<ArrayList<GalleryMovie>?>()
     fun getMoviesList(page: Int, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            getMoviesListUseCase.execute(page, bearerToken, completeOnError).onSuccess {
+            getMoviesListUseCase.execute(page, token, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
                 galleryMoviesLiveData.value = it
             }.onFailure {
@@ -63,7 +58,7 @@ class MovieFragmentViewModel(
     private val favouritesListLiveData = SingleEventLiveData<ArrayList<FavouriteMovie>?>()
     fun getFavouritesList(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            getFavouritesListUseCase.execute(bearerToken, completeOnError).onSuccess {
+            getFavouritesListUseCase.execute(token, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
                 favouritesListLiveData.value = it
             }.onFailure {
@@ -83,7 +78,7 @@ class MovieFragmentViewModel(
     private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteMovieFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            deleteFromFavouritesUseCase.execute(movieId, bearerToken, completeOnError).onSuccess {
+            deleteFromFavouritesUseCase.execute(movieId, token, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
             }.onFailure {
                 if (canOnFailureBeCalled) {

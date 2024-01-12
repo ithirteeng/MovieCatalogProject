@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.movie_info.model.MovieDetails
 import com.example.moviecatalogproject.domain.movie_info.usecase.*
@@ -30,16 +29,11 @@ class MovieInfoActivityViewModel(
         getTokenFromLocalStorageUseCase.execute()
     }
 
-    private val bearerToken by lazy {
-        Token("Bearer ${token.token}")
-    }
-
-
     private val checkIfMovieIsFavouriteUseCase = CheckIfMovieIsFavouriteUseCase()
     private val checkIsFavouriteResultLiveData = MutableLiveData<Boolean>()
     fun checkIsMovieFavourite(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            checkIfMovieIsFavouriteUseCase.execute(bearerToken, movieId, completeOnError)
+            checkIfMovieIsFavouriteUseCase.execute(token, movieId, completeOnError)
                 .onSuccess {
                     checkIsFavouriteResultLiveData.value = it
                     canOnFailureBeCalled = true
@@ -62,7 +56,7 @@ class MovieInfoActivityViewModel(
     private val movieDetailsLivedata = MutableLiveData<MovieDetails>()
     fun getMovieDetails(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            getMovieDetailsUseCase.execute(bearerToken, movieId, completeOnError).onSuccess {
+            getMovieDetailsUseCase.execute(token, movieId, completeOnError).onSuccess {
                 movieDetailsLivedata.value = it
                 canOnFailureBeCalled = true
             }.onFailure {
@@ -82,7 +76,7 @@ class MovieInfoActivityViewModel(
     private val deleteFromFavouritesUseCase = DeleteFromFavouritesUseCase()
     fun deleteFromFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            deleteFromFavouritesUseCase.execute(bearerToken, movieId, completeOnError).onSuccess {
+            deleteFromFavouritesUseCase.execute(token, movieId, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
             }.onFailure {
                 if (canOnFailureBeCalled) {
@@ -97,7 +91,7 @@ class MovieInfoActivityViewModel(
     private val addToFavouritesUseCase = AddToFavouritesUseCase()
     fun addToFavourites(movieId: String, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            addToFavouritesUseCase.execute(bearerToken, movieId, completeOnError)
+            addToFavouritesUseCase.execute(token, movieId, completeOnError)
         }
     }
 
@@ -106,7 +100,7 @@ class MovieInfoActivityViewModel(
     private val userIdLiveData = SingleEventLiveData<String>()
     fun getUserId(completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            getUserIdUseCase.execute(bearerToken, completeOnError).onSuccess {
+            getUserIdUseCase.execute(token, completeOnError).onSuccess {
                 userIdLiveData.value = it
                 canOnFailureBeCalled = true
             }.onFailure {
@@ -126,7 +120,7 @@ class MovieInfoActivityViewModel(
     private val deleteReviewUseCase = DeleteReviewUseCase()
     fun deleteReview(movieId: String, reviewId: String) {
         viewModelScope.launch {
-            deleteReviewUseCase.execute(bearerToken, movieId, reviewId).onSuccess {
+            deleteReviewUseCase.execute(token, movieId, reviewId).onSuccess {
                 canOnFailureBeCalled = true
             }.onFailure {
                 if (canOnFailureBeCalled) {

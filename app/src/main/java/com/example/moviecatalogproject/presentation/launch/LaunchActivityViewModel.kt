@@ -32,8 +32,6 @@ class LaunchActivityViewModel(
     fun checkTokenExisting() {
         viewModelScope.launch {
             val token = getTokenFromLocalStorageUseCase.execute()
-            token.token = "Bearer ${token.token}"
-
             checkTokenExpirationUseCase.execute(token).onSuccess {
                 tokenExistingLiveData.value = it
             }.onFailure {

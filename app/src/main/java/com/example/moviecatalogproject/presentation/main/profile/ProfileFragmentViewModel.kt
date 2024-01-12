@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.moviecatalogproject.domain.common.token.model.Token
 import com.example.moviecatalogproject.domain.common.token.usecase.GetTokenFromLocalStorageUseCase
 import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateDateUseCase
 import com.example.moviecatalogproject.domain.common.validation.usecase.ValidateEmailUseCase
@@ -35,11 +34,6 @@ class ProfileFragmentViewModel(
         getTokenFromLocalStorageUseCase.execute()
     }
 
-    private val bearerToken by lazy {
-        Token("Bearer ${token.token}")
-    }
-
-
     private val validateEmailUseCase = ValidateEmailUseCase()
     fun getEmailErrorLiveData(string: String): LiveData<Int> {
         return MutableLiveData(validateEmailUseCase.execute(string))
@@ -56,7 +50,7 @@ class ProfileFragmentViewModel(
     private val profileLiveData = SingleEventLiveData<Profile?>()
     fun getProfileData(completeOnError: () -> Unit) {
         viewModelScope.launch {
-            getProfileDataUseCase.execute(bearerToken, completeOnError).onSuccess {
+            getProfileDataUseCase.execute(token, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
                 profileLiveData.value = it
             }.onFailure {
@@ -77,7 +71,7 @@ class ProfileFragmentViewModel(
     private val onSavingProfileChangesLiveData = SingleEventLiveData<Boolean>()
     fun putProfileData(profile: Profile, completeOnError: (errorCode: Int) -> Unit) {
         viewModelScope.launch {
-            putProfileDataUseCase.execute(bearerToken, profile, completeOnError).onSuccess {
+            putProfileDataUseCase.execute(token, profile, completeOnError).onSuccess {
                 canOnFailureBeCalled = true
                 onSavingProfileChangesLiveData.value = it
             }.onFailure {
@@ -99,7 +93,7 @@ class ProfileFragmentViewModel(
     private val logoutUseCase = LogoutUseCase(application.applicationContext)
     fun logout(onLogout: () -> Unit) {
         viewModelScope.launch {
-            logoutUseCase.execute(bearerToken, onLogout).onSuccess {
+            logoutUseCase.execute(token, onLogout).onSuccess {
                 canOnFailureBeCalled = true
             }.onFailure {
                 if (canOnFailureBeCalled) {
